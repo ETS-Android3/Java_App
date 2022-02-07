@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Java_App</string>
+    <string name="FirstName">First Name</string>
+    <string name="LastName">Last Name</string>
+    <string name="Email">Email</string>
+    <string name="Password">Password</string>
+    <string name="cnfPassword">Confirm Password</string>
+    <string name="TypeEmail">Enter your email</string>
+    <string name="TypePassword">Enter your password</string>
+    <string name="login">Login</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="create_an_account">Create an account.</string>
+    <string name="register">Register</string>
+    <string name="sign_in">Sign In</string>
+    <string name="confirm_your_password">confirm your password</string>
+    <string name="enter_your_password">enter your Password</string>
+    <string name="enter_your_email">Enter your email</string>
+    <string name="enter_your_last_name">Enter your last name</string>
+    <string name="enter_your_first_name">Enter your first name</string>
+</resources>
