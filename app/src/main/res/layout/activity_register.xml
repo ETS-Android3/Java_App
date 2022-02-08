@@ -4,35 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:isScrollContainer="true"
     tools:context=".Register">
 
     <EditText
-        android:id="@+id/FirstNameTextBox"
+        android:id="@+id/UsernameTextBox"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="48dp"
         android:ems="10"
-        android:hint="@string/enter_your_first_name"
+        android:hint="@string/enter_a_username"
+        android:importantForAutofill="no"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
-        android:importantForAutofill="no" />
-
-    <EditText
-        android:id="@+id/LastNameTextBox"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:ems="10"
-        android:hint="@string/enter_your_last_name"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/FirstNameTextBox"
-        android:importantForAutofill="no" />
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <EditText
         android:id="@+id/EmailTextBox"
@@ -41,12 +28,12 @@
         android:layout_marginTop="32dp"
         android:ems="10"
         android:hint="@string/enter_your_email"
+        android:importantForAutofill="no"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/LastNameTextBox"
-        android:importantForAutofill="no" />
+        app:layout_constraintTop_toBottomOf="@+id/UsernameTextBox" />
 
     <EditText
         android:id="@+id/PasswordTextBox"
@@ -55,12 +42,12 @@
         android:layout_marginTop="32dp"
         android:ems="10"
         android:hint="@string/enter_your_password"
+        android:importantForAutofill="no"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/EmailTextBox"
-        android:importantForAutofill="no" />
+        app:layout_constraintTop_toBottomOf="@+id/EmailTextBox" />
 
     <EditText
         android:id="@+id/ConfirmPasswordTextBox"
@@ -69,23 +56,22 @@
         android:layout_marginTop="36dp"
         android:ems="10"
         android:hint="@string/confirm_your_password"
+        android:importantForAutofill="no"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/PasswordTextBox"
-        android:importantForAutofill="no" />
+        app:layout_constraintTop_toBottomOf="@+id/PasswordTextBox" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="52dp"
         android:fontFamily="sans-serif-condensed-medium"
         android:text="@string/register"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -115,24 +101,14 @@
         app:layout_constraintTop_toBottomOf="@+id/ConfirmPasswordTextBox" />
 
     <TextView
-        android:id="@+id/FirstNameTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginBottom="4dp"
-        android:text="@string/FirstName"
-        app:layout_constraintBottom_toTopOf="@+id/FirstNameTextBox"
-        app:layout_constraintStart_toStartOf="@+id/FirstNameTextBox" />
-
-    <TextView
         android:id="@+id/LastNameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginBottom="4dp"
-        android:text="@string/LastName"
-        app:layout_constraintBottom_toTopOf="@+id/LastNameTextBox"
-        app:layout_constraintStart_toStartOf="@+id/LastNameTextBox" />
+        android:text="@string/username"
+        app:layout_constraintBottom_toTopOf="@+id/UsernameTextBox"
+        app:layout_constraintStart_toStartOf="@+id/UsernameTextBox" />
 
     <TextView
         android:id="@+id/textView5"
@@ -163,4 +139,16 @@
         android:text="@string/cnfPassword"
         app:layout_constraintBottom_toTopOf="@+id/ConfirmPasswordTextBox"
         app:layout_constraintStart_toStartOf="@+id/ConfirmPasswordTextBox" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/SignInTextView" />
 </androidx.constraintlayout.widget.ConstraintLayout>
