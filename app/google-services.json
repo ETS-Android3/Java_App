@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "711199009643",
+    "project_id": "java-app-f00a2",
+    "storage_bucket": "java-app-f00a2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:711199009643:android:ca33950719efce780d3a2e",
+        "android_client_info": {
+          "package_name": "uk.ac.abertay.cmp400.java_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "711199009643-n9vn4fc9pt4uac1691gpgqp5rl786g2t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBEUjwwxeblG9xlFplcDBgfk0yHhRjUxFI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "711199009643-n9vn4fc9pt4uac1691gpgqp5rl786g2t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
