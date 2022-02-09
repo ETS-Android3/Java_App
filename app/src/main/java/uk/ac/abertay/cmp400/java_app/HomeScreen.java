@@ -2,6 +2,8 @@ package uk.ac.abertay.cmp400.java_app;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.nfc.Tag;
@@ -10,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -17,11 +20,15 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
+import java.util.ArrayList;
+
 public class HomeScreen extends AppCompatActivity {
 
     private static final String TAG = "LOGOUT";
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
+    RecyclerView recyclerView;
+    MyAdapter myAdapter;
     TextView username;
     String userID;
 
@@ -29,6 +36,13 @@ public class HomeScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
+
+        recyclerView = findViewById(R.id.RecyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        myAdapter = new MyAdapter(this, GetMyList());
+        recyclerView.setAdapter(myAdapter);
+
         //hide action bar
         this.getSupportActionBar().hide();
 
@@ -48,6 +62,53 @@ public class HomeScreen extends AppCompatActivity {
                 }catch(Exception e){}
             }
         });
+    }
+
+    private ArrayList<Model> GetMyList() {
+        ArrayList<Model> models = new ArrayList<>();
+        Model m = new Model();
+
+        m.setTitle("Variables and Operators");
+        m.setDescription("This section will look over all the Java Varibles and Operators");
+        m.setImg(R.drawable.ic_person);
+        models.add(m);
+
+        m.setTitle("Variables and Operators");
+        m.setDescription("This section will look over all the Java Varibles and Operators");
+        m.setImg(R.drawable.ic_person);
+        models.add(m);
+
+        m.setTitle("Variables and Operators");
+        m.setDescription("This section will look over all the Java Varibles and Operators");
+        m.setImg(R.drawable.ic_person);
+        models.add(m);
+
+        m.setTitle("Variables and Operators");
+        m.setDescription("This section will look over all the Java Varibles and Operators");
+        m.setImg(R.drawable.ic_person);
+        models.add(m);
+
+        m.setTitle("Variables and Operators");
+        m.setDescription("This section will look over all the Java Varibles and Operators");
+        m.setImg(R.drawable.ic_person);
+        models.add(m);
+
+        m.setTitle("Variables and Operators");
+        m.setDescription("This section will look over all the Java Varibles and Operators");
+        m.setImg(R.drawable.ic_person);
+        models.add(m);
+
+        m.setTitle("Variables and Operators");
+        m.setDescription("This section will look over all the Java Varibles and Operators");
+        m.setImg(R.drawable.ic_person);
+        models.add(m);
+
+        m.setTitle("Variables and Operators");
+        m.setDescription("This section will look over all the Java Varibles and Operators");
+        m.setImg(R.drawable.ic_person);
+        models.add(m);
+
+        return models;
     }
 
     public void logout(View view){
