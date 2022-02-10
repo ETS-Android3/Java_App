@@ -11,7 +11,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Java_App">
-        <activity android:name=".HomeScreen"></activity>
+        <activity android:name=".Variables_1"
+            android:parentActivityName=".HomeScreen"
+            />
+        <activity android:name=".Basic_Syntax_1"
+            android:parentActivityName=".HomeScreen"
+            />
+        <activity android:name=".HomeScreen" />
         <activity android:name=".Register" />
         <activity android:name=".MainActivity">
             <intent-filter>

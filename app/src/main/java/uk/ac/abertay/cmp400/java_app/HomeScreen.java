@@ -1,6 +1,7 @@
 package uk.ac.abertay.cmp400.java_app;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,7 +30,6 @@ public class HomeScreen extends AppCompatActivity {
     FirebaseFirestore fStore;
     RecyclerView recyclerView;
     MyAdapter myAdapter;
-    TextView username;
     String userID;
 
     @Override
@@ -37,18 +37,16 @@ public class HomeScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
 
+        ActionBar actionBar = getSupportActionBar();
+
         recyclerView = findViewById(R.id.RecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         myAdapter = new MyAdapter(this, GetMyList());
         recyclerView.setAdapter(myAdapter);
 
-        //hide action bar
-        this.getSupportActionBar().hide();
-
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
-        username = findViewById(R.id.userameTextView);
 
         userID = fAuth.getCurrentUser().getUid();
 
@@ -58,7 +56,7 @@ public class HomeScreen extends AppCompatActivity {
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                 try {
                     String txt = "Hello " + value.getString("Username");
-                    username.setText(txt);
+                    actionBar.setTitle(txt);
                 }catch(Exception e){}
             }
         });
@@ -66,51 +64,44 @@ public class HomeScreen extends AppCompatActivity {
 
     private ArrayList<Model> GetMyList() {
         ArrayList<Model> models = new ArrayList<>();
+
         Model m = new Model();
-
-        m.setTitle("Variables and Operators");
-        m.setDescription("This section will look over all the Java Varibles and Operators");
-        m.setImg(R.drawable.ic_person);
+        m.setTitle("The Basic Syntax of Java");
+        m.setDescription("This section provide and overview of basics syntax in java.");
+        m.setImg(R.drawable.ic_varibles_image);
         models.add(m);
 
-        m.setTitle("Variables and Operators");
-        m.setDescription("This section will look over all the Java Varibles and Operators");
-        m.setImg(R.drawable.ic_person);
+        m = new Model();
+        m.setTitle("Variables");
+        m.setDescription("This section will look at how variables are formatted in java.");
+        m.setImg(R.drawable.ic_varibles_image);
         models.add(m);
 
-        m.setTitle("Variables and Operators");
-        m.setDescription("This section will look over all the Java Varibles and Operators");
-        m.setImg(R.drawable.ic_person);
+        m = new Model();
+        m.setTitle("Operators in Java");
+        m.setDescription("This section will look at the various operators used is java.");
+        m.setImg(R.drawable.ic_varibles_image);
         models.add(m);
 
-        m.setTitle("Variables and Operators");
-        m.setDescription("This section will look over all the Java Varibles and Operators");
-        m.setImg(R.drawable.ic_person);
+        m = new Model();
+        m.setTitle("Conditional Statements");
+        m.setDescription("This section will Build on previous information and look as Conditional Statements.");
+        m.setImg(R.drawable.ic_varibles_image);
         models.add(m);
 
-        m.setTitle("Variables and Operators");
-        m.setDescription("This section will look over all the Java Varibles and Operators");
-        m.setImg(R.drawable.ic_person);
+        m = new Model();
+        m.setTitle("Course Summary");
+        m.setDescription("This section will Summarise and conclude all the previous sections.");
+        m.setImg(R.drawable.ic_varibles_image);
         models.add(m);
 
-        m.setTitle("Variables and Operators");
-        m.setDescription("This section will look over all the Java Varibles and Operators");
-        m.setImg(R.drawable.ic_person);
-        models.add(m);
-
-        m.setTitle("Variables and Operators");
-        m.setDescription("This section will look over all the Java Varibles and Operators");
-        m.setImg(R.drawable.ic_person);
-        models.add(m);
-
-        m.setTitle("Variables and Operators");
-        m.setDescription("This section will look over all the Java Varibles and Operators");
-        m.setImg(R.drawable.ic_person);
+        m = new Model();
         models.add(m);
 
         return models;
     }
 
+    //todo Move Logout to Settings page as a sign out button instead.
     public void logout(View view){
         Log.d(TAG, "User: " + fAuth.getCurrentUser().getUid() + " Logged out");
         FirebaseAuth.getInstance().signOut();
