@@ -19,4 +19,407 @@
     <string name="add_value">Add Value</string>
     <string name="nestedScrollView">nestedScrollView</string>
     <string name="lore">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
+    <string name="back">Back</string>
+    <string name="next">Next</string>
+
+    <string-array name="HomeScreenTitle">
+        <item>The Basic Syntax of Java</item> <!--0-->
+        <item>Variables</item> <!--1-->
+        <item>Data Types</item> <!--2-->
+        <item>Operators in Java</item> <!--3-->
+        <item>Conditional Statements</item> <!--4-->
+
+    </string-array>
+
+    <string-array name="HomeScreenDescriptions">
+        <item>This section provide and overview of basics syntax in java.</item> <!---->
+        <item>This section will look at how variables are formatted in java.</item> <!---->
+        <item>This section will look at the Data Types used is java.</item> <!---->
+        <item>This section will look at the various operators used is java.</item> <!---->
+        <item>This section will Build on previous information and look as Conditional Statements.</item> <!---->
+    </string-array>
+
+    <string-array name="HomeScreenImages">
+        <item></item> <!---->
+        <item></item> <!---->
+        <item></item> <!---->
+        <item></item> <!---->
+        <item></item> <!---->
+
+    </string-array>
+
+    <!--String arrays for DisplayScreen activity-->
+
+    <!--The Basics Of java Strings-->
+    <string-array name="basics_of_java_title">
+
+        <item>The Basic Syntax of Java</item>
+
+    </string-array>
+    <string-array name="basics_of_java_description">
+        <item> <!-- 0 -->
+            When learning about java its important to know about the <b>syntax</b>. An example of syntax would be the use of a semicolon at the end of a line to show the end of a statement. The following section will touch on the fundamental syntax used in java.\n\nUse this section as a point of reference if something In the coming examples are not clear.\n\n
+                <ul>
+                    <li><b>Semi Colons  ; </b> – is used to show where an instruction ends and a new instruction begins. This is similar to a full stop after a sentence and is required for the code to work.\n\n </li>
+
+                    <li><b>Round Brackets ( )</b> - is used to hold additional information for a function or to hold conditions for conditional statements. (This will be covered in Conditional Statements later.)\n\n</li>
+
+                    <li><b>Square Brackets [ ]</b> – is used to create arrays which are used to store multiple values in a single variable\n\n</li>
+
+                    <li><b>Curly Brackets { }</b> – is used in Conditional Statements to help structure them. Imagine them as the front and back cover in a book holding together all the pages in between. (This will be covered in Conditional Statements later so just keep it in mind.)\n\n</li>
+
+                    <li><b>Two slashes //</b> -  is used to add comments to code on a single line. Anything after these slashes will be ignored by the program and just considered text.\n\n</li>
+
+                    <li><b>Slash and an asterisk /* Text */ </b>- this is used to make multi-line comments. Anything in-between the /* and the */ will be ignored by java.\n\n</li>
+
+                    <li><b>Printing out a message System.out.println(“Your Message Here”) </b>-  this is used to print out the text that is within the double quotations. This will be used in examples to output results.\n\n</li>
+
+                    <li><b>Full Stop . </b>– is used when you want to access object attributes and methods.\n\n</li>
+                </ul>
+                With these, the following examples should be more clear. This section aims to clarify the syntax used in the coming example. <b>Don\'t worry if something doesn\'t make sense as these will be clarified later in the context of the sections they are used in.\n\n</b>
+            </item>
+    </string-array>
+    <string-array name="basics_of_java_images">
+        <item></item>
+        <item></item>
+        <item></item>
+    </string-array>
+
+    <!--Variables Strings-->
+    <string-array name="variables_title">
+        <item>Variables</item>
+
+    </string-array>
+    <string-array name="variables_description">
+        <item>
+            Variables are used in programming to pair information such as name or number to a value that can be referenced later. The following example shows how this is formatted in java. \n\n<b>Type Name = value;</b> \n\n
+            <ul>
+                <li><b>Type</b>\nThe Data Type determines what kind of data is being held. (this will be explored in more detail in the following section on Data Types)\n\n</li>
+                <li><b>Name\n</b>The name is what will be used in the program to reference what is being stored (Such as <b>x</b> or <b>name</b>). Java is case sensitive so for example, “<u>N</u>umber” and “<u>n</u>umber” are considered two different names.\n\n</li>
+                <li><b>Equals sign ( = )\n</b> This is used to assign the Variable to the Value. ‘The Variable Equals the value’.\n\n</li>
+                <li><b>Value\n</b>The value stored in the variable depends on the type. Some types can only store specific values and some do it better than others. This will be explored more in the next section on data types.\n\n</li>
+            </ul>
+        </item>
+    </string-array>
+    <string-array name="variables_images">
+
+
+    </string-array>
+
+    <!--Data types Strings-->
+
+    <string-array name="data_types_title">
+
+        <item>-Data Types</item>0
+        <item>int</item>
+        1
+        <item>float</item>
+        2
+        <item>char</item>
+        3
+        <item>boolean</item>
+        4
+        <item>String</item>
+        5
+        <item>String Continued</item>
+        6
+        <item>String Continued</item>
+        7
+
+    </string-array>
+    <string-array name="data_types_description">
+        <item>
+            This section will go over the fundamental Data types used in programming with java being the example language.
+        </item>
+        <!--int 3 -->
+        <item>
+            The <b>int</b> variable can hold whole numbers (1, 34, 190). This variable is the preferred option when handling simple numerical values.
+        </item>
+        <!--float 4 -->
+        <item>
+            The <b>float</b> data type is used when you want to store numbers with a decimal, such as 19.99 or 3.1415. additionally, the value should have an “ f ” at the end of the value.
+        </item>
+        <!--char 5 -->
+        <item>
+            The <b>char</b> data type is used when you want to store a single character such as ‘A’ or ‘T’. An example of this being used would be to store a pupils grade
+        </item>
+        <!--Boolean 6 -->
+        <item>
+            The <b>boolean</b> data type is used when you want to store either a true or false value. Boolean keywords are used (true, false) and these are the only values that can be used.
+        </item>
+        <!--String 7 -->
+        <item>
+            The <b>String</b> data type is used to store text surrounded by double quotations. Numbers can be used too as long as they are within the double-quotes.
+        </item>
+        <!--String Continued 8 1/2-->
+        <item>
+            A <b>string</b> in java is an object, which contains methods that can perform certain operations on strings. For example, the length of a string can be found with the length() method
+        </item>
+        <!--String Continued 9 2/2-->
+        <item>
+            In this example, the txt String uses the <b>length()</b> method to calculate this. The full stop after the txt String is used to access methods that can be used on Strings. The following is a list of what more can be done to strings\n\n
+            <ul>
+                <li><b>toUpperCase()</b> - the toUpperCase() method changes all the characters in a string to upper case.\n\n</li>
+                <li><b>toLowerCase()</b> - Similarly, the toLowerCase() method does the opposite and changes all the characters in a string to lower case.\n\n</li>
+                <li><b>Length()</b> - The length() method returns the number of characters within a String.\n\n</li>
+            </ul>
+
+            <b>*Note*</b>\n\n
+            Java counts positions from zero.\n\n
+            0 is the first position in a String, 1 is the second, 2 is the third…\n\n
+        </item>
+    </string-array>
+
+    <string-array name="data_types_images">
+        <item></item>
+        0
+        <item>int_example</item>
+        1
+        <item>float_example</item>
+        2
+        <item>char_example</item>
+        3
+        <item>boolean_example</item>
+        4
+        <item>string_example</item>
+        5
+        <!--todo Make the Image smaller for the String Continued Example. try reduce the text "The Length of the txt String is:"-->
+        <item>string_continued_example</item>
+        6
+        <item></item>
+        7
+    </string-array>
+
+    <!--Operators Strings-->
+
+    <string-array name="operators_title">
+        <item>-Operators in Java</item>
+        <item>Arithmetic Operators</item>
+        <item>Comparison Operators</item>
+        <item>Logical Operators</item>
+
+    </string-array>
+    <string-array name="operators_description">
+        <item>
+            Operations are used to perform operations on variables and values.\n\n
+            In the following example, we use the + operator to add together two values:\n\n
+            Int x = 100 + 50; 	150 (100 + 150)\n\n
+            Taking this idea further, variables and values can be added together as well as variables and other variables. The example below shows this in action \n\n
+            int sum1 = 100 + 50;		150 (100 + 150)\n\n
+            int sum2 = sum1 + 250;		400 (150 + 250)\n\n
+            int sum3 = sum2 + sum2;	800(400 + 400)\n\n
+        </item>
+        <item>
+            Arithmetic operators are commonly used for mathematical operations.
+        </item>
+        <item>
+            Comparison Operators are used when comparing two values or variables:
+        </item>
+        <item>
+            Logical operators are used to determine the logic between variables or values. They are mainly used in conditional statements.
+        </item>
+    </string-array>
+    <string-array name="operators_images">
+        <item></item>
+        <item>arithmic_table</item>
+        <item>comparison_table</item>
+        <item>logical_table</item>
+
+    </string-array>
+
+    <!--conditional Strings-->
+
+    <string-array name="conditional_title">
+        <item>-Conditional statements</item>
+        0
+        <item>-The if Statement</item>
+        1
+        <item>if Statement - Syntax</item>
+        <item>if Statement - Example</item>
+        3
+        <item>if Statement - Example Continued</item>
+        4
+        <item>if Statement - Example Continued</item>
+        5
+        <item>-The else Statement</item>
+        6
+        <item>The else Statement - Syntax</item>
+        7
+        <item>The else Statement - Example</item>
+        8
+        <item>The else Statement - Example Continued</item>
+        9
+        <item>-The if else statement - Syntax</item>
+        10
+        <item>The if else statement - Example</item>
+        11
+        <item>-The while Loop</item>12
+        <item>The while Loop - Syntax</item>13
+        <item>The while Loop - Example</item>14
+        <item>-The For loop</item>15
+        <item>The For loop - Syntax</item>16
+        <item>The For loop - Example</item>17
+        <item>-Java Break </item>18
+        <item>-Java Continue </item>19
+
+
+    </string-array>
+    <string-array name="conditional_description">
+        <item><!--Conditional statements 0 -->
+            Taking what you have learnt from the previous sections on <b>operators</b> we will now look into how and why they are used. \n\n
+        	<ul>
+                <li>Less Than: x &lt; y\n\n</li>
+                <li>Less than or equal to: x &lt;= y\n\n</li>
+                <li>Greater than: x > y\n\n</li>
+                <li>Greater than or equal to: x >= y\n\n</li>
+                <li>Equal to: x == y\n\n</li>
+                <li>Not Equal to: x!= y\n\n</li>
+            </ul>
+            You can use these to perform actions for different decisions.\n\n
+            Java also has the following conditional statements.\n\n
+            <ul>
+                <li>Use <b>if</b> to specify a block of code to be executed, if a condition is true.\n\n</li>
+                <li>Use <b>else</b> to specify a block of code to be executed if the same condition is false.\n\n</li>
+                <li>Use <b>else if</b> to specify a new condition to test, if the first condition is false.\n\n</li>
+            </ul>
+        </item>
+
+        <item><!--The if Statement 1 -->
+            Use the if statement to specify a block of code to be executed if a condition is true.
+        </item>
+
+        <item><!--if Statement Syntax 2 -->
+            If (condition) {\n\n
+            //Code in here will be run only if the condition is true.\n\n
+            }
+        </item>
+
+        <item><!--if Statement Example 1/3 3 -->
+            In the example below, we test two values to find out if 20 <b>is</b> greater than 18. If the condition is true, run the code in the section within the Curly Brackets { }
+        </item>
+
+        <item><!--if Statement Example 2/3 4-->
+            If we were to swap the greater than symbol <b>(&gt;)</b> to a less than symbol <b>(&amp;)</b> then the results would be as follows:
+        </item>
+
+        <item><!--if Statement Example 3/3 5-->
+            As you can see, nothing is printed out. The result is <b>false</b> from the if statement as 20 <b>is not</b> less than 18. The program will continue from the closing curly bracket <b>( } )</b> skipping the contained code.
+        </item>
+
+        <item><!--Else Statement 6-->
+            The <b>else</b> statement specifies the code that will be run if the condition is false. This is paired with an <b>if</b> statement to have something happen if the condition is not met.
+        </item>
+
+        <item><!--Else Statement Syntax 7-->
+            If (condition) {\n\n
+                //Code in here will be run only if the condition is true.\n\n
+            } else {\n\n
+                //Code in here will be run only if the condition is False.\n\n
+            }
+
+        </item>
+
+        <item><!--Else Statement Example 8-->
+            The example below will show how this will work following on from the previous example.\n\n
+            With the operator as it was in the previous example and the output true. \n\n
+        </item>
+
+        <item><!--Else Statement Example Continued 9-->
+            Now with the Operator fliped, the output is false. \n\n
+            The else statement takes over and runs the code contained within. \n
+        </item>
+
+        <item><!--If else Statement Syntax 10-->
+            If (Condition1) { \n\n
+                //block of code to be run if Condition1 is true \n\n
+            } else if (Condition 2) {\n\n
+                //block of code to be run if Condition1 is false and Condition2 is true \n\n
+            } else {\n\n
+                //block of code to be run if Conditon1 is false and Condition2 is false \n\n
+            }
+        </item>
+
+        <item><!--If else Statement Example 11-->
+            In the example below, time (22) is greater than 10 so the First Condition is false. The next condition, in the else if statement, is also false, so we move on to the else condition since condition1 and condition2 is both false – and print to the screen “Good Evening.” \n\n
+            However, if the time was 14, our program would print “Good Day.” As 14 is less than 20.
+
+        </item>
+
+        <item><!--while Loops 12-->
+            Loops can run a block of code as long as a specific condition is reached. This condition is usually a counter that reduces by 1 every time the block of code is run. This can be useful for running a block of code a certain amount of times before moving on.
+        </item>
+
+        <item><!--while Loops - Syntax 13-->
+            While (Condition) {\n\n
+                //code block to be run. \n\n
+            }
+        </item>
+
+        <item><!--while Loops - Example 14-->
+            While the variable <b>i</b> is less than 5, the code block will run. Within this block of code, there is a line of code to print out the variable <b>i</b> each time it runs. Additionally, if you remember back to the previous section on <i>arithmetic operators</i>, you will recall what the <b>“++”</b> operator does. As a refresher, it increments the variable <b>i</b> by 1 each time the code runs. So the program will print out each number until <b>i</b> reaches 5 then stop.\n\n
+        </item>
+
+        <item> <!--For Loop 15-->
+            When you know exactly how many times you want a block of code to run, use a <b>for loop</b> instead of a <b>while loop:</b>
+        </item>
+
+        <item><!--For Loop 16 - Syntax-->
+            For (Statement1; Statement2; Statement3) {\n\n
+                //code to be run\n\n
+            }
+            \n\n
+            <ul>
+            <li><b>Statement1</b> is run (one time) before the code block is run.\n\n </li>
+            <li><b>Statement2</b> defines the condition for running the code block.\n\n </li>
+            <li><b>Statement3</b> is executed (Every time) after the code block has to be Executed. \n\n </li>
+            </ul>
+        </item>
+
+        <item><!--For Loop 17 - Example-->
+            The following example will print the numbers 0 to 4:
+            <ul>
+                <li><b>Statement 1</b> sets a variable before the loop starts (int i = 0).\n\n </li>
+                <li><b>Statement 2</b> defines the condition for the loop to run ( i must be less than 5 ). If the condition is true, the loop will start over again, if the statement is false, the loop will end.\n\n  </li>
+                <li><b>Statement 3</b> increases a value ( i++ ) each the code block in the loop has been executed. \n\n </li>
+            </ul>
+        </item>
+
+        <item><!--Java Break 18-->
+            <b>Break</b> statements are used to jump out of a loop.\n\n
+            In this example, a break is used to break out of a for Loop stopping it before it can print out all 10 of its numbers with an if statement.\n\n
+        </item>
+
+        <item><!--Java Continue 19-->
+            The continue statement breaks one iteration of the loop, if a specific condition is met, and continues with the next iteration in the loop. \n\n
+            The following example skips the number 4.\n\n
+            As you can see, the value <b>4</b> is missing from the output.\n\n
+        </item>
+    </string-array>
+
+
+    <string-array name="conditional_images">
+        <item></item> 0
+        <item></item> 1
+        <item></item> 2
+        <item>if_statment_example1</item> 3
+        <item>if_statment_example2</item> 4
+        <item></item> 5
+        <item></item> 6
+        <item></item> 7
+        <item>else_statment_example1</item> 8
+        <item>else_statment_example2</item> 9
+        <item></item> 10
+        <item>else_if_statment_example</item> 11
+        <item></item> 12
+        <item></item> 13
+        <item>while_loop_example</item> 14
+        <item></item>15
+        <item></item>16
+        <item>for_loop_example</item>17
+        <item>break_example</item>18
+        <item>continue_example</item>19
+
+
+    </string-array>
+
 </resources>

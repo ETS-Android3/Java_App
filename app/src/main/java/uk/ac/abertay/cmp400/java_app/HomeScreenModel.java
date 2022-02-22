@@ -1,6 +1,6 @@
 package uk.ac.abertay.cmp400.java_app;
 
-public class Model {
+public class HomeScreenModel {
 
     private String title, description;
     private int img;

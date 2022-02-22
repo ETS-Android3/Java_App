@@ -7,13 +7,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class MyHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class HomeScreenHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     ImageView mImageView;
     TextView mTitle, mDes;
     ItemClickListener itemClickListener;
 
-    MyHolder(@NonNull View itemView) {
+    HomeScreenHolder(@NonNull View itemView) {
         super(itemView);
 
         this.mImageView = itemView.findViewById(R.id.image);

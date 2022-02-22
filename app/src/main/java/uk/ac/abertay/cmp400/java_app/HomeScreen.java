@@ -7,13 +7,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -25,88 +23,97 @@ import java.util.ArrayList;
 
 public class HomeScreen extends AppCompatActivity {
 
-    private static final String TAG = "LOGOUT";
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
     RecyclerView recyclerView;
-    MyAdapter myAdapter;
+    HomeScreenAdapter homeScreenAdapter;
     String userID;
+    BottomNavigationItemView profile;
+    String CurrentUserName;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
 
-        ActionBar actionBar = getSupportActionBar();
+        //todo use this to Set Theme's 
+        //this.setTheme(R.style.Theme_Java_App);
+
+        //assign settings MenuItem
+        profile = findViewById(R.id.miProfile);
 
         recyclerView = findViewById(R.id.RecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        myAdapter = new MyAdapter(this, GetMyList());
-        recyclerView.setAdapter(myAdapter);
+        homeScreenAdapter = new HomeScreenAdapter(this, GetMyList());
+        recyclerView.setAdapter(homeScreenAdapter);
 
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
 
         userID = fAuth.getCurrentUser().getUid();
 
+        ActionBar actionBar = getSupportActionBar();
+
         DocumentReference documentReference = fStore.collection("users").document(userID);
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                 try {
-                    String txt = "Hello " + value.getString("Username");
+                    CurrentUserName = value.getString("Username");
+                    String txt = "Hello " + CurrentUserName;
                     actionBar.setTitle(txt);
                 }catch(Exception e){}
             }
         });
+
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ProfilePage.class);
+                intent.putExtra("username", CurrentUserName);
+                startActivity(intent);
+            }
+        });
     }
 
-    private ArrayList<Model> GetMyList() {
-        ArrayList<Model> models = new ArrayList<>();
+    private ArrayList<HomeScreenModel> GetMyList() {
+        ArrayList<HomeScreenModel> homeScreenModels = new ArrayList<>();
 
-        Model m = new Model();
+        HomeScreenModel m = new HomeScreenModel();
         m.setTitle("The Basic Syntax of Java");
         m.setDescription("This section provide and overview of basics syntax in java.");
-        m.setImg(R.drawable.ic_varibles_image);
-        models.add(m);
+        m.setImg(R.drawable.java_icon_bw);
+        homeScreenModels.add(m);
 
-        m = new Model();
+        m = new HomeScreenModel();
         m.setTitle("Variables");
         m.setDescription("This section will look at how variables are formatted in java.");
-        m.setImg(R.drawable.ic_varibles_image);
-        models.add(m);
+        m.setImg(R.drawable.variable_icon);
+        homeScreenModels.add(m);
 
-        m = new Model();
+        m = new HomeScreenModel();
+        m.setTitle("Data Types");
+        m.setDescription("This section will look at the Data Types used is java.");
+        m.setImg(R.drawable.data_types_icon);
+        homeScreenModels.add(m);
+
+        m = new HomeScreenModel();
         m.setTitle("Operators in Java");
         m.setDescription("This section will look at the various operators used is java.");
-        m.setImg(R.drawable.ic_varibles_image);
-        models.add(m);
+        m.setImg(R.drawable.operator_icon);
+        homeScreenModels.add(m);
 
-        m = new Model();
+        m = new HomeScreenModel();
         m.setTitle("Conditional Statements");
         m.setDescription("This section will Build on previous information and look as Conditional Statements.");
-        m.setImg(R.drawable.ic_varibles_image);
-        models.add(m);
+        m.setImg(R.drawable.condition_icon);
+        homeScreenModels.add(m);
 
-        m = new Model();
-        m.setTitle("Course Summary");
-        m.setDescription("This section will Summarise and conclude all the previous sections.");
-        m.setImg(R.drawable.ic_varibles_image);
-        models.add(m);
+        m = new HomeScreenModel();
+        homeScreenModels.add(m);
 
-        m = new Model();
-        models.add(m);
-
-        return models;
+        return homeScreenModels;
     }
-
-    //todo Move Logout to Settings page as a sign out button instead.
-    public void logout(View view){
-        Log.d(TAG, "User: " + fAuth.getCurrentUser().getUid() + " Logged out");
-        FirebaseAuth.getInstance().signOut();
-        startActivity(new Intent(getApplicationContext(), MainActivity.class));
-        finish();
-    }
-
 }
