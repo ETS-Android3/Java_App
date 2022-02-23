@@ -23,13 +23,15 @@ public class DisplayScreen extends AppCompatActivity {
     FloatingActionButton FAB;
     Boolean isPlaying;
     int audioID;
+    ActionBar actionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_screen);
-        ActionBar actionBar = getSupportActionBar();
+        actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+
 
         stopPlayer();
         isPlaying = false;
@@ -58,16 +60,21 @@ public class DisplayScreen extends AppCompatActivity {
                 Toast.makeText(this, "Whoops, Something went wrong", Toast.LENGTH_SHORT).show();
                 break;
             case 1:
+                //Action Bar Title
+
                 //Audio
                 audioID = getResources().getIdentifier("the_basics_syntax_of_java_1", "raw", getPackageName());
                 //Basics Of Java
                 title = getResources().getStringArray(R.array.basics_of_java_title);
                 description = getResources().getTextArray(R.array.basics_of_java_description);
                 //images = getResources().getStringArray(R.array.basics_of_java_images);
+
+                actionBar.setTitle(title[0]);
+
                 for (int i = 0; i < title.length; i++) {
                     m = new DisplayModel();
-                    m.setTitle(title[0]);
-                    m.setDescription(description[0]);
+                    m.setTitle(title[i]);
+                    m.setDescription(description[i]);
                     m.setHasImage(false);
                     models.add(m);
                 }
@@ -79,6 +86,9 @@ public class DisplayScreen extends AppCompatActivity {
                 title = getResources().getStringArray(R.array.variables_title);
                 description = getResources().getTextArray(R.array.variables_description);
                 //images = getResources().getStringArray(R.array.variables_images);
+
+                //Action Bar Title
+                actionBar.setTitle(title[0]);
 
                 for (int i = 0; i < title.length; i++) {
                     m = new DisplayModel();
@@ -94,6 +104,9 @@ public class DisplayScreen extends AppCompatActivity {
                 title = getResources().getStringArray(R.array.data_types_title);
                 description = getResources().getTextArray(R.array.data_types_description);
                 images = getResources().getStringArray(R.array.data_types_images);
+
+                //Action Bar Title
+                actionBar.setTitle(title[0]);
 
                 for (int i = 0; i < title.length; i++) {
                     if(images[i].equals("")){
@@ -118,6 +131,9 @@ public class DisplayScreen extends AppCompatActivity {
                 description = getResources().getTextArray(R.array.operators_description);
                 images = getResources().getStringArray(R.array.operators_images);
 
+                //Action Bar Title
+                actionBar.setTitle(title[0]);
+
                 for (int i = 0; i < title.length; i++) {
                     if(images[i].equals("")){
                         m = new DisplayModel();
@@ -140,6 +156,9 @@ public class DisplayScreen extends AppCompatActivity {
                 title = getResources().getStringArray(R.array.conditional_title);
                 description = getResources().getTextArray(R.array.conditional_description);
                 images = getResources().getStringArray(R.array.conditional_images);
+
+                //Action Bar Title
+                actionBar.setTitle(title[0]);
 
                 for (int i = 0; i < description.length; i++) {
                     if(images[i].equals("")){

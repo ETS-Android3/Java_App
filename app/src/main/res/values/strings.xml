@@ -52,9 +52,7 @@
 
     <!--The Basics Of java Strings-->
     <string-array name="basics_of_java_title">
-
-        <item>The Basic Syntax of Java</item>
-
+        <item>-The Basic Syntax of Java</item>
     </string-array>
     <string-array name="basics_of_java_description">
         <item> <!-- 0 -->
@@ -79,15 +77,10 @@
                 With these, the following examples should be more clear. This section aims to clarify the syntax used in the coming example. <b>Don\'t worry if something doesn\'t make sense as these will be clarified later in the context of the sections they are used in.\n\n</b>
             </item>
     </string-array>
-    <string-array name="basics_of_java_images">
-        <item></item>
-        <item></item>
-        <item></item>
-    </string-array>
 
     <!--Variables Strings-->
     <string-array name="variables_title">
-        <item>Variables</item>
+        <item>-Variables</item>
 
     </string-array>
     <string-array name="variables_description">
@@ -396,7 +389,6 @@
         </item>
     </string-array>
 
-
     <string-array name="conditional_images">
         <item></item> 0
         <item></item> 1
@@ -418,8 +410,5 @@
         <item>for_loop_example</item>17
         <item>break_example</item>18
         <item>continue_example</item>19
-
-
     </string-array>
-
 </resources>

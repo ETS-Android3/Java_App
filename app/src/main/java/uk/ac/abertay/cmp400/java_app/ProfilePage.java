@@ -26,6 +26,7 @@ public class ProfilePage extends AppCompatActivity {
         actionBar = getSupportActionBar();
         assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("Profile Page");
         fAuth = FirebaseAuth.getInstance();
 
         userNameTextView = findViewById(R.id.UserNameTextView);
