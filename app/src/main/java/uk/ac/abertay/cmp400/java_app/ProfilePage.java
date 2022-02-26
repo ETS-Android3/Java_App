@@ -7,15 +7,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class ProfilePage extends AppCompatActivity {
 
     FirebaseAuth fAuth;
-    String UserName;
-    TextView userNameTextView;
+    FirebaseFirestore fStore;
+    String userID;
+    String userName;
+    EditText usernameEditText;
     ActionBar actionBar;
     private static final String TAG = "LOGOUT";
 
@@ -27,13 +32,16 @@ public class ProfilePage extends AppCompatActivity {
         assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle("Profile Page");
+
         fAuth = FirebaseAuth.getInstance();
+        fStore = FirebaseFirestore.getInstance();
+        userID = fAuth.getCurrentUser().getUid();
 
-        userNameTextView = findViewById(R.id.UserNameTextView);
+        usernameEditText = findViewById(R.id.usernameEditText);
 
-        UserName = getIntent().getStringExtra("username");
+        userName = getIntent().getStringExtra("username");
 
-        userNameTextView.setText(UserName);
+        usernameEditText.setText(userName);
     }
 
     public void logout(View view){
@@ -41,5 +49,19 @@ public class ProfilePage extends AppCompatActivity {
         FirebaseAuth.getInstance().signOut();
         startActivity(new Intent(getApplicationContext(), MainActivity.class));
         finish();
+
+    }
+
+    public void UpdateValues(View view){
+
+        if (usernameEditText.length() < 4){
+            usernameEditText.setError("Username must be more that 3 characters.");
+        }else{
+            String tmp = usernameEditText.getText().toString().trim();
+
+            DocumentReference documentReference = fStore.collection("users").document(userID);
+            documentReference.update("Username", tmp);
+            Toast.makeText(this, "Username Updated", Toast.LENGTH_SHORT).show();
+        }
     }
 }

@@ -1,5 +1,6 @@
 package uk.ac.abertay.cmp400.java_app;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,12 +12,20 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.ArrayList;
 
 public class DisplayScreen extends AppCompatActivity {
 
-
+    FirebaseAuth fAuth;
+    FirebaseFirestore fStore;
+    String userID;
     RecyclerView recyclerView;
     DisplayAdapter displayAdapter;
     MediaPlayer mediaPlayer;
@@ -24,6 +33,8 @@ public class DisplayScreen extends AppCompatActivity {
     Boolean isPlaying;
     int audioID;
     ActionBar actionBar;
+    double playbackSpeed;
+    boolean HideAudioPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +43,29 @@ public class DisplayScreen extends AppCompatActivity {
         actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
+        playbackSpeed = 1.00;
+        HideAudioPlayer = false;
+
+        fStore = FirebaseFirestore.getInstance();
+        fAuth = FirebaseAuth.getInstance();
+        userID = fAuth.getCurrentUser().getUid();
+
+        DocumentReference documentReference = fStore.collection("users").document(userID);
+        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                try {
+                    playbackSpeed = value.getDouble("PlaybackSpeed");
+                    HideAudioPlayer = value.getBoolean("HideAudioPlayer");
+
+                    if(HideAudioPlayer){
+                        FAB.setVisibility(View.INVISIBLE);
+                    }else{
+                        FAB.setVisibility(View.VISIBLE);
+                    }
+                }catch(Exception e){}
+            }
+        });
 
         stopPlayer();
         isPlaying = false;
@@ -43,7 +77,8 @@ public class DisplayScreen extends AppCompatActivity {
 
         displayAdapter = new DisplayAdapter(this, getMyList(index));
         recyclerView.setAdapter(displayAdapter);
-        FAB = findViewById(R.id.floatingActionButton3);
+        FAB = findViewById(R.id.AudioFAB);
+
     }
 
     private ArrayList<DisplayModel> getMyList(int Index) {
@@ -81,7 +116,7 @@ public class DisplayScreen extends AppCompatActivity {
                 break;
             case 2:
                 //Audio
-                audioID = getResources().getIdentifier("intro", "raw", getPackageName());
+                audioID = getResources().getIdentifier("variables", "raw", getPackageName());
                 //Variables
                 title = getResources().getStringArray(R.array.variables_title);
                 description = getResources().getTextArray(R.array.variables_description);
@@ -100,6 +135,8 @@ public class DisplayScreen extends AppCompatActivity {
                 break;
 
             case 3:
+                //Audio
+                audioID = getResources().getIdentifier("data_types", "raw", getPackageName());
                 //Data Types
                 title = getResources().getStringArray(R.array.data_types_title);
                 description = getResources().getTextArray(R.array.data_types_description);
@@ -126,6 +163,8 @@ public class DisplayScreen extends AppCompatActivity {
                 }
                 break;
             case 4:
+                //Audio
+                audioID = getResources().getIdentifier("operators", "raw", getPackageName());
                 //Operators
                 title = getResources().getStringArray(R.array.operators_title);
                 description = getResources().getTextArray(R.array.operators_description);
@@ -152,6 +191,8 @@ public class DisplayScreen extends AppCompatActivity {
                 }
                 break;
             case 5:
+                //Audio
+                audioID = getResources().getIdentifier("conditional_statements", "raw", getPackageName());
                 //Conditional Statements
                 title = getResources().getStringArray(R.array.conditional_title);
                 description = getResources().getTextArray(R.array.conditional_description);
@@ -196,6 +237,7 @@ public class DisplayScreen extends AppCompatActivity {
                     }
                 });
             }
+            mediaPlayer.setPlaybackParams(mediaPlayer.getPlaybackParams().setSpeed(((float) playbackSpeed)));
             mediaPlayer.start();
         }
     }
@@ -245,5 +287,11 @@ public class DisplayScreen extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(mediaPlayer != null)mediaPlayer.release();
     }
 }

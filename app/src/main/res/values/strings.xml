@@ -9,7 +9,7 @@
     <string name="sign_up">Sign Up</string>
     <string name="create_an_account">Create an account.</string>
     <string name="register">Register</string>
-    <string name="sign_in">Sign In</string>
+    <string name="sign_in">Already Got an account?\n Sign In</string>
     <string name="confirm_your_password">confirm your password</string>
     <string name="enter_your_password">enter your Password</string>
     <string name="enter_your_email">enter your email</string>
@@ -21,6 +21,9 @@
     <string name="lore">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
     <string name="back">Back</string>
     <string name="next">Next</string>
+    <string name="learning_java">Learning Java</string>
+    <string name="update_username">Update Username</string>
+    <string name="placeholder_image">Placeholder Image</string>
 
     <string-array name="HomeScreenTitle">
         <item>The Basic Syntax of Java</item> <!--0-->
@@ -40,11 +43,11 @@
     </string-array>
 
     <string-array name="HomeScreenImages">
-        <item></item> <!---->
-        <item></item> <!---->
-        <item></item> <!---->
-        <item></item> <!---->
-        <item></item> <!---->
+        <item>java_icon_bw</item> <!---->
+        <item>variable_icon</item> <!---->
+        <item>data_types_icon</item> <!---->
+        <item>operator_icon</item> <!---->
+        <item>condition_icon</item> <!---->
 
     </string-array>
 
@@ -53,29 +56,66 @@
     <!--The Basics Of java Strings-->
     <string-array name="basics_of_java_title">
         <item>-The Basic Syntax of Java</item>
+        <item>Semi Colons</item>
+        <item>Round Brackets</item>
+        <item>Square Brackets</item>
+        <item>Curly Brackets </item>
+        <item>Two slashes</item>
+        <item>Slash and an asterisk</item>
+        <item>Printing out a message</item>
+        <item>Full Stop</item>
+        <item>Colors</item>
+        <item>*Note*</item>
+
     </string-array>
     <string-array name="basics_of_java_description">
         <item> <!-- 0 -->
             When learning about java its important to know about the <b>syntax</b>. An example of syntax would be the use of a semicolon at the end of a line to show the end of a statement. The following section will touch on the fundamental syntax used in java.\n\nUse this section as a point of reference if something In the coming examples are not clear.\n\n
-                <ul>
-                    <li><b>Semi Colons  ; </b> – is used to show where an instruction ends and a new instruction begins. This is similar to a full stop after a sentence and is required for the code to work.\n\n </li>
+        </item>
+        <item><!-- 1 -->
+            <b>Semi Colons  <font color='red'>;</font> </b> – Are used to show where an instruction ends and a new instruction begins. This is similar to a full stop after a sentence and is required for the code to work.
+        </item>
 
-                    <li><b>Round Brackets ( )</b> - is used to hold additional information for a function or to hold conditions for conditional statements. (This will be covered in Conditional Statements later.)\n\n</li>
+        <item><!-- 2 -->
+            <b>Round Brackets <font color='red'>( )</font></b> - Are used to hold additional information for a function or to hold conditions for conditional statements. (This will be covered in Conditional Statements later.)
+        </item>
 
-                    <li><b>Square Brackets [ ]</b> – is used to create arrays which are used to store multiple values in a single variable\n\n</li>
+        <item><!-- 3 -->
+            <b>Square Brackets <font color='red'>[ ]</font></b> – Are used to create arrays which are used to store multiple values in a single variable.
+        </item>
 
-                    <li><b>Curly Brackets { }</b> – is used in Conditional Statements to help structure them. Imagine them as the front and back cover in a book holding together all the pages in between. (This will be covered in Conditional Statements later so just keep it in mind.)\n\n</li>
+        <item><!-- 4 -->
+            <b>Curly Brackets <font color='red'>{ }</font></b> – Are used in Conditional Statements to help structure them. Imagine them as the front and back cover in a book holding together all the pages in between. (This will be covered in Conditional Statements later so just keep it in mind.)
+        </item>
 
-                    <li><b>Two slashes //</b> -  is used to add comments to code on a single line. Anything after these slashes will be ignored by the program and just considered text.\n\n</li>
+        <item><!-- 5 -->
+            <b>Two slashes <font color='red'>//</font></b> -  Are used to add comments to code on a single line. Anything after these slashes will be ignored by the program and just considered text.
+        </item>
 
-                    <li><b>Slash and an asterisk /* Text */ </b>- this is used to make multi-line comments. Anything in-between the /* and the */ will be ignored by java.\n\n</li>
+        <item><!-- 6 -->
+            <b>Slash + asterisk <font color='red'>/* Text */ </font></b>- Is used to make multi-line comments. Anything in-between the /* and the */ will be ignored by java.
+        </item>
 
-                    <li><b>Printing out a message System.out.println(“Your Message Here”) </b>-  this is used to print out the text that is within the double quotations. This will be used in examples to output results.\n\n</li>
+        <item><!-- 7 -->
+            <b>Printing out a message <font color='red'>System.out.println(“Your Message Here”)</font> </b>-  Is used to print out the text that is within the double quotations. This will be used in examples to output results.
+        </item>
 
-                    <li><b>Full Stop . </b>– is used when you want to access object attributes and methods.\n\n</li>
-                </ul>
-                With these, the following examples should be more clear. This section aims to clarify the syntax used in the coming example. <b>Don\'t worry if something doesn\'t make sense as these will be clarified later in the context of the sections they are used in.\n\n</b>
-            </item>
+        <item><!-- 8 -->
+            <b>Full Stop <font color='red'>.</font> </b>– Is used when you want to access object attributes and methods.
+        </item>
+
+        <item>
+            The code examples that you will encounter in later sections will use a color schema that aims to help distinguish parts of the code.
+            <ul>
+                <li><font color='red'>Red Text</font> - Signifies Classes.\n\n</li>
+                <li><font color='blue'>Blue text</font> - Signifies Conditional Statements.\n\n</li>
+                <li><font color='green'>Green Text</font> - Signifies Text.</li>
+            </ul>
+        </item>
+
+        <item><!-- 9 -->
+            With these, the following examples should be more clear. This section aims to clarify the syntax used in the coming example. <b>Don\'t worry if something doesn\'t make sense as these will be clarified later in the context of the sections they are used in.\n\n</b>
+        </item>
     </string-array>
 
     <!--Variables Strings-->
@@ -85,7 +125,7 @@
     </string-array>
     <string-array name="variables_description">
         <item>
-            Variables are used in programming to pair information such as name or number to a value that can be referenced later. The following example shows how this is formatted in java. \n\n<b>Type Name = value;</b> \n\n
+            Variables are used in programming to pair information such as names or numbers to a value that can be referenced later. The following example shows how this is formatted in java. \n\n<b>Type Name = value;</b> \n\n
             <ul>
                 <li><b>Type</b>\nThe Data Type determines what kind of data is being held. (this will be explored in more detail in the following section on Data Types)\n\n</li>
                 <li><b>Name\n</b>The name is what will be used in the program to reference what is being stored (Such as <b>x</b> or <b>name</b>). Java is case sensitive so for example, “<u>N</u>umber” and “<u>n</u>umber” are considered two different names.\n\n</li>
@@ -138,7 +178,7 @@
         </item>
         <!--Boolean 6 -->
         <item>
-            The <b>boolean</b> data type is used when you want to store either a true or false value. Boolean keywords are used (true, false) and these are the only values that can be used.
+            The <b>boolean</b> data type is used when you want to store either a true or false value.
         </item>
         <!--String 7 -->
         <item>
@@ -292,7 +332,7 @@
         </item>
 
         <item><!--if Statement Example 2/3 4-->
-            If we were to swap the greater than symbol <b>(&gt;)</b> to a less than symbol <b>(&amp;)</b> then the results would be as follows:
+            If we were to swap the greater than symbol <b>(&gt;)</b> to a less than symbol <b>(&lt;)</b> then the results would be as follows:\n\n
         </item>
 
         <item><!--if Statement Example 3/3 5-->
@@ -349,7 +389,7 @@
         </item>
 
         <item><!--while Loops - Example 14-->
-            While the variable <b>i</b> is less than 5, the code block will run. Within this block of code, there is a line of code to print out the variable <b>i</b> each time it runs. Additionally, if you remember back to the previous section on <i>arithmetic operators</i>, you will recall what the <b>“++”</b> operator does. As a refresher, it increments the variable <b>i</b> by 1 each time the code runs. So the program will print out each number until <b>i</b> reaches 5 then stop.\n\n
+            While the variable <b>i</b> is less than 5, the code block will run. Within this block of code, there is a line of code to print out the variable <b>i</b> each time it runs. Additionally, if you remember back to the previous section on <i>arithmetic operators</i>, you will recall what the <b>“++”</b> operator does. As a refresher, it increments the variable <b>i</b> by 1 each time the code runs. So the program will print out each number until <b>i</b> reaches 4 then stop.\n\n
         </item>
 
         <item> <!--For Loop 15-->
@@ -364,12 +404,12 @@
             <ul>
             <li><b>Statement1</b> is run (one time) before the code block is run.\n\n </li>
             <li><b>Statement2</b> defines the condition for running the code block.\n\n </li>
-            <li><b>Statement3</b> is executed (Every time) after the code block has to be Executed. \n\n </li>
+            <li><b>Statement3</b> is executed (Every time) after the code block has to be Executed.</li>
             </ul>
         </item>
 
         <item><!--For Loop 17 - Example-->
-            The following example will print the numbers 0 to 4:
+            The following example will print the numbers 0 to 4:\n\n
             <ul>
                 <li><b>Statement 1</b> sets a variable before the loop starts (int i = 0).\n\n </li>
                 <li><b>Statement 2</b> defines the condition for the loop to run ( i must be less than 5 ). If the condition is true, the loop will start over again, if the statement is false, the loop will end.\n\n  </li>
@@ -390,25 +430,57 @@
     </string-array>
 
     <string-array name="conditional_images">
-        <item></item> 0
-        <item></item> 1
-        <item></item> 2
-        <item>if_statment_example1</item> 3
-        <item>if_statment_example2</item> 4
-        <item></item> 5
-        <item></item> 6
-        <item></item> 7
-        <item>else_statment_example1</item> 8
-        <item>else_statment_example2</item> 9
-        <item></item> 10
-        <item>else_if_statment_example</item> 11
-        <item></item> 12
-        <item></item> 13
-        <item>while_loop_example</item> 14
+        <item></item>
+        0
+        <item></item>
+        1
+        <item></item>
+        2
+        <item>if_statment_example1</item>
+        3
+        <item>if_statment_example2</item>
+        4
+        <item></item>
+        5
+        <item></item>
+        6
+        <item></item>
+        7
+        <item>else_statment_example1</item>
+        8
+        <item>else_statment_example2</item>
+        9
+        <item></item>
+        10
+        <item>else_if_statment_example</item>
+        11
+        <item></item>
+        12
+        <item></item>
+        13
+        <item>while_loop_example</item>
+        14
         <item></item>15
         <item></item>16
         <item>for_loop_example</item>17
         <item>break_example</item>18
         <item>continue_example</item>19
     </string-array>
+
+    <string-array name="PlaybackSpeed_Names">
+        <item>Fastest</item>
+        <item>Faster</item>
+        <item>Default</item>
+        <item>Slower</item>
+        <item>Slowest</item>
+    </string-array>
+
+    <string-array name="PlaybackSpeed_Values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+
 </resources>

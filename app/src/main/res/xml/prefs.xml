@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="Audio"
+        >
+        <CheckBoxPreference
+            android:title="Audio Playback"
+            android:key="PLAYBACK"
+            android:defaultValue="true"
+            android:summaryOn="Audio Playback is enabled"
+            android:summaryOff="Audio Playback is Disabled" />
+
+        <ListPreference
+            android:title="Playback Speed"
+            android:key="PLAYBACKSPEED"
+            android:defaultValue="3"
+            android:entries="@array/PlaybackSpeed_Names"
+            android:entryValues="@array/PlaybackSpeed_Values"
+
+            />
+
+    </PreferenceCategory>
+</PreferenceScreen>

@@ -29,6 +29,7 @@ public class HomeScreen extends AppCompatActivity {
     HomeScreenAdapter homeScreenAdapter;
     String userID;
     BottomNavigationItemView profile;
+    BottomNavigationItemView settings;
     String CurrentUserName;
 
 
@@ -37,24 +38,22 @@ public class HomeScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
 
-        //todo use this to Set Theme's 
-        //this.setTheme(R.style.Theme_Java_App);
+        fStore = FirebaseFirestore.getInstance();
+        fAuth = FirebaseAuth.getInstance();
+        userID = fAuth.getCurrentUser().getUid();
+
+        ActionBar actionBar = getSupportActionBar();
 
         //assign settings MenuItem
         profile = findViewById(R.id.miProfile);
+        settings = findViewById(R.id.miSettings);
+
 
         recyclerView = findViewById(R.id.RecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         homeScreenAdapter = new HomeScreenAdapter(this, GetMyList());
         recyclerView.setAdapter(homeScreenAdapter);
-
-        fAuth = FirebaseAuth.getInstance();
-        fStore = FirebaseFirestore.getInstance();
-
-        userID = fAuth.getCurrentUser().getUid();
-
-        ActionBar actionBar = getSupportActionBar();
 
         DocumentReference documentReference = fStore.collection("users").document(userID);
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
@@ -76,44 +75,32 @@ public class HomeScreen extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), SettingsPage.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private ArrayList<HomeScreenModel> GetMyList() {
         ArrayList<HomeScreenModel> homeScreenModels = new ArrayList<>();
 
         HomeScreenModel m = new HomeScreenModel();
-        m.setTitle("The Basic Syntax of Java");
-        m.setDescription("This section provide and overview of basics syntax in java.");
-        m.setImg(R.drawable.java_icon_bw);
-        homeScreenModels.add(m);
 
-        m = new HomeScreenModel();
-        m.setTitle("Variables");
-        m.setDescription("This section will look at how variables are formatted in java.");
-        m.setImg(R.drawable.variable_icon);
-        homeScreenModels.add(m);
+        String[] title = getResources().getStringArray(R.array.HomeScreenTitle);
+        String[] description = getResources().getStringArray(R.array.HomeScreenDescriptions);
+        String[] images = getResources().getStringArray(R.array.HomeScreenImages);
 
-        m = new HomeScreenModel();
-        m.setTitle("Data Types");
-        m.setDescription("This section will look at the Data Types used is java.");
-        m.setImg(R.drawable.data_types_icon);
-        homeScreenModels.add(m);
-
-        m = new HomeScreenModel();
-        m.setTitle("Operators in Java");
-        m.setDescription("This section will look at the various operators used is java.");
-        m.setImg(R.drawable.operator_icon);
-        homeScreenModels.add(m);
-
-        m = new HomeScreenModel();
-        m.setTitle("Conditional Statements");
-        m.setDescription("This section will Build on previous information and look as Conditional Statements.");
-        m.setImg(R.drawable.condition_icon);
-        homeScreenModels.add(m);
-
-        m = new HomeScreenModel();
-        homeScreenModels.add(m);
-
+        for (int i = 0; i < title.length; i++) {
+            m = new HomeScreenModel();;
+            m.setTitle(title[i]);
+            m.setDescription(description[i]);
+            m.setImg(getResources().getIdentifier(images[i], "drawable", getPackageName()));
+            homeScreenModels.add(m);
+        }
         return homeScreenModels;
     }
 }

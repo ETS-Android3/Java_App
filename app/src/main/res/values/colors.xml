@@ -3,8 +3,11 @@
     <color name="navy_200">#007590</color>
     <color name="navy_500">#00566a</color>
     <color name="navy_700">#003B49</color>
-    <color name="darkTeal_200">#FF03DAC5</color>
-    <color name="darkTeal_700">#FF018786</color>
+    <color name="orange_200">#F19953</color>
+    <color name="orange_700">#B55F1B</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="blackText">#050505</color>
+    <color name="whiteText">#FAFAFA</color>
 </resources>

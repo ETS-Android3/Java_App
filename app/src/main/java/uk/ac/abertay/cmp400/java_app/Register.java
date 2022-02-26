@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,7 +32,6 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
     Button mRegisterBtn;
     TextView mLoginBtn;
     FirebaseAuth fAuth;
-    ProgressBar progressBar;
     FirebaseFirestore fStore;
     String userID;
 
@@ -52,9 +50,6 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
         mCnfPassword = findViewById(R.id.ConfirmPasswordTextBox);
         mRegisterBtn = findViewById(R.id.RegisterButton);
         mLoginBtn = findViewById(R.id.LoginButton);
-        progressBar = findViewById(R.id.progressBar);
-
-        progressBar.setVisibility(View.GONE);
 
         //Firebase Auth/Store
         fAuth = FirebaseAuth.getInstance();
@@ -90,11 +85,9 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
                     mCnfPassword.setError("Password dose not match.");
                     return;
                 }
-                if (mUsername.length() < 5){
-                    mUsername.setError("Username must be more that 4 characters.");
+                if (mUsername.length() < 4){
+                    mUsername.setError("Username must be more that 3 characters.");
                 }
-
-                progressBar.setVisibility(View.VISIBLE);
 
                 fAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -107,6 +100,8 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
                             Map<String, Object> user = new HashMap<>();
                             user.put("Username", username);
                             user.put("Email", email);
+                            user.put("PlaybackSpeed", 1);
+                            user.put("HideAudioPlayer", false);
                             documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
@@ -122,7 +117,6 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
                         }else{
 
                             Toast.makeText(Register.this, "Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                            progressBar.setVisibility(View.GONE);
                         }
                     }
                 });

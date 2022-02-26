@@ -11,6 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Java_App">
+        <activity android:name=".SettingsPage"></activity>
+        <activity android:name=".Login" />
         <activity
             android:name=".DisplayScreen"
             android:parentActivityName=".HomeScreen" />
