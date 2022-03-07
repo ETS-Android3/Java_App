@@ -55,6 +55,7 @@ public class DisplayAdapter extends RecyclerView.Adapter {
             viewHolderImage.title.setText(displayModels.get(position).getTitle());
             viewHolderImage.desc.setText(displayModels.get(position).getDescription());
             viewHolderImage.imageView.setImageResource(displayModels.get(position).getImg());
+            viewHolderImage.imageView.setContentDescription(displayModels.get(position).getTitle());
 
         }else{
             ViewHolderRow viewHolderRow = (ViewHolderRow)holder;

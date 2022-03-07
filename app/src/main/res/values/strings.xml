@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Java_App</string>
     <string name="Email">Email</string>
     <string name="Password">Password</string>
@@ -24,6 +24,11 @@
     <string name="learning_java">Learning Java</string>
     <string name="update_username">Update Username</string>
     <string name="placeholder_image">Placeholder Image</string>
+    <string name="first_letter_of_username">First letter of username</string>
+    <string name="profile_page">Profile Page</string>
+    <string name="AudioPlayback">Audio Playback</string>
+    <string name="accessability">Extra Accessibility</string>
+    <string name="account">Account</string>
 
     <string-array name="HomeScreenTitle">
         <item>The Basic Syntax of Java</item> <!--0-->
@@ -43,7 +48,7 @@
     </string-array>
 
     <string-array name="HomeScreenImages">
-        <item>java_icon_bw</item> <!---->
+        <item>the_basics</item> <!---->
         <item>variable_icon</item> <!---->
         <item>data_types_icon</item> <!---->
         <item>operator_icon</item> <!---->
@@ -59,7 +64,7 @@
         <item>Semi Colons</item>
         <item>Round Brackets</item>
         <item>Square Brackets</item>
-        <item>Curly Brackets </item>
+        <item>Curly Brackets</item>
         <item>Two slashes</item>
         <item>Slash and an asterisk</item>
         <item>Printing out a message</item>
@@ -70,7 +75,7 @@
     </string-array>
     <string-array name="basics_of_java_description">
         <item> <!-- 0 -->
-            When learning about java its important to know about the <b>syntax</b>. An example of syntax would be the use of a semicolon at the end of a line to show the end of a statement. The following section will touch on the fundamental syntax used in java.\n\nUse this section as a point of reference if something In the coming examples are not clear.\n\n
+            When learning about java its important to know about the <b>syntax</b>. An example of syntax would be the use of a semicolon ( <font color='red'>;</font> ) at the end of a line to show the end of a statement. The following section will touch on the fundamental syntax used in java.\n\nUse this section as a point of reference if something In the coming examples are not clear.
         </item>
         <item><!-- 1 -->
             <b>Semi Colons  <font color='red'>;</font> </b> – Are used to show where an instruction ends and a new instruction begins. This is similar to a full stop after a sentence and is required for the code to work.
@@ -104,8 +109,8 @@
             <b>Full Stop <font color='red'>.</font> </b>– Is used when you want to access object attributes and methods.
         </item>
 
-        <item>
-            The code examples that you will encounter in later sections will use a color schema that aims to help distinguish parts of the code.
+        <item><!-- 9 -->
+            The code examples that you will encounter in later sections will use a color schema that aims to help distinguish parts of the code.\n\n
             <ul>
                 <li><font color='red'>Red Text</font> - Signifies Classes.\n\n</li>
                 <li><font color='blue'>Blue text</font> - Signifies Conditional Statements.\n\n</li>
@@ -113,7 +118,7 @@
             </ul>
         </item>
 
-        <item><!-- 9 -->
+        <item><!-- 10 -->
             With these, the following examples should be more clear. This section aims to clarify the syntax used in the coming example. <b>Don\'t worry if something doesn\'t make sense as these will be clarified later in the context of the sections they are used in.\n\n</b>
         </item>
     </string-array>
@@ -121,18 +126,19 @@
     <!--Variables Strings-->
     <string-array name="variables_title">
         <item>-Variables</item>
+        <item>Type</item>
+        <item>Name</item>
+        <item>Equals sign ( = )</item>
+        <item>Value</item>
+
 
     </string-array>
     <string-array name="variables_description">
-        <item>
-            Variables are used in programming to pair information such as names or numbers to a value that can be referenced later. The following example shows how this is formatted in java. \n\n<b>Type Name = value;</b> \n\n
-            <ul>
-                <li><b>Type</b>\nThe Data Type determines what kind of data is being held. (this will be explored in more detail in the following section on Data Types)\n\n</li>
-                <li><b>Name\n</b>The name is what will be used in the program to reference what is being stored (Such as <b>x</b> or <b>name</b>). Java is case sensitive so for example, “<u>N</u>umber” and “<u>n</u>umber” are considered two different names.\n\n</li>
-                <li><b>Equals sign ( = )\n</b> This is used to assign the Variable to the Value. ‘The Variable Equals the value’.\n\n</li>
-                <li><b>Value\n</b>The value stored in the variable depends on the type. Some types can only store specific values and some do it better than others. This will be explored more in the next section on data types.\n\n</li>
-            </ul>
-        </item>
+        <item>Variables are used in programming to pair information such as names or numbers to a value that can be referenced later. The following example shows how this is formatted in java. \n\n<b>Type Name = value;</b></item>
+        <item>The Data Type determines what kind of data is being held. (this will be explored in more detail in the following section on Data Types)</item>
+        <item>The name is what will be used in the program to reference what is being stored (Such as <b>x</b> or <b>name</b>). Java is case sensitive so for example, “<u>N</u>umber” and “<u>n</u>umber” are considered two different names.</item>
+        <item>This is used to assign the Variable to the Value. ‘The Variable Equals the value’.</item>
+        <item>The value stored in the variable depends on the type. Some types can only store specific values and some do it better than others. This will be explored more in the next section on data types.\n\n</item>
     </string-array>
     <string-array name="variables_images">
 
@@ -216,7 +222,6 @@
         4
         <item>string_example</item>
         5
-        <!--todo Make the Image smaller for the String Continued Example. try reduce the text "The Length of the txt String is:"-->
         <item>string_continued_example</item>
         6
         <item></item>
@@ -227,36 +232,140 @@
 
     <string-array name="operators_title">
         <item>-Operators in Java</item>
-        <item>Arithmetic Operators</item>
-        <item>Comparison Operators</item>
-        <item>Logical Operators</item>
-
+        <item>-Arithmetic Operators</item>
+        <item>Arithmetic Operators - Addition</item>
+        <item>Arithmetic Operators - Subtraction</item>
+        <item>Arithmetic Operators - Multiplication</item>
+        <item>Arithmetic Operators - Division</item>
+        <item>Arithmetic Operators - Increment</item>
+        <item>Arithmetic Operators - Decrement</item>
+        <item>-Comparison Operators</item>
+        <item>Comparison Operators - Equal.</item>
+        <item>Comparison Operators - Not Equal.</item>
+        <item>Comparison Operators - Greater than.</item>
+        <item>Comparison Operators - Less than.</item>
+        <item>Comparison Operators - Greater than or equal to.</item>
+        <item>Comparison Operators - Less than or equal to.</item>
+        <item>-Logical Operators</item>
+        <item>Logical Operators - Logical and</item>
+        <item>Logical Operators - Logical or</item>
+        <item>Logical Operators - Logical not</item>
     </string-array>
     <string-array name="operators_description">
         <item>
             Operations are used to perform operations on variables and values.\n\n
             In the following example, we use the + operator to add together two values:\n\n
-            Int x = 100 + 50; 	150 (100 + 150)\n\n
+            Int x = 100 + 50;\n 	150 = (100 + 50)\n\n
             Taking this idea further, variables and values can be added together as well as variables and other variables. The example below shows this in action \n\n
-            int sum1 = 100 + 50;		150 (100 + 150)\n\n
-            int sum2 = sum1 + 250;		400 (150 + 250)\n\n
-            int sum3 = sum2 + sum2;	800(400 + 400)\n\n
+            int sum1 = 100 + 50;\n		150 = (100 + 50)\n\n
+            int sum2 = sum1 + 250;\n		400 = (150 + 250)\n\n
+            int sum3 = sum2 + sum2;\n	800 = (400 + 400)
         </item>
         <item>
-            Arithmetic operators are commonly used for mathematical operations.
+            Arithmetic operators are commonly used for mathematical operations.\n\n
+            The following sections will look at the common operators.
+        </item>
+        <item>
+            <b>Operator:</b> <font color='red'>+</font>\n\n
+            <b>Description:</b> Adds two values together.\n\n
+            <b>Example:</b> 10 + 5 = 15
+        </item>
+        <item>
+            <b>Operator:</b> <font color='red'>-</font>\n\n
+            <b>Description:</b> Subtracts one value from another.\n\n
+            <b>Example:</b> 10 - 5 = 5
+        </item>
+        <item>
+            <b>Operator:</b> <font color='red'>*</font>\n\n
+            <b>Description:</b> Multiplies one value by another \n\n
+            <b>Example:</b> 10 * 5 = 50
+        </item>
+        <item>
+            <b>Operator:</b> <font color='red'>/</font>\n\n
+            <b>Description:</b> Divides one value by another \n\n
+            <b>Example:</b> 10 / 5 = 2
+        </item>
+        <item>
+            <b>Operator:</b> <font color='red'>++</font>\n\n
+            <b>Description:</b> Increases the value of a variable by 1 \n\n
+            <b>Example:</b> 5++ = 6
+        </item>
+        <item tools:ignore="TypographyDashes">
+            <b>Operator:</b> <font color='red'>--</font>\n\n
+            <b>Description:</b> Decreases the value of a variable by 1 \n\n
+            <b>Example:</b> 5-- = 4
         </item>
         <item>
             Comparison Operators are used when comparing two values or variables:
         </item>
         <item>
+            <b>Operator:</b> <font color='red'>==</font>\n\n
+            <b>Description:</b> Checks if two values are equal.\n\n
+            <b>Example:</b> 5 == 3 : False.
+        </item>
+        <item>
+            <b>Operator:</b> <font color='red'>!=</font>\n\n
+            <b>Description:</b> Checks if two values are <b>not</b> equal.\n\n
+            <b>Example:</b> 5 != 3 : True.
+        </item>
+        <item>
+            <b>Operator:</b> <font color='red'>&gt;</font>\n\n
+            <b>Description:</b> Checks if a value is greater than another.\n\n
+            <b>Example:</b> 5 &gt; 3 : True
+        </item>
+        <item>
+            <b>Operator:</b> <font color='red'>&lt;</font>\n\n
+            <b>Description:</b> Checks if a value is less than another.\n\n
+            <b>Example:</b> 5 &lt; 3 : False
+        </item>
+        <item>
+            <b>Operator:</b> <font color='red'>&gt;=</font>\n\n
+            <b>Description:</b> Checks if a value is greater than or equal to another.\n\n
+            <b>Example:</b> 5 &gt;= 3 : True
+        </item>
+        <item>
+            <b>Operator:</b> <font color='red'>&lt;=</font>\n\n
+            <b>Description:</b> Checks if a value is less than or equal to another.\n\n
+            <b>Example:</b> 5 &lt;= 3 : False
+        </item>
+        <item>
             Logical operators are used to determine the logic between variables or values. They are mainly used in conditional statements.
+        </item>
+        <item>
+            <b>Operator:</b> <font color='red'>&amp;&amp;</font>\n\n
+            <b>Description:</b> Returns <b>True</b> if both Statements are true.\n\n
+            <b>Example:</b> True &amp;&amp; True : True </item>
+        <item>
+            <b>Operator:</b> <font color='red'>||</font>\n\n
+            <b>Description:</b> Returns true if one of the two statements are True.\n\n
+            <b>Example:</b> True || False : True
+        </item>
+        <item>
+            <b>Operator:</b> <font color='red'>!</font>\n\n
+            <b>Description:</b> Reverses the Results, Returns true if false and vice versa.\n\n
+            <b>Example:</b> !True : False
         </item>
     </string-array>
     <string-array name="operators_images">
-        <item></item>
-        <item>arithmic_table</item>
-        <item>comparison_table</item>
-        <item>logical_table</item>
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
 
     </string-array>
 
@@ -336,7 +445,7 @@
         </item>
 
         <item><!--if Statement Example 3/3 5-->
-            As you can see, nothing is printed out. The result is <b>false</b> from the if statement as 20 <b>is not</b> less than 18. The program will continue from the closing curly bracket <b>( } )</b> skipping the contained code.
+            As you can see, nothing is printed out. The result is <b>false</b> from the if statement as 20 <b>is not</b> less than 18. The program will continue from the closing curly bracket <b>( <font color='red'>}</font> )</b> skipping the contained code.
         </item>
 
         <item><!--Else Statement 6-->
@@ -413,7 +522,7 @@
             <ul>
                 <li><b>Statement 1</b> sets a variable before the loop starts (int i = 0).\n\n </li>
                 <li><b>Statement 2</b> defines the condition for the loop to run ( i must be less than 5 ). If the condition is true, the loop will start over again, if the statement is false, the loop will end.\n\n  </li>
-                <li><b>Statement 3</b> increases a value ( i++ ) each the code block in the loop has been executed. \n\n </li>
+                <li><b>Statement 3</b> increases a value ( <font color='red'>i++</font> ) each the code block in the loop has been executed. \n\n </li>
             </ul>
         </item>
 

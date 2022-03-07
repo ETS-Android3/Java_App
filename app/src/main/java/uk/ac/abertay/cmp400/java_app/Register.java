@@ -101,7 +101,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
                             user.put("Username", username);
                             user.put("Email", email);
                             user.put("PlaybackSpeed", 1);
-                            user.put("HideAudioPlayer", false);
+                            user.put("ShowAudioPlayer", true);
                             documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {

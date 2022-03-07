@@ -10,4 +10,7 @@
 
     <color name="blackText">#050505</color>
     <color name="whiteText">#FAFAFA</color>
+    <color name="Faded">#D9FAFAFA</color>
+    <color name="CardBackgroundDark">#141414</color>
+    <color name="DarkGray">#2B2D2F</color>
 </resources>

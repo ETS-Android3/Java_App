@@ -8,9 +8,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -34,7 +37,11 @@ public class DisplayScreen extends AppCompatActivity {
     int audioID;
     ActionBar actionBar;
     double playbackSpeed;
-    boolean HideAudioPlayer;
+    boolean ShowAudioPlayer;
+    SeekBar audioSeekBar;
+    Handler handler;
+    DocumentReference documentReferenceUsers;
+    DocumentReference documentReferenceTopics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,22 +50,27 @@ public class DisplayScreen extends AppCompatActivity {
         actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
+        handler = new Handler();
+
+        audioSeekBar = findViewById(R.id.AudioSeekBar);
+
         playbackSpeed = 1.00;
-        HideAudioPlayer = false;
+        ShowAudioPlayer = false;
+        isPlaying = false;
 
         fStore = FirebaseFirestore.getInstance();
         fAuth = FirebaseAuth.getInstance();
         userID = fAuth.getCurrentUser().getUid();
 
-        DocumentReference documentReference = fStore.collection("users").document(userID);
-        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+        documentReferenceUsers = fStore.collection("users").document(userID);
+        documentReferenceUsers.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                 try {
                     playbackSpeed = value.getDouble("PlaybackSpeed");
-                    HideAudioPlayer = value.getBoolean("HideAudioPlayer");
+                    ShowAudioPlayer = value.getBoolean("ShowAudioPlayer");
 
-                    if(HideAudioPlayer){
+                    if(ShowAudioPlayer){
                         FAB.setVisibility(View.INVISIBLE);
                     }else{
                         FAB.setVisibility(View.VISIBLE);
@@ -67,18 +79,14 @@ public class DisplayScreen extends AppCompatActivity {
             }
         });
 
-        stopPlayer();
-        isPlaying = false;
+        int index = getIntent().getIntExtra("index", 0);
 
         recyclerView = findViewById(R.id.recycleView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        int index = getIntent().getIntExtra("index", 0);
-
         displayAdapter = new DisplayAdapter(this, getMyList(index));
         recyclerView.setAdapter(displayAdapter);
         FAB = findViewById(R.id.AudioFAB);
-
+        audioSeekBar.setVisibility(View.INVISIBLE);
     }
 
     private ArrayList<DisplayModel> getMyList(int Index) {
@@ -95,15 +103,15 @@ public class DisplayScreen extends AppCompatActivity {
                 Toast.makeText(this, "Whoops, Something went wrong", Toast.LENGTH_SHORT).show();
                 break;
             case 1:
-                //Action Bar Title
-
                 //Audio
                 audioID = getResources().getIdentifier("the_basics_syntax_of_java_1", "raw", getPackageName());
                 //Basics Of Java
                 title = getResources().getStringArray(R.array.basics_of_java_title);
                 description = getResources().getTextArray(R.array.basics_of_java_description);
+
                 //images = getResources().getStringArray(R.array.basics_of_java_images);
 
+                //Action Bar Title
                 actionBar.setTitle(title[0]);
 
                 for (int i = 0; i < title.length; i++) {
@@ -219,6 +227,7 @@ public class DisplayScreen extends AppCompatActivity {
                 }
                 break;
         }
+
         return models;
     }
 
@@ -228,7 +237,7 @@ public class DisplayScreen extends AppCompatActivity {
         if(audioID != 0) {
             if (mediaPlayer == null) {
                 mediaPlayer = MediaPlayer.create(this, audioID);
-                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                mediaPlayer.setOnCompletionListener(    new MediaPlayer.OnCompletionListener() {
                     @Override
                     public void onCompletion(MediaPlayer mediaPlayer) {
                         stopPlayer();
@@ -237,8 +246,34 @@ public class DisplayScreen extends AppCompatActivity {
                     }
                 });
             }
+            //Media Player Settings: Playback Speed
             mediaPlayer.setPlaybackParams(mediaPlayer.getPlaybackParams().setSpeed(((float) playbackSpeed)));
+
+            //show SeekBar
+            audioSeekBar.setVisibility(View.VISIBLE);
+
+            audioSeekBar.setMax(mediaPlayer.getDuration());
+            //Media Player Settings: Seek Bar Listener
+            audioSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int i, boolean fromUser) {
+                    if(fromUser && mediaPlayer != null) {
+                        mediaPlayer.seekTo(i);
+                    }
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+
+                }
+            });
             mediaPlayer.start();
+            handler.post(new UpdateSeekBar());
         }
     }
 
@@ -259,6 +294,8 @@ public class DisplayScreen extends AppCompatActivity {
             mediaPlayer.release();
             mediaPlayer = null;
             isPlaying = false;
+            audioSeekBar.setProgress(0);
+            audioSeekBar.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -283,11 +320,22 @@ public class DisplayScreen extends AppCompatActivity {
             public boolean onLongClick(View view) {
                 stop(view);
                 FAB.setImageResource(R.drawable.ic_play_arrow);
-                Toast.makeText(DisplayScreen.this, "Audio Reset", Toast.LENGTH_SHORT).show();
-                return false;
+                //Toast.makeText(DisplayScreen.this, "Audio Reset", Toast.LENGTH_SHORT).show();
+                return true;
             }
         });
     }
+
+    public class UpdateSeekBar implements Runnable{
+        @Override
+        public void run() {
+            if(mediaPlayer != null) {
+                audioSeekBar.setProgress(mediaPlayer.getCurrentPosition());
+                handler.postDelayed(this, 100);
+            }
+        }
+    }
+
 
     @Override
     protected void onDestroy() {

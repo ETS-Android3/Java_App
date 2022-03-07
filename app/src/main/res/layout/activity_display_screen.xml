@@ -28,4 +28,20 @@
         android:onClick="ToggleButton"
         app:srcCompat="@android:drawable/ic_media_play" />
 
+    <SeekBar
+        android:id="@+id/AudioSeekBar"
+        style="@style/Widget.AppCompat.SeekBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="22dp"
+        android:layout_toStartOf="@+id/AudioFAB"
+        android:background="@drawable/seekbar_container"
+        android:padding="10dp"
+
+        android:progressBackgroundTintMode="src_over" />
+
 </RelativeLayout>

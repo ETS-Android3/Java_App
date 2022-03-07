@@ -1,5 +1,6 @@
 package uk.ac.abertay.cmp400.java_app;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,11 +9,16 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 public class ProfilePage extends AppCompatActivity {
 
@@ -23,15 +29,17 @@ public class ProfilePage extends AppCompatActivity {
     EditText usernameEditText;
     ActionBar actionBar;
     private static final String TAG = "LOGOUT";
+    TextView textViewLogo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_page);
+
         actionBar = getSupportActionBar();
-        assert actionBar != null;
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        actionBar.setCustomView(R.layout.action_bar_layout);
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("Profile Page");
 
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
@@ -39,9 +47,19 @@ public class ProfilePage extends AppCompatActivity {
 
         usernameEditText = findViewById(R.id.usernameEditText);
 
-        userName = getIntent().getStringExtra("username");
+        textViewLogo = findViewById(R.id.textViewCustomLogo);
 
-        usernameEditText.setText(userName);
+        DocumentReference documentReference = fStore.collection("users").document(userID);
+        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                try {
+                    userName = value.getString("Username");
+                    textViewLogo.setText(userName);
+                    usernameEditText.setText(userName);
+                }catch(Exception e){}
+            }
+        });
     }
 
     public void logout(View view){
@@ -61,7 +79,8 @@ public class ProfilePage extends AppCompatActivity {
 
             DocumentReference documentReference = fStore.collection("users").document(userID);
             documentReference.update("Username", tmp);
-            Toast.makeText(this, "Username Updated", Toast.LENGTH_SHORT).show();
+            textViewLogo.setText(userName);
+            //Toast.makeText(this, "Username Updated", Toast.LENGTH_SHORT).show();
         }
     }
 }
