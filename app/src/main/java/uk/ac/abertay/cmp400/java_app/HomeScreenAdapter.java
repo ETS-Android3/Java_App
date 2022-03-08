@@ -14,8 +14,8 @@ import java.util.ArrayList;
 public class HomeScreenAdapter extends RecyclerView.Adapter<HomeScreenHolder> {
 
 
-    Context c;
-    ArrayList<HomeScreenModel> homeScreenModels;
+    final Context c;
+    final ArrayList<HomeScreenModel> homeScreenModels;
 
     public HomeScreenAdapter(Context c, ArrayList<HomeScreenModel> homeScreenModels) {
         this.c = c;

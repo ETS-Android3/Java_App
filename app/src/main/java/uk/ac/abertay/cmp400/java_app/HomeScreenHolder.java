@@ -9,8 +9,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class HomeScreenHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-    ImageView mImageView;
-    TextView mTitle, mDes;
+    final ImageView mImageView;
+    final TextView mTitle;
+    final TextView mDes;
     ItemClickListener itemClickListener;
 
     HomeScreenHolder(@NonNull View itemView) {
@@ -25,13 +26,10 @@ public class HomeScreenHolder extends RecyclerView.ViewHolder implements View.On
 
     @Override
     public void onClick(View view) {
-
         this.itemClickListener.onItemClickListener(view, getLayoutPosition());
-
     }
 
     public void setItemClickListener(ItemClickListener ic){
-
         this.itemClickListener = ic;
     }
 }

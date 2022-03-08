@@ -11,6 +11,8 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -25,6 +27,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.protobuf.Value;
 
 import java.sql.Time;
@@ -36,14 +39,24 @@ import java.util.Locale;
 
 public class HomeScreen extends AppCompatActivity {
 
+    //Firebase auth and store
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
+    String userID;
+
+    //Views
     RecyclerView recyclerView;
     HomeScreenAdapter homeScreenAdapter;
-    String userID;
     BottomNavigationItemView profile;
     BottomNavigationItemView settings;
+    ActionBar actionBar;
+
+    ListenerRegistration registration;
+    DocumentReference documentReference;
+
+    //values
     String CurrentUserName;
+    int currentTime;
 
 
     @Override
@@ -51,26 +64,36 @@ public class HomeScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
 
-        ActionBar actionBar = getSupportActionBar();
+        //get Action Bar
+        actionBar = getSupportActionBar();
 
         //assign settings MenuItem
         profile = findViewById(R.id.miProfile);
         settings = findViewById(R.id.miSettings);
 
+        //Firebase auth and store instances
         fStore = FirebaseFirestore.getInstance();
         fAuth = FirebaseAuth.getInstance();
         userID = fAuth.getCurrentUser().getUid();
+        //set document reference for users
+        documentReference = fStore.collection("users").document(userID);
 
+
+        //recycler view setup
         recyclerView = findViewById(R.id.RecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         homeScreenAdapter = new HomeScreenAdapter(this, GetMyList());
         recyclerView.setAdapter(homeScreenAdapter);
 
-        int currentTime = Integer.parseInt(new SimpleDateFormat("HH", Locale.getDefault()).format(new Date()));
+        //get the current time.
+        currentTime = Integer.parseInt(new SimpleDateFormat("HH", Locale.getDefault()).format(new Date()));
+    }
 
-        DocumentReference documentReference1 = fStore.collection("users").document(userID);
-        documentReference1.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+    @Override
+    protected void onStart() {
+        //set listeners
+        registration = documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                 try {
@@ -82,10 +105,11 @@ public class HomeScreen extends AppCompatActivity {
                         txt = "Good afternoon " + CurrentUserName;
                     }
                     actionBar.setTitle(txt);
-                }catch(Exception e){}
+                }catch(Exception e){
+                    Log.e("InfoPage", "OnEvent: " + e.getMessage());
+                }
             }
         });
-
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -102,6 +126,31 @@ public class HomeScreen extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        //unregister and remove all listeners
+        registration.remove();
+        super.onStop();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.home_screen_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId()==R.id.action_info){
+            Intent intent = new Intent(getApplicationContext(), InfoPage.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(intent);
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private ArrayList<HomeScreenModel> GetMyList() {
@@ -114,7 +163,7 @@ public class HomeScreen extends AppCompatActivity {
         String[] images = getResources().getStringArray(R.array.HomeScreenImages);
 
         for (int i = 0; i < title.length; i++) {
-            m = new HomeScreenModel();;
+            m = new HomeScreenModel();
             m.setTitle(title[i]);
             m.setDescription(description[i]);
             m.setImg(getResources().getIdentifier(images[i], "drawable", getPackageName()));

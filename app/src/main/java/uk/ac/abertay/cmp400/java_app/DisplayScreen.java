@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -26,43 +25,71 @@ import java.util.ArrayList;
 
 public class DisplayScreen extends AppCompatActivity {
 
+    //firebase auth and store
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
     String userID;
+
+    //views
     RecyclerView recyclerView;
-    DisplayAdapter displayAdapter;
-    MediaPlayer mediaPlayer;
     FloatingActionButton FAB;
-    Boolean isPlaying;
-    int audioID;
     ActionBar actionBar;
+    SeekBar audioSeekBar;
+
+    //values
     double playbackSpeed;
     boolean ShowAudioPlayer;
-    SeekBar audioSeekBar;
+    boolean isPlaying;
+    int audioID;
+    int index;
+
+    //references
+    MediaPlayer mediaPlayer;
     Handler handler;
     DocumentReference documentReferenceUsers;
-    DocumentReference documentReferenceTopics;
+    DisplayAdapter displayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_screen);
-        actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
 
-        handler = new Handler();
-
-        audioSeekBar = findViewById(R.id.AudioSeekBar);
-
-        playbackSpeed = 1.00;
-        ShowAudioPlayer = false;
-        isPlaying = false;
-
+        //firebase auth and store instances.
         fStore = FirebaseFirestore.getInstance();
         fAuth = FirebaseAuth.getInstance();
         userID = fAuth.getCurrentUser().getUid();
 
+        //get and set action bar with back button.
+        actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+        //initiate handler.
+        handler = new Handler();
+
+        //Views
+        audioSeekBar = findViewById(R.id.AudioSeekBar);
+        recyclerView = findViewById(R.id.recycleView);
+        FAB = findViewById(R.id.AudioFAB);
+
+
+        //values
+        playbackSpeed = 1.00;
+        ShowAudioPlayer = false;
+        isPlaying = false;
+        index = getIntent().getIntExtra("index", 0);
+
+        //Firebase Listeners
         documentReferenceUsers = fStore.collection("users").document(userID);
+        //references
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        displayAdapter = new DisplayAdapter(this, getMyList(index));
+        recyclerView.setAdapter(displayAdapter);
+        audioSeekBar.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         documentReferenceUsers.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -78,15 +105,12 @@ public class DisplayScreen extends AppCompatActivity {
                 }catch(Exception e){}
             }
         });
+    }
 
-        int index = getIntent().getIntExtra("index", 0);
-
-        recyclerView = findViewById(R.id.recycleView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        displayAdapter = new DisplayAdapter(this, getMyList(index));
-        recyclerView.setAdapter(displayAdapter);
-        FAB = findViewById(R.id.AudioFAB);
-        audioSeekBar.setVisibility(View.INVISIBLE);
+    @Override
+    protected void onStop() {
+        super.onStop();
+        stopPlayer();
     }
 
     private ArrayList<DisplayModel> getMyList(int Index) {
@@ -105,11 +129,10 @@ public class DisplayScreen extends AppCompatActivity {
             case 1:
                 //Audio
                 audioID = getResources().getIdentifier("the_basics_syntax_of_java_1", "raw", getPackageName());
+
                 //Basics Of Java
                 title = getResources().getStringArray(R.array.basics_of_java_title);
                 description = getResources().getTextArray(R.array.basics_of_java_description);
-
-                //images = getResources().getStringArray(R.array.basics_of_java_images);
 
                 //Action Bar Title
                 actionBar.setTitle(title[0]);
@@ -125,10 +148,10 @@ public class DisplayScreen extends AppCompatActivity {
             case 2:
                 //Audio
                 audioID = getResources().getIdentifier("variables", "raw", getPackageName());
+
                 //Variables
                 title = getResources().getStringArray(R.array.variables_title);
                 description = getResources().getTextArray(R.array.variables_description);
-                //images = getResources().getStringArray(R.array.variables_images);
 
                 //Action Bar Title
                 actionBar.setTitle(title[0]);
@@ -145,6 +168,7 @@ public class DisplayScreen extends AppCompatActivity {
             case 3:
                 //Audio
                 audioID = getResources().getIdentifier("data_types", "raw", getPackageName());
+
                 //Data Types
                 title = getResources().getStringArray(R.array.data_types_title);
                 description = getResources().getTextArray(R.array.data_types_description);
@@ -159,20 +183,20 @@ public class DisplayScreen extends AppCompatActivity {
                         m.setTitle(title[i]);
                         m.setDescription(description[i]);
                         m.setHasImage(false);
-                        models.add(m);
                     }else{
                         m = new DisplayModel();
                         m.setTitle(title[i]);
                         m.setDescription(description[i]);
                         m.setImg(getResources().getIdentifier(images[i], "drawable", getPackageName()));
                         m.setHasImage(true);
-                        models.add(m);
                     }
+                    models.add(m);
                 }
                 break;
             case 4:
                 //Audio
                 audioID = getResources().getIdentifier("operators", "raw", getPackageName());
+
                 //Operators
                 title = getResources().getStringArray(R.array.operators_title);
                 description = getResources().getTextArray(R.array.operators_description);
@@ -187,20 +211,20 @@ public class DisplayScreen extends AppCompatActivity {
                         m.setTitle(title[i]);
                         m.setDescription(description[i]);
                         m.setHasImage(false);
-                        models.add(m);
                     }else {
                         m = new DisplayModel();
                         m.setTitle(title[i]);
                         m.setDescription(description[i]);
                         m.setImg(getResources().getIdentifier(images[i], "drawable", getPackageName()));
                         m.setHasImage(true);
-                        models.add(m);
                     }
+                    models.add(m);
                 }
                 break;
             case 5:
                 //Audio
                 audioID = getResources().getIdentifier("conditional_statements", "raw", getPackageName());
+
                 //Conditional Statements
                 title = getResources().getStringArray(R.array.conditional_title);
                 description = getResources().getTextArray(R.array.conditional_description);
@@ -215,15 +239,14 @@ public class DisplayScreen extends AppCompatActivity {
                         m.setTitle(title[i]);
                         m.setDescription(description[i]);
                         m.setHasImage(false);
-                        models.add(m);
                     }else {
                         m = new DisplayModel();
                         m.setTitle(title[i]);
                         m.setDescription(description[i]);
                         m.setImg(getResources().getIdentifier(images[i], "drawable", getPackageName()));
                         m.setHasImage(true);
-                        models.add(m);
                     }
+                    models.add(m);
                 }
                 break;
         }
@@ -232,12 +255,11 @@ public class DisplayScreen extends AppCompatActivity {
     }
 
     //FAB Audio functionality
-
     public void play(View view){
         if(audioID != 0) {
             if (mediaPlayer == null) {
                 mediaPlayer = MediaPlayer.create(this, audioID);
-                mediaPlayer.setOnCompletionListener(    new MediaPlayer.OnCompletionListener() {
+                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
                     public void onCompletion(MediaPlayer mediaPlayer) {
                         stopPlayer();
@@ -290,6 +312,7 @@ public class DisplayScreen extends AppCompatActivity {
     }
 
     private void stopPlayer(){
+        //Custom stop. Releases media player and preforms reset.
         if(mediaPlayer != null){
             mediaPlayer.release();
             mediaPlayer = null;
@@ -299,13 +322,8 @@ public class DisplayScreen extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        stopPlayer();
-    }
-
     public void ToggleButton(View view) {
+        //toggles FAB icon
         if (!isPlaying) {
             play(view);
             FAB.setImageResource(R.drawable.ic_pause);
@@ -335,7 +353,6 @@ public class DisplayScreen extends AppCompatActivity {
             }
         }
     }
-
 
     @Override
     protected void onDestroy() {

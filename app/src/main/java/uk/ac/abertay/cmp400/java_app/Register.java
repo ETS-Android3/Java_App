@@ -21,6 +21,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ListenerRegistration;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,6 +35,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
     String userID;
+    DocumentReference documentReference;
 
 
     @Override
@@ -55,11 +57,16 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
 
+        //check if user is signed in or not.
         if(fAuth.getCurrentUser() != null){
             startActivity(new Intent(getApplicationContext(), HomeScreen.class));
             finish();
         }
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
         mRegisterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -96,7 +103,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
                             Toast.makeText(Register.this, "User Created", Toast.LENGTH_SHORT).show();
                             //Firebase Firestore database
                             userID = fAuth.getCurrentUser().getUid();
-                            DocumentReference documentReference = fStore.collection("users").document(userID);
+                            documentReference = fStore.collection("users").document(userID);
                             Map<String, Object> user = new HashMap<>();
                             user.put("Username", username);
                             user.put("Email", email);
@@ -113,32 +120,33 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
                                     Log.d(TAG, "onFailure: " + e.toString());
                                 }
                             });
-                            startActivity(new Intent(getApplicationContext(), HomeScreen.class));
+                            Intent intent = new Intent(getApplicationContext(), HomeScreen.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                            startActivity(intent);
                         }else{
-
                             Toast.makeText(Register.this, "Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
-
-
             }
         });
+    }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
     }
 
     @Override
     public void onClick(View view) {
-        switch(view.getId()) {
-            case R.id.SignInTextView:
-                openLoginPage();
-                break;
+        if (view.getId() == R.id.SignInTextView) {
+            openLoginPage();
         }
     }
 
     public void openLoginPage(){
         Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
-
     }
 }

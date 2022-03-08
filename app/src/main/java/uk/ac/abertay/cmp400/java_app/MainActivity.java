@@ -1,12 +1,10 @@
 package uk.ac.abertay.cmp400.java_app;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.widget.ProgressBar;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -25,20 +23,23 @@ public class MainActivity extends AppCompatActivity {
 
         fAuth = FirebaseAuth.getInstance();
 
-        handler.postDelayed(mSplashDelay, 1000);
+        //flash the splash screen
+        handler.postDelayed(mSplashDelay, 600);
     }
 
-    private Runnable mSplashDelay = new Runnable() {
+    private final Runnable mSplashDelay = new Runnable() {
         @Override
         public void run() {
+            //check if user is logeed in or not. eiter send the to the loign screen or the Home screen
+            Intent intent;
             if(fAuth.getCurrentUser() != null){
-                startActivity(new Intent(getApplicationContext(), HomeScreen.class));
-                finish();
+                intent = new Intent(getApplicationContext(), HomeScreen.class);
             }else {
-                Intent intent = new Intent(getApplicationContext(), Login.class);
-                startActivity(intent);
-                finish();
+                intent = new Intent(getApplicationContext(), Login.class);
             }
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(intent);
+            finish();
         }
     };
 }

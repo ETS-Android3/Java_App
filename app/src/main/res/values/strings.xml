@@ -18,7 +18,6 @@
     <string name="username">Username</string>
     <string name="add_value">Add Value</string>
     <string name="nestedScrollView">nestedScrollView</string>
-    <string name="lore">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
     <string name="back">Back</string>
     <string name="next">Next</string>
     <string name="learning_java">Learning Java</string>
@@ -29,6 +28,13 @@
     <string name="AudioPlayback">Audio Playback</string>
     <string name="accessability">Extra Accessibility</string>
     <string name="account">Account</string>
+    <string name="IntroText">Thank you for participating in this study comparing the learning rates of users with dyslexia. Take some time to explore the features of the app and use the settings page, tailor the experience to best suit you.\n\nIn your own time, work through the five main sections on the home screen from top to bottom. </string>
+    <string name="ShowMe">Don\&#39;t show me this again</string>
+    <string name="ctu">Continue</string>
+    <string name="description">Description</string>
+    <string name="title">Title</string>
+    <string name="leaning_java_logo">Leaning Java Logo</string>
+
 
     <string-array name="HomeScreenTitle">
         <item>The Basic Syntax of Java</item> <!--0-->
@@ -75,14 +81,14 @@
     </string-array>
     <string-array name="basics_of_java_description">
         <item> <!-- 0 -->
-            When learning about java its important to know about the <b>syntax</b>. An example of syntax would be the use of a semicolon ( <font color='red'>;</font> ) at the end of a line to show the end of a statement. The following section will touch on the fundamental syntax used in java.\n\nUse this section as a point of reference if something In the coming examples are not clear.
+            When learning about java its important to know about the <b>syntax</b>. An example of syntax would be the use of a semicolon ( <font color='red'>;</font> ) at the end of a line to show the end of a statement. The following section will touch on the fundamental syntax used in java.\n\nUse this section as a point of reference if something In the coming examples is not clear.
         </item>
         <item><!-- 1 -->
             <b>Semi Colons  <font color='red'>;</font> </b> – Are used to show where an instruction ends and a new instruction begins. This is similar to a full stop after a sentence and is required for the code to work.
         </item>
 
         <item><!-- 2 -->
-            <b>Round Brackets <font color='red'>( )</font></b> - Are used to hold additional information for a function or to hold conditions for conditional statements. (This will be covered in Conditional Statements later.)
+            <b>Round Brackets <font color='red'>( )</font></b> - Are used to hold additional information for a function or to hold conditions for conditional statements. (This will be covered in Conditional Statements later)
         </item>
 
         <item><!-- 3 -->
@@ -98,7 +104,7 @@
         </item>
 
         <item><!-- 6 -->
-            <b>Slash + asterisk <font color='red'>/* Text */ </font></b>- Is used to make multi-line comments. Anything in-between the /* and the */ will be ignored by java.
+            <b>Slash + asterisk <font color='red'>/* Text */ </font></b>- Is used to make multi-line comments. Anything in-between the <font color='red'>/*</font> and the <font color='red'>*/</font> will be ignored by java.
         </item>
 
         <item><!-- 7 -->
@@ -168,7 +174,7 @@
     </string-array>
     <string-array name="data_types_description">
         <item>
-            This section will go over the fundamental Data types used in programming with java being the example language.
+            This section will go over the fundamental Data types used in programming, with java being the example language.
         </item>
         <!--int 3 -->
         <item>
@@ -202,7 +208,6 @@
                 <li><b>toLowerCase()</b> - Similarly, the toLowerCase() method does the opposite and changes all the characters in a string to lower case.\n\n</li>
                 <li><b>Length()</b> - The length() method returns the number of characters within a String.\n\n</li>
             </ul>
-
             <b>*Note*</b>\n\n
             Java counts positions from zero.\n\n
             0 is the first position in a String, 1 is the second, 2 is the third…\n\n
@@ -253,7 +258,7 @@
     </string-array>
     <string-array name="operators_description">
         <item>
-            Operations are used to perform operations on variables and values.\n\n
+            Operators are used to perform operations on variables and values.\n\n
             In the following example, we use the + operator to add together two values:\n\n
             Int x = 100 + 50;\n 	150 = (100 + 50)\n\n
             Taking this idea further, variables and values can be added together as well as variables and other variables. The example below shows this in action \n\n
@@ -337,7 +342,7 @@
             <b>Example:</b> True &amp;&amp; True : True </item>
         <item>
             <b>Operator:</b> <font color='red'>||</font>\n\n
-            <b>Description:</b> Returns true if one of the two statements are True.\n\n
+            <b>Description:</b> Returns true if one of the two statements are true.\n\n
             <b>Example:</b> True || False : True
         </item>
         <item>
@@ -422,7 +427,7 @@
             <ul>
                 <li>Use <b>if</b> to specify a block of code to be executed, if a condition is true.\n\n</li>
                 <li>Use <b>else</b> to specify a block of code to be executed if the same condition is false.\n\n</li>
-                <li>Use <b>else if</b> to specify a new condition to test, if the first condition is false.\n\n</li>
+                <li>Use <b>else if</b> to specify a new condition to test, if the first condition is false.</li>
             </ul>
         </item>
 
@@ -467,7 +472,7 @@
         </item>
 
         <item><!--Else Statement Example Continued 9-->
-            Now with the Operator fliped, the output is false. \n\n
+            Now with the Operator flipped, the output is false. \n\n
             The else statement takes over and runs the code contained within. \n
         </item>
 
@@ -477,7 +482,7 @@
             } else if (Condition 2) {\n\n
                 //block of code to be run if Condition1 is false and Condition2 is true \n\n
             } else {\n\n
-                //block of code to be run if Conditon1 is false and Condition2 is false \n\n
+                //block of code to be run if Condition1 is false and Condition2 is false \n\n
             }
         </item>
 
@@ -498,7 +503,7 @@
         </item>
 
         <item><!--while Loops - Example 14-->
-            While the variable <b>i</b> is less than 5, the code block will run. Within this block of code, there is a line of code to print out the variable <b>i</b> each time it runs. Additionally, if you remember back to the previous section on <i>arithmetic operators</i>, you will recall what the <b>“++”</b> operator does. As a refresher, it increments the variable <b>i</b> by 1 each time the code runs. So the program will print out each number until <b>i</b> reaches 4 then stop.\n\n
+            While the variable <b>i</b> is less than 5, the code block will run. Within this block of code, there is a line of code to print out the variable <b>i</b> each time it runs. Additionally, if you remember back to the previous section on <i>arithmetic operators</i>, you will recall what the <b>“++”</b> operator does. As a refresher, it increments the variable <b>i</b> by 1 each time the code runs. So the program will print out each number until <b>i</b> reaches 4 then stop.
         </item>
 
         <item> <!--For Loop 15-->
@@ -511,8 +516,8 @@
             }
             \n\n
             <ul>
-            <li><b>Statement1</b> is run (one time) before the code block is run.\n\n </li>
-            <li><b>Statement2</b> defines the condition for running the code block.\n\n </li>
+            <li><b>Statement1</b> is run (one time) before the code block is run.\n\n</li>
+            <li><b>Statement2</b> defines the condition for running the code block.\n\n</li>
             <li><b>Statement3</b> is executed (Every time) after the code block has to be Executed.</li>
             </ul>
         </item>
@@ -520,9 +525,9 @@
         <item><!--For Loop 17 - Example-->
             The following example will print the numbers 0 to 4:\n\n
             <ul>
-                <li><b>Statement 1</b> sets a variable before the loop starts (int i = 0).\n\n </li>
-                <li><b>Statement 2</b> defines the condition for the loop to run ( i must be less than 5 ). If the condition is true, the loop will start over again, if the statement is false, the loop will end.\n\n  </li>
-                <li><b>Statement 3</b> increases a value ( <font color='red'>i++</font> ) each the code block in the loop has been executed. \n\n </li>
+                <li><b>Statement 1</b> sets a variable before the loop starts (int i = 0).\n\n</li>
+                <li><b>Statement 2</b> defines the condition for the loop to run ( i must be less than 5 ). If the condition is true, the loop will start over again, if the statement is false, the loop will end.\n\n</li>
+                <li><b>Statement 3</b> increases a value ( <font color='red'>i++</font> ) each the code block in the loop has been executed. \n\n</li>
             </ul>
         </item>
 

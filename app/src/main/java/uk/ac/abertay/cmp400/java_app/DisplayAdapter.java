@@ -1,6 +1,7 @@
 package uk.ac.abertay.cmp400.java_app;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +15,9 @@ import java.util.ArrayList;
 
 public class DisplayAdapter extends RecyclerView.Adapter {
 
-    Context c;
-    ArrayList<DisplayModel> displayModels;
+    private static final String TAG = "DisplayAdapter";
+    final Context c;
+    final ArrayList<DisplayModel> displayModels;
 
     public DisplayAdapter(Context c, ArrayList<DisplayModel> displayModels) {
         this.c = c;
@@ -24,14 +26,12 @@ public class DisplayAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemViewType(int position) {
-
-        try{
-            if(displayModels.get(position).getHasImage()){
-                return 1;
-            }
-        }catch (Exception e){
+        //determin what view to inflate
+        if(displayModels.get(position).getHasImage()){
+            return 1;
+        }else{
+            return 0;
         }
-        return 0;
     }
 
     @NonNull
@@ -69,9 +69,10 @@ public class DisplayAdapter extends RecyclerView.Adapter {
         return displayModels.size();
     }
 
-    class ViewHolderRow extends RecyclerView.ViewHolder{
-
-        TextView title, desc;
+    static class ViewHolderRow extends RecyclerView.ViewHolder{
+        //class for each view that can be inflated along with the assignments.
+        final TextView title;
+        final TextView desc;
 
         public ViewHolderRow(@NonNull View itemView) {
             super(itemView);
@@ -81,10 +82,11 @@ public class DisplayAdapter extends RecyclerView.Adapter {
         }
     }
 
-    class ViewHolderImage extends RecyclerView.ViewHolder{
-
-        TextView title, desc;
-        ImageView imageView;
+    static class ViewHolderImage extends RecyclerView.ViewHolder{
+        //class for each view that can be inflated along with the assignments.
+        final TextView title;
+        final TextView desc;
+        final ImageView imageView;
 
         public ViewHolderImage(@NonNull View itemView) {
             super(itemView);

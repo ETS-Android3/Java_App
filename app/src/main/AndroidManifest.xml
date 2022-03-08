@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Java_App">
+        <activity android:name=".InfoPage"></activity>
         <activity
             android:name=".Settings"
             android:parentActivityName=".HomeScreen" />
@@ -31,4 +32,5 @@
             </intent-filter>
         </activity>
     </application>
+
 </manifest>

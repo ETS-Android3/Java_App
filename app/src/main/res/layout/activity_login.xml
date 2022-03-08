@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/login"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -52,6 +53,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginBottom="4dp"
         android:text="@string/Email"
+        android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/LoginEmailTextView"
         app:layout_constraintStart_toStartOf="@+id/LoginEmailTextView" />
 
@@ -75,6 +77,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginBottom="8dp"
         android:text="@string/Password"
+        android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/LoginPasswordTextView"
         app:layout_constraintStart_toStartOf="@+id/LoginPasswordTextView" />
 
@@ -102,6 +105,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/java_icon_bw" />
+        app:srcCompat="@drawable/java_app_icon_nobackground" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

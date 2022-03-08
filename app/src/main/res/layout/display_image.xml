@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:text="Title"
+            android:text="@string/title"
             android:textSize="30sp"
             android:textStyle="bold" />
 
@@ -32,8 +32,9 @@
             android:layout_below="@id/ImageTitle"
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
-            android:text="Description"
-            android:textSize="22sp" />
+            android:text="@string/description"
+            android:textSize="22sp"
+            android:lineSpacingMultiplier="1.25" />
 
         <ImageView
             android:id="@+id/ImageImageView"
@@ -42,10 +43,8 @@
             android:layout_below="@id/ImageDescription"
             android:layout_centerInParent="true"
             android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
-            android:adjustViewBounds="true"
-            />
+            android:adjustViewBounds="true" />
 
     </RelativeLayout>
 

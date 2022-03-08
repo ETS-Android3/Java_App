@@ -39,7 +39,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="22dp"
         android:layout_toStartOf="@+id/AudioFAB"
-        android:background="@drawable/seekbar_container"
+        android:background="@drawable/seakbar_container"
         android:padding="10dp"
 
         android:progressBackgroundTintMode="src_over" />

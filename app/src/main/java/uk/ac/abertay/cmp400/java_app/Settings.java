@@ -23,11 +23,16 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class Settings extends AppCompatActivity {
 
+    //firebase auth and store
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
     String userID;
+
+    //values
     boolean ShowAudioPlayer;
     double PlaybackSpeed;
+
+    //views
     Switch audioBoolSwitch;
     DocumentReference documentReference;
     ActionBar actionBar;
@@ -52,8 +57,12 @@ public class Settings extends AppCompatActivity {
         audioBoolSwitch = findViewById(R.id.ToggleAudioSwitch);
         speedSpinner = findViewById(R.id.SpeedSpinner);
 
-        //Listener Registration
         documentReference = fStore.collection("users").document(userID);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -67,7 +76,7 @@ public class Settings extends AppCompatActivity {
                     }
 
                 } else {
-                Log.d("Settings: GetData", "get failed with ", task.getException());
+                    Log.d("Settings: GetData", "get failed with ", task.getException());
                 }
 
                 //Set current spinner selection depening on what is returned from firebase for the logged in user
@@ -106,7 +115,6 @@ public class Settings extends AppCompatActivity {
             }
         });
 
-
         speedSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
@@ -131,13 +139,14 @@ public class Settings extends AppCompatActivity {
                 }
             }
 
-
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
+            public void onNothingSelected(AdapterView<?> adapterView) {}
         });
+    }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
     }
 
     public void goToSettings(View view){
