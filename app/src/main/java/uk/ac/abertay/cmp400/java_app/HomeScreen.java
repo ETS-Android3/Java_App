@@ -1,38 +1,24 @@
 package uk.ac.abertay.cmp400.java_app;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
-import android.content.res.Resources;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
-import com.google.protobuf.Value;
 
-import java.sql.Time;
 import java.text.SimpleDateFormat;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
@@ -93,38 +79,29 @@ public class HomeScreen extends AppCompatActivity {
     @Override
     protected void onStart() {
         //set listeners
-        registration = documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                try {
-                    String txt;
-                    CurrentUserName = value.getString("Username");
-                    if(currentTime < 12) {
-                        txt = "Good morning " + CurrentUserName;
-                    }else{
-                        txt = "Good afternoon " + CurrentUserName;
-                    }
-                    actionBar.setTitle(txt);
-                }catch(Exception e){
-                    Log.e("InfoPage", "OnEvent: " + e.getMessage());
+        registration = documentReference.addSnapshotListener(this, (value, error) -> {
+            try {
+                String txt;
+                CurrentUserName = value.getString("Username");
+                if(currentTime < 12) {
+                    txt = "Good morning " + CurrentUserName;
+                }else{
+                    txt = "Good afternoon " + CurrentUserName;
                 }
+                actionBar.setTitle(txt);
+            }catch(Exception e){
+                Log.e("InfoPage", "OnEvent: " + e.getMessage());
             }
         });
-        profile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), ProfilePage.class);
-                intent.putExtra("username", CurrentUserName);
-                startActivity(intent);
-            }
+        profile.setOnClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext(), ProfilePage.class);
+            intent.putExtra("username", CurrentUserName);
+            startActivity(intent);
         });
 
-        settings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), Settings.class);
-                startActivity(intent);
-            }
+        settings.setOnClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext(), Settings.class);
+            startActivity(intent);
         });
         super.onStart();
     }
@@ -156,7 +133,7 @@ public class HomeScreen extends AppCompatActivity {
     private ArrayList<HomeScreenModel> GetMyList() {
         ArrayList<HomeScreenModel> homeScreenModels = new ArrayList<>();
 
-        HomeScreenModel m = new HomeScreenModel();
+        HomeScreenModel m;
 
         String[] title = getResources().getStringArray(R.array.HomeScreenTitle);
         String[] description = getResources().getStringArray(R.array.HomeScreenDescriptions);

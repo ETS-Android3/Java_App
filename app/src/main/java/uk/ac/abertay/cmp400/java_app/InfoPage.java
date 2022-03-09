@@ -1,11 +1,12 @@
 package uk.ac.abertay.cmp400.java_app;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
@@ -13,10 +14,7 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
 
 public class InfoPage extends AppCompatActivity {
@@ -26,16 +24,13 @@ public class InfoPage extends AppCompatActivity {
     FirebaseFirestore fStore;
     String userID;
 
-    //values
-    String CurrentUserName;
-    boolean ShowInfoPage;
-
     //views/references
     ListenerRegistration registration;
     DocumentReference documentReference;
-    TextView WelcomeTextView;
+    TextView welcomeTextView;
     CheckBox checkBox;
     ActionBar actionBar;
+    TextView mainTextView;
 
 
     @Override
@@ -55,25 +50,30 @@ public class InfoPage extends AppCompatActivity {
 
         documentReference = fStore.collection("users").document(userID);
 
-        WelcomeTextView = findViewById(R.id.InfoPageWelcomeTextBox);
+        welcomeTextView = findViewById(R.id.InfoPageWelcomeTextBox);
         checkBox = findViewById(R.id.ShowMeCheckBox);
+        mainTextView = findViewById(R.id.InfoPageMainTextView);
     }
 
     @Override
     protected void onStart() {
         //set listeners
         super.onStart();
-        registration = documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                try {
-                    CurrentUserName = value.getString("Username");
-                    WelcomeTextView.setText("Welcome "+CurrentUserName);
-                    ShowInfoPage = value.getBoolean("ShowInfoPage");
-                    checkBox.setChecked(!ShowInfoPage);
-                } catch (Exception e) {
-                    Log.e("InfoPage", "OnEvent: " + e.getMessage());
+        registration = documentReference.addSnapshotListener(this, (value, error) -> {
+            try {
+                String title = value.getString("InfoPageTitle");
+                String maintext = value.getString("InfoPageMainText");
+                Spanned output = Html.fromHtml(title + maintext, Html.FROM_HTML_MODE_LEGACY);
+
+                if(!title.equals("") && !output.equals("")){
+                    welcomeTextView.setText(title);
+                    mainTextView.setText(output);
                 }
+
+                Boolean ShowInfoPage = value.getBoolean("ShowInfoPage");
+                checkBox.setChecked(!ShowInfoPage);
+            } catch (Exception e) {
+                Log.e("InfoPage", "OnEvent: " + e.getMessage());
             }
         });
     }

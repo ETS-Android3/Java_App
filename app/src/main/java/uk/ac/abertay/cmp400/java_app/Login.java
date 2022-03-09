@@ -1,7 +1,5 @@
 package uk.ac.abertay.cmp400.java_app;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -10,20 +8,11 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.ListenerRegistration;
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
 
@@ -88,12 +77,9 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 if(task.isSuccessful()){
                     userID = fAuth.getCurrentUser().getUid();
                     documentReference = fStore.collection("users").document(userID);
-                    documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                        @Override
-                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                            showInfoPage = documentSnapshot.getBoolean("ShowInfoPage");
-                            ShowInfoPageCheck(showInfoPage);
-                        }
+                    documentReference.get().addOnSuccessListener(documentSnapshot -> {
+                        showInfoPage = documentSnapshot.getBoolean("ShowInfoPage");
+                        ShowInfoPageCheck(showInfoPage);
                     });
                 }else{
                     Toast.makeText(Login.this, "Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
@@ -102,11 +88,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
         });
         super.onStart();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
     }
 
     public void ShowInfoPageCheck(Boolean bool){

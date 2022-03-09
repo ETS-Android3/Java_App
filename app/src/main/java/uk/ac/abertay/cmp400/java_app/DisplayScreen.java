@@ -1,6 +1,5 @@
 package uk.ac.abertay.cmp400.java_app;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -9,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.Toast;
@@ -16,10 +16,7 @@ import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.ArrayList;
 
@@ -90,19 +87,18 @@ public class DisplayScreen extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        documentReferenceUsers.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                try {
-                    playbackSpeed = value.getDouble("PlaybackSpeed");
-                    ShowAudioPlayer = value.getBoolean("ShowAudioPlayer");
+        documentReferenceUsers.addSnapshotListener(this, (value, error) -> {
+            try {
+                playbackSpeed = value.getDouble("PlaybackSpeed");
+                ShowAudioPlayer = value.getBoolean("ShowAudioPlayer");
 
-                    if(ShowAudioPlayer){
-                        FAB.setVisibility(View.INVISIBLE);
-                    }else{
-                        FAB.setVisibility(View.VISIBLE);
-                    }
-                }catch(Exception e){}
+                if(ShowAudioPlayer){
+                    FAB.setVisibility(View.VISIBLE);
+                }else{
+                    FAB.setVisibility(View.INVISIBLE);
+                }
+            }catch(Exception e){
+                Log.e("DisplayScreen", e.getMessage());
             }
         });
     }
@@ -116,7 +112,7 @@ public class DisplayScreen extends AppCompatActivity {
     private ArrayList<DisplayModel> getMyList(int Index) {
         ArrayList<DisplayModel> models = new ArrayList<>();
 
-        DisplayModel m = new DisplayModel();
+        DisplayModel m;
 
         String[] title;
         CharSequence[] description;
@@ -259,13 +255,10 @@ public class DisplayScreen extends AppCompatActivity {
         if(audioID != 0) {
             if (mediaPlayer == null) {
                 mediaPlayer = MediaPlayer.create(this, audioID);
-                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                    @Override
-                    public void onCompletion(MediaPlayer mediaPlayer) {
-                        stopPlayer();
-                        FAB.setImageResource(R.drawable.ic_play_arrow);
-                        isPlaying = false;
-                    }
+                mediaPlayer.setOnCompletionListener(mediaPlayer -> {
+                    stopPlayer();
+                    FAB.setImageResource(R.drawable.ic_play_arrow);
+                    isPlaying = false;
                 });
             }
             //Media Player Settings: Playback Speed
@@ -333,14 +326,11 @@ public class DisplayScreen extends AppCompatActivity {
             FAB.setImageResource(R.drawable.ic_play_arrow);
             isPlaying = false;
         }
-        FAB.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                stop(view);
-                FAB.setImageResource(R.drawable.ic_play_arrow);
-                //Toast.makeText(DisplayScreen.this, "Audio Reset", Toast.LENGTH_SHORT).show();
-                return true;
-            }
+        FAB.setOnLongClickListener(view1 -> {
+            stop(view1);
+            FAB.setImageResource(R.drawable.ic_play_arrow);
+            //Toast.makeText(DisplayScreen.this, "Audio Reset", Toast.LENGTH_SHORT).show();
+            return true;
         });
     }
 

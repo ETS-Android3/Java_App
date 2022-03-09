@@ -26,22 +26,40 @@
         android:clickable="true"
         android:longClickable="true"
         android:onClick="ToggleButton"
-        app:srcCompat="@android:drawable/ic_media_play" />
+        app:srcCompat="@android:drawable/ic_media_play"
+        android:contentDescription="@string/FAB_Description"
 
-    <SeekBar
-        android:id="@+id/AudioSeekBar"
-        style="@style/Widget.AppCompat.SeekBar"
+        />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/AudioFAB"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        app:srcCompat="@drawable/display_bottom_fade" />
+
+    <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="22dp"
         android:layout_toStartOf="@+id/AudioFAB"
-        android:background="@drawable/seakbar_container"
-        android:padding="10dp"
-
-        android:progressBackgroundTintMode="src_over" />
+        >
+        <SeekBar
+            android:id="@+id/AudioSeekBar"
+            style="@style/Widget.AppCompat.SeekBar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="22dp"
+            android:background="@drawable/seakbar_container"
+            android:forceHasOverlappingRendering="false"
+            android:padding="10dp"
+            android:progressBackgroundTintMode="src_over" />
+    </FrameLayout>
 
 </RelativeLayout>

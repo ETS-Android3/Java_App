@@ -28,12 +28,28 @@
     <string name="AudioPlayback">Audio Playback</string>
     <string name="accessability">Extra Accessibility</string>
     <string name="account">Account</string>
-    <string name="IntroText">Thank you for participating in this study comparing the learning rates of users with dyslexia. Take some time to explore the features of the app and use the settings page, tailor the experience to best suit you.\n\nIn your own time, work through the five main sections on the home screen from top to bottom. </string>
+    <string name="IntroText">Thank you for participating in this study comparing the learning rates of users with dyslexia. Take some time to explore the features of the app and use the settings page, tailor the experience to best suit you.\n\nIn your own time, work through the five main sections on the home screen from top to bottom. \n\n Thanks. </string>
     <string name="ShowMe">Don\&#39;t show me this again</string>
     <string name="ctu">Continue</string>
     <string name="description">Description</string>
     <string name="title">Title</string>
     <string name="leaning_java_logo">Leaning Java Logo</string>
+    <string name="FAB_Description">Floating action button that handles audio playback.</string>
+    <string name="image_Desc">Images relating to the topic</string>
+    <string name="assorted_icons">Recycler View Item</string>
+    <string name="java_logo">Java Logo</string>
+    <string name="audio_playback_speed">Audio playback speed</string>
+    <string name="home">Home</string>
+    <string name="profile">Profile</string>
+    <string name="settings">Settings</string>
+    <string name="search">Search</string>
+    <string name="application_information">Application Information</string>
+    <string name="dividing_line"></string>
+    <string name="audio_playback_speed_selector">Audio playback Speed selector</string>
+    <string name="Welcome">Welcome 🎉</string>
+
+
+    <string name="preference_file_key">uk.ac.abertay.cmp400.java_app.SHARED_PREF_KEY</string>
 
 
     <string-array name="HomeScreenTitle">
@@ -46,7 +62,7 @@
     </string-array>
 
     <string-array name="HomeScreenDescriptions">
-        <item>This section provide and overview of basics syntax in java.</item> <!---->
+        <item>This section provides and overview of basics syntax in java.</item> <!---->
         <item>This section will look at how variables are formatted in java.</item> <!---->
         <item>This section will look at the Data Types used is java.</item> <!---->
         <item>This section will look at the various operators used is java.</item> <!---->
@@ -81,8 +97,9 @@
     </string-array>
     <string-array name="basics_of_java_description">
         <item> <!-- 0 -->
-            When learning about java its important to know about the <b>syntax</b>. An example of syntax would be the use of a semicolon ( <font color='red'>;</font> ) at the end of a line to show the end of a statement. The following section will touch on the fundamental syntax used in java.\n\nUse this section as a point of reference if something In the coming examples is not clear.
+            When learning about java its important to know about the <b>syntax</b>. An example of syntax would be the use of a semicolon ( <font color='@keyword'>;</font> ) at the end of a line to show the end of a statement. The following section will touch on the fundamental syntax used in java.\n\nUse this section as a point of reference if something In the coming examples is not clear.
         </item>
+
         <item><!-- 1 -->
             <b>Semi Colons  <font color='red'>;</font> </b> – Are used to show where an instruction ends and a new instruction begins. This is similar to a full stop after a sentence and is required for the code to work.
         </item>
@@ -118,9 +135,9 @@
         <item><!-- 9 -->
             The code examples that you will encounter in later sections will use a color schema that aims to help distinguish parts of the code.\n\n
             <ul>
-                <li><font color='red'>Red Text</font> - Signifies Classes.\n\n</li>
-                <li><font color='blue'>Blue text</font> - Signifies Conditional Statements.\n\n</li>
-                <li><font color='green'>Green Text</font> - Signifies Text.</li>
+                <li>Red Text - Signifies Classes.\n\n</li>
+                <li>Blue text - Signifies Conditional Statements.\n\n</li>
+                <li>Green Text - Signifies Text.</li>
             </ul>
         </item>
 
@@ -259,7 +276,7 @@
     <string-array name="operators_description">
         <item>
             Operators are used to perform operations on variables and values.\n\n
-            In the following example, we use the + operator to add together two values:\n\n
+            In the following example, we use the<font color='red'> +</font> operator to add together two values:\n\n
             Int x = 100 + 50;\n 	150 = (100 + 50)\n\n
             Taking this idea further, variables and values can be added together as well as variables and other variables. The example below shows this in action \n\n
             int sum1 = 100 + 50;\n		150 = (100 + 50)\n\n
@@ -348,7 +365,7 @@
         <item>
             <b>Operator:</b> <font color='red'>!</font>\n\n
             <b>Description:</b> Reverses the Results, Returns true if false and vice versa.\n\n
-            <b>Example:</b> !True : False
+            <b>Example:</b> !True : False\n\n
         </item>
     </string-array>
     <string-array name="operators_images">

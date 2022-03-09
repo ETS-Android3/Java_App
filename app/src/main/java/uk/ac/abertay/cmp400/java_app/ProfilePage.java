@@ -1,6 +1,5 @@
 package uk.ac.abertay.cmp400.java_app;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,15 +9,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 
 public class ProfilePage extends AppCompatActivity {
 
@@ -63,14 +57,13 @@ public class ProfilePage extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                try {
-                    userName = value.getString("Username");
-                    textViewLogo.setText(userName);
-                    usernameEditText.setText(userName);
-                }catch(Exception e){}
+        documentReference.addSnapshotListener(this, (value, error) -> {
+            try {
+                userName = value.getString("Username");
+                textViewLogo.setText(userName);
+                usernameEditText.setText(userName);
+            }catch(Exception e){
+                Log.e("Profile page", e.getMessage());
             }
         });
     }

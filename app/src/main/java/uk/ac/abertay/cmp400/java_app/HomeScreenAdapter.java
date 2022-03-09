@@ -36,34 +36,31 @@ public class HomeScreenAdapter extends RecyclerView.Adapter<HomeScreenHolder> {
         holder.mDes.setText(homeScreenModels.get(position).getDescription());
         holder.mImageView.setImageResource(homeScreenModels.get(position).getImg());
 
-        holder.setItemClickListener(new ItemClickListener() {
-            @Override
-            public void onItemClickListener(View view, int position) {
-                if(homeScreenModels.get(position).getTitle().equals("The Basic Syntax of Java")){
-                    Intent intent = new Intent(c, DisplayScreen.class);
-                    intent.putExtra("index", 1);
-                    c.startActivity(intent);
-                }
-                if(homeScreenModels.get(position).getTitle().equals("Variables")){
-                    Intent intent = new Intent(c, DisplayScreen.class);
-                    intent.putExtra("index", 2);
-                    c.startActivity(intent);
-                }
-                if(homeScreenModels.get(position).getTitle().equals("Data Types")){
-                    Intent intent = new Intent(c, DisplayScreen.class);
-                    intent.putExtra("index", 3);
-                    c.startActivity(intent);
-                }
-                if(homeScreenModels.get(position).getTitle().equals("Operators in Java")){
-                    Intent intent = new Intent(c, DisplayScreen.class);
-                    intent.putExtra("index", 4);
-                    c.startActivity(intent);
-                }
-                if(homeScreenModels.get(position).getTitle().equals("Conditional Statements")){
-                    Intent intent = new Intent(c, DisplayScreen.class);
-                    intent.putExtra("index", 5);
-                    c.startActivity(intent);
-                }
+        holder.setItemClickListener((view, position1) -> {
+            if(homeScreenModels.get(position1).getTitle().equals("The Basic Syntax of Java")){
+                Intent intent = new Intent(c, DisplayScreen.class);
+                intent.putExtra("index", 1);
+                c.startActivity(intent);
+            }
+            if(homeScreenModels.get(position1).getTitle().equals("Variables")){
+                Intent intent = new Intent(c, DisplayScreen.class);
+                intent.putExtra("index", 2);
+                c.startActivity(intent);
+            }
+            if(homeScreenModels.get(position1).getTitle().equals("Data Types")){
+                Intent intent = new Intent(c, DisplayScreen.class);
+                intent.putExtra("index", 3);
+                c.startActivity(intent);
+            }
+            if(homeScreenModels.get(position1).getTitle().equals("Operators in Java")){
+                Intent intent = new Intent(c, DisplayScreen.class);
+                intent.putExtra("index", 4);
+                c.startActivity(intent);
+            }
+            if(homeScreenModels.get(position1).getTitle().equals("Conditional Statements")){
+                Intent intent = new Intent(c, DisplayScreen.class);
+                intent.putExtra("index", 5);
+                c.startActivity(intent);
             }
         });
     }

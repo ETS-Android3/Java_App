@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.Switch;
 
@@ -63,56 +62,50 @@ public class Settings extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()){
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        ShowAudioPlayer = document.getBoolean("ShowAudioPlayer");
-                        PlaybackSpeed = document.getDouble("PlaybackSpeed");
-                    } else {
-                        Log.d("Settings: GetData", "No such document");
-                    }
-
+        documentReference.get().addOnCompleteListener(task -> {
+            if(task.isSuccessful()){
+                DocumentSnapshot document = task.getResult();
+                if (document.exists()) {
+                    ShowAudioPlayer = document.getBoolean("ShowAudioPlayer");
+                    PlaybackSpeed = document.getDouble("PlaybackSpeed");
                 } else {
-                    Log.d("Settings: GetData", "get failed with ", task.getException());
+                    Log.d("Settings: GetData", "No such document");
                 }
 
-                //Set current spinner selection depening on what is returned from firebase for the logged in user
-                if(PlaybackSpeed == 1.2){
-                    speedSpinner.setSelection(0);
-                }else if(PlaybackSpeed == 1.1){
-                    speedSpinner.setSelection(1);
-                }else if(PlaybackSpeed == 0.9){
-                    speedSpinner.setSelection(3);
-                }else if(PlaybackSpeed == 0.8){
-                    speedSpinner.setSelection(4);
-                }else{
-                    speedSpinner.setSelection(2);
-                }
-
-                //set Switch to value from Firebase
-                audioBoolSwitch.setChecked(ShowAudioPlayer);
+            } else {
+                Log.d("Settings: GetData", "get failed with ", task.getException());
             }
+
+            //Set current spinner selection depening on what is returned from firebase for the logged in user
+            if(PlaybackSpeed == 1.2){
+                speedSpinner.setSelection(0);
+            }else if(PlaybackSpeed == 1.1){
+                speedSpinner.setSelection(1);
+            }else if(PlaybackSpeed == 0.9){
+                speedSpinner.setSelection(3);
+            }else if(PlaybackSpeed == 0.8){
+                speedSpinner.setSelection(4);
+            }else{
+                speedSpinner.setSelection(2);
+            }
+
+            //set Switch to value from Firebase
+            audioBoolSwitch.setChecked(ShowAudioPlayer);
         });
 
-        audioBoolSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean ShowAudioBool) {
-                //Update ShowAudioPlayer Boolean state in Firebase. Log results.
-                documentReference.update("ShowAudioPlayer", ShowAudioBool).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        Log.d("Settings: Update", "DocumentSnapshot successfully updated!");
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.e("Settings: Update", "Error updating document: ", e);
-                    }
-                });
-            }
+        audioBoolSwitch.setOnCheckedChangeListener((compoundButton, ShowAudioBool) -> {
+            //Update ShowAudioPlayer Boolean state in Firebase. Log results.
+            documentReference.update("ShowAudioPlayer", ShowAudioBool).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    Log.d("Settings: Update", "DocumentSnapshot successfully updated!");
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.e("Settings: Update", "Error updating document: ", e);
+                }
+            });
         });
 
         speedSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
