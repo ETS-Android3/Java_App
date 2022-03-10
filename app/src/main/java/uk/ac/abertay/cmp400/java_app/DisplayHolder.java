@@ -1,6 +1,7 @@
 package uk.ac.abertay.cmp400.java_app;
 
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -10,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class DisplayHolder extends RecyclerView.ViewHolder{
 
     final TextView mTitle;
-    final TextView mDesc;
+    final WebView mDesc;
     final ImageView img;
 
     public DisplayHolder(@NonNull View itemView) {

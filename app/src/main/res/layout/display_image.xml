@@ -10,7 +10,7 @@
     >
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:padding="16dp"
         >
 
@@ -25,7 +25,7 @@
             android:textSize="30sp"
             android:textStyle="bold" />
 
-        <TextView
+        <WebView
             android:id="@+id/ImageDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

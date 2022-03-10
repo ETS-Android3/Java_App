@@ -48,6 +48,9 @@
     <string name="audio_playback_speed_selector">Audio playback Speed selector</string>
     <string name="Welcome">Welcome 🎉</string>
 
+    //HTML colors
+    <item name="html_red" type="string">red</item>
+
 
     <string name="preference_file_key">uk.ac.abertay.cmp400.java_app.SHARED_PREF_KEY</string>
 
@@ -101,35 +104,35 @@
         </item>
 
         <item><!-- 1 -->
-            <b>Semi Colons  <font color='red'>;</font> </b> – Are used to show where an instruction ends and a new instruction begins. This is similar to a full stop after a sentence and is required for the code to work.
+            <b>Semi Colons  <font color='keyword'>;</font> </b> – Are used to show where an instruction ends and a new instruction begins. This is similar to a full stop after a sentence and is required for the code to work.
         </item>
 
         <item><!-- 2 -->
-            <b>Round Brackets <font color='red'>( )</font></b> - Are used to hold additional information for a function or to hold conditions for conditional statements. (This will be covered in Conditional Statements later)
+            <b>Round Brackets <font color='keyword'>( )</font></b> - Are used to hold additional information for a function or to hold conditions for conditional statements. (This will be covered in Conditional Statements later)
         </item>
 
         <item><!-- 3 -->
-            <b>Square Brackets <font color='red'>[ ]</font></b> – Are used to create arrays which are used to store multiple values in a single variable.
+            <b>Square Brackets <font color='keyword'>[ ]</font></b> – Are used to create arrays which are used to store multiple values in a single variable.
         </item>
 
         <item><!-- 4 -->
-            <b>Curly Brackets <font color='red'>{ }</font></b> – Are used in Conditional Statements to help structure them. Imagine them as the front and back cover in a book holding together all the pages in between. (This will be covered in Conditional Statements later so just keep it in mind.)
+            <b>Curly Brackets <font color='keyword'>{ }</font></b> – Are used in Conditional Statements to help structure them. Imagine them as the front and back cover in a book holding together all the pages in between. (This will be covered in Conditional Statements later so just keep it in mind.)
         </item>
 
         <item><!-- 5 -->
-            <b>Two slashes <font color='red'>//</font></b> -  Are used to add comments to code on a single line. Anything after these slashes will be ignored by the program and just considered text.
+            <b>Two slashes <font color='keyword'>//</font></b> -  Are used to add comments to code on a single line. Anything after these slashes will be ignored by the program and just considered text.
         </item>
 
         <item><!-- 6 -->
-            <b>Slash + asterisk <font color='red'>/* Text */ </font></b>- Is used to make multi-line comments. Anything in-between the <font color='red'>/*</font> and the <font color='red'>*/</font> will be ignored by java.
+            <b>Slash + asterisk <font color='keyword'>/* Text */ </font></b>- Is used to make multi-line comments. Anything in-between the <font color='keyword'>/*</font> and the <font color='keyword'>*/</font> will be ignored by java.
         </item>
 
         <item><!-- 7 -->
-            <b>Printing out a message <font color='red'>System.out.println(“Your Message Here”)</font> </b>-  Is used to print out the text that is within the double quotations. This will be used in examples to output results.
+            <b>Printing out a message <font color='keyword'>System.out.println(“Your Message Here”)</font> </b>-  Is used to print out the text that is within the double quotations. This will be used in examples to output results.
         </item>
 
         <item><!-- 8 -->
-            <b>Full Stop <font color='red'>.</font> </b>– Is used when you want to access object attributes and methods.
+            <b>Full Stop <font color='keyword'>.</font> </b>– Is used when you want to access object attributes and methods.
         </item>
 
         <item><!-- 9 -->
@@ -276,7 +279,7 @@
     <string-array name="operators_description">
         <item>
             Operators are used to perform operations on variables and values.\n\n
-            In the following example, we use the<font color='red'> +</font> operator to add together two values:\n\n
+            In the following example, we use the<font color='keyword'> +</font> operator to add together two values:\n\n
             Int x = 100 + 50;\n 	150 = (100 + 50)\n\n
             Taking this idea further, variables and values can be added together as well as variables and other variables. The example below shows this in action \n\n
             int sum1 = 100 + 50;\n		150 = (100 + 50)\n\n
@@ -288,32 +291,32 @@
             The following sections will look at the common operators.
         </item>
         <item>
-            <b>Operator:</b> <font color='red'>+</font>\n\n
+            <b>Operator:</b> <font color='keyword'>+</font>\n\n
             <b>Description:</b> Adds two values together.\n\n
             <b>Example:</b> 10 + 5 = 15
         </item>
         <item>
-            <b>Operator:</b> <font color='red'>-</font>\n\n
+            <b>Operator:</b> <font color='keyword'>-</font>\n\n
             <b>Description:</b> Subtracts one value from another.\n\n
             <b>Example:</b> 10 - 5 = 5
         </item>
         <item>
-            <b>Operator:</b> <font color='red'>*</font>\n\n
+            <b>Operator:</b> <font color='keyword'>*</font>\n\n
             <b>Description:</b> Multiplies one value by another \n\n
             <b>Example:</b> 10 * 5 = 50
         </item>
         <item>
-            <b>Operator:</b> <font color='red'>/</font>\n\n
+            <b>Operator:</b> <font color='keyword'>/</font>\n\n
             <b>Description:</b> Divides one value by another \n\n
             <b>Example:</b> 10 / 5 = 2
         </item>
         <item>
-            <b>Operator:</b> <font color='red'>++</font>\n\n
+            <b>Operator:</b> <font color='keyword'>++</font>\n\n
             <b>Description:</b> Increases the value of a variable by 1 \n\n
             <b>Example:</b> 5++ = 6
         </item>
         <item tools:ignore="TypographyDashes">
-            <b>Operator:</b> <font color='red'>--</font>\n\n
+            <b>Operator:</b> <font color='keyword'>--</font>\n\n
             <b>Description:</b> Decreases the value of a variable by 1 \n\n
             <b>Example:</b> 5-- = 4
         </item>
@@ -321,32 +324,32 @@
             Comparison Operators are used when comparing two values or variables:
         </item>
         <item>
-            <b>Operator:</b> <font color='red'>==</font>\n\n
+            <b>Operator:</b> <font color='keyword'>==</font>\n\n
             <b>Description:</b> Checks if two values are equal.\n\n
             <b>Example:</b> 5 == 3 : False.
         </item>
         <item>
-            <b>Operator:</b> <font color='red'>!=</font>\n\n
+            <b>Operator:</b> <font color='keyword'>!=</font>\n\n
             <b>Description:</b> Checks if two values are <b>not</b> equal.\n\n
             <b>Example:</b> 5 != 3 : True.
         </item>
         <item>
-            <b>Operator:</b> <font color='red'>&gt;</font>\n\n
+            <b>Operator:</b> <font color='keyword'>&gt;</font>\n\n
             <b>Description:</b> Checks if a value is greater than another.\n\n
             <b>Example:</b> 5 &gt; 3 : True
         </item>
         <item>
-            <b>Operator:</b> <font color='red'>&lt;</font>\n\n
+            <b>Operator:</b> <font color='keyword'>&lt;</font>\n\n
             <b>Description:</b> Checks if a value is less than another.\n\n
             <b>Example:</b> 5 &lt; 3 : False
         </item>
         <item>
-            <b>Operator:</b> <font color='red'>&gt;=</font>\n\n
+            <b>Operator:</b> <font color='keyword'>&gt;=</font>\n\n
             <b>Description:</b> Checks if a value is greater than or equal to another.\n\n
             <b>Example:</b> 5 &gt;= 3 : True
         </item>
         <item>
-            <b>Operator:</b> <font color='red'>&lt;=</font>\n\n
+            <b>Operator:</b> <font color='keyword'>&lt;=</font>\n\n
             <b>Description:</b> Checks if a value is less than or equal to another.\n\n
             <b>Example:</b> 5 &lt;= 3 : False
         </item>
@@ -354,16 +357,16 @@
             Logical operators are used to determine the logic between variables or values. They are mainly used in conditional statements.
         </item>
         <item>
-            <b>Operator:</b> <font color='red'>&amp;&amp;</font>\n\n
+            <b>Operator:</b> <font color='keyword'>&amp;&amp;</font>\n\n
             <b>Description:</b> Returns <b>True</b> if both Statements are true.\n\n
             <b>Example:</b> True &amp;&amp; True : True </item>
         <item>
-            <b>Operator:</b> <font color='red'>||</font>\n\n
+            <b>Operator:</b> <font color='keyword'>||</font>\n\n
             <b>Description:</b> Returns true if one of the two statements are true.\n\n
             <b>Example:</b> True || False : True
         </item>
         <item>
-            <b>Operator:</b> <font color='red'>!</font>\n\n
+            <b>Operator:</b> <font color='keyword'>!</font>\n\n
             <b>Description:</b> Reverses the Results, Returns true if false and vice versa.\n\n
             <b>Example:</b> !True : False\n\n
         </item>
@@ -467,7 +470,7 @@
         </item>
 
         <item><!--if Statement Example 3/3 5-->
-            As you can see, nothing is printed out. The result is <b>false</b> from the if statement as 20 <b>is not</b> less than 18. The program will continue from the closing curly bracket <b>( <font color='red'>}</font> )</b> skipping the contained code.
+            As you can see, nothing is printed out. The result is <b>false</b> from the if statement as 20 <b>is not</b> less than 18. The program will continue from the closing curly bracket <b>( <font color='keyword'>}</font> )</b> skipping the contained code.
         </item>
 
         <item><!--Else Statement 6-->
@@ -544,7 +547,7 @@
             <ul>
                 <li><b>Statement 1</b> sets a variable before the loop starts (int i = 0).\n\n</li>
                 <li><b>Statement 2</b> defines the condition for the loop to run ( i must be less than 5 ). If the condition is true, the loop will start over again, if the statement is false, the loop will end.\n\n</li>
-                <li><b>Statement 3</b> increases a value ( <font color='red'>i++</font> ) each the code block in the loop has been executed. \n\n</li>
+                <li><b>Statement 3</b> increases a value ( <font color='keyword'>i++</font> ) each the code block in the loop has been executed. \n\n</li>
             </ul>
         </item>
 

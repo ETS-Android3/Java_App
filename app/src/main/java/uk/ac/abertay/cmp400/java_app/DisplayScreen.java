@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,8 +19,11 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 public class DisplayScreen extends AppCompatActivity {
 
@@ -82,6 +87,8 @@ public class DisplayScreen extends AppCompatActivity {
         displayAdapter = new DisplayAdapter(this, getMyList(index));
         recyclerView.setAdapter(displayAdapter);
         audioSeekBar.setVisibility(View.INVISIBLE);
+
+
     }
 
     @Override
@@ -110,13 +117,18 @@ public class DisplayScreen extends AppCompatActivity {
     }
 
     private ArrayList<DisplayModel> getMyList(int Index) {
+        SharedPreferences sharedPref = getSharedPreferences(getResources().getString(R.string.preference_file_key), MODE_PRIVATE);
         ArrayList<DisplayModel> models = new ArrayList<>();
 
         DisplayModel m;
 
-        String[] title;
-        CharSequence[] description;
-        String[] images;
+        String title_json;
+        String Description_json;
+
+        ArrayList<String> Title;
+        ArrayList<String> Description;
+        Gson gson = new Gson();
+        String tmp_red = getResources().getString(R.string.html_red);
 
         switch (Index) {
             case 0:
@@ -127,16 +139,19 @@ public class DisplayScreen extends AppCompatActivity {
                 audioID = getResources().getIdentifier("the_basics_syntax_of_java_1", "raw", getPackageName());
 
                 //Basics Of Java
-                title = getResources().getStringArray(R.array.basics_of_java_title);
-                description = getResources().getTextArray(R.array.basics_of_java_description);
+                title_json = sharedPref.getString("basics_of_java_title", null);
+                Description_json = sharedPref.getString("basics_of_java_description", null);
+
+                 Title = gson.fromJson(title_json, ArrayList.class);
+                 Description = gson.fromJson(Description_json, ArrayList.class);
 
                 //Action Bar Title
-                actionBar.setTitle(title[0]);
+                actionBar.setTitle(Title.get(0));
 
-                for (int i = 0; i < title.length; i++) {
+                for (int i = 0; i < Title.size(); i++) {
                     m = new DisplayModel();
-                    m.setTitle(title[i]);
-                    m.setDescription(description[i]);
+                    m.setTitle(Title.get(i));
+                    m.setDescription(Description.get(i).replace("@keyword", tmp_red));
                     m.setHasImage(false);
                     models.add(m);
                 }
@@ -146,16 +161,19 @@ public class DisplayScreen extends AppCompatActivity {
                 audioID = getResources().getIdentifier("variables", "raw", getPackageName());
 
                 //Variables
-                title = getResources().getStringArray(R.array.variables_title);
-                description = getResources().getTextArray(R.array.variables_description);
+                title_json = sharedPref.getString("variables_title", null);
+                Description_json = sharedPref.getString("variables_description", null);
+
+                Title = gson.fromJson(title_json, ArrayList.class);
+                Description = gson.fromJson(Description_json, ArrayList.class);
 
                 //Action Bar Title
-                actionBar.setTitle(title[0]);
+                actionBar.setTitle(Title.get(0));
 
-                for (int i = 0; i < title.length; i++) {
+                for (int i = 0; i < Title.size(); i++) {
                     m = new DisplayModel();
-                    m.setTitle(title[i]);
-                    m.setDescription(description[i]);
+                    m.setTitle(Title.get(i));
+                    m.setDescription(Description.get(i).replace("@keyword", tmp_red));
                     m.setHasImage(false);
                     models.add(m);
                 }
@@ -166,26 +184,20 @@ public class DisplayScreen extends AppCompatActivity {
                 audioID = getResources().getIdentifier("data_types", "raw", getPackageName());
 
                 //Data Types
-                title = getResources().getStringArray(R.array.data_types_title);
-                description = getResources().getTextArray(R.array.data_types_description);
-                images = getResources().getStringArray(R.array.data_types_images);
+                title_json = sharedPref.getString("data_types_title", null);
+                Description_json = sharedPref.getString("data_types_description", null);
+
+                Title = gson.fromJson(title_json, ArrayList.class);
+                Description = gson.fromJson(Description_json, ArrayList.class);
 
                 //Action Bar Title
-                actionBar.setTitle(title[0]);
+                actionBar.setTitle(Title.get(0));
 
-                for (int i = 0; i < title.length; i++) {
-                    if(images[i].equals("")){
-                        m = new DisplayModel();
-                        m.setTitle(title[i]);
-                        m.setDescription(description[i]);
-                        m.setHasImage(false);
-                    }else{
-                        m = new DisplayModel();
-                        m.setTitle(title[i]);
-                        m.setDescription(description[i]);
-                        m.setImg(getResources().getIdentifier(images[i], "drawable", getPackageName()));
-                        m.setHasImage(true);
-                    }
+                for (int i = 0; i < Title.size(); i++) {
+                    m = new DisplayModel();
+                    m.setTitle(Title.get(i));
+                    m.setDescription(Description.get(i).replace("@keyword", tmp_red));
+                    m.setHasImage(false);
                     models.add(m);
                 }
                 break;
@@ -194,26 +206,20 @@ public class DisplayScreen extends AppCompatActivity {
                 audioID = getResources().getIdentifier("operators", "raw", getPackageName());
 
                 //Operators
-                title = getResources().getStringArray(R.array.operators_title);
-                description = getResources().getTextArray(R.array.operators_description);
-                images = getResources().getStringArray(R.array.operators_images);
+                title_json = sharedPref.getString("operators_title", null);
+                Description_json = sharedPref.getString("operators_description", null);
+
+                Title = gson.fromJson(title_json, ArrayList.class);
+                Description = gson.fromJson(Description_json, ArrayList.class);
 
                 //Action Bar Title
-                actionBar.setTitle(title[0]);
+                actionBar.setTitle(Title.get(0));
 
-                for (int i = 0; i < title.length; i++) {
-                    if(images[i].equals("")){
-                        m = new DisplayModel();
-                        m.setTitle(title[i]);
-                        m.setDescription(description[i]);
-                        m.setHasImage(false);
-                    }else {
-                        m = new DisplayModel();
-                        m.setTitle(title[i]);
-                        m.setDescription(description[i]);
-                        m.setImg(getResources().getIdentifier(images[i], "drawable", getPackageName()));
-                        m.setHasImage(true);
-                    }
+                for (int i = 0; i < Title.size(); i++) {
+                    m = new DisplayModel();
+                    m.setTitle(Title.get(i));
+                    m.setDescription(Description.get(i).replace("@keyword", tmp_red));
+                    m.setHasImage(false);
                     models.add(m);
                 }
                 break;
@@ -222,31 +228,24 @@ public class DisplayScreen extends AppCompatActivity {
                 audioID = getResources().getIdentifier("conditional_statements", "raw", getPackageName());
 
                 //Conditional Statements
-                title = getResources().getStringArray(R.array.conditional_title);
-                description = getResources().getTextArray(R.array.conditional_description);
-                images = getResources().getStringArray(R.array.conditional_images);
+                title_json = sharedPref.getString("conditional_title", null);
+                Description_json = sharedPref.getString("conditional_description", null);
+
+                Title = gson.fromJson(title_json, ArrayList.class);
+                Description = gson.fromJson(Description_json, ArrayList.class);
 
                 //Action Bar Title
-                actionBar.setTitle(title[0]);
+                actionBar.setTitle(Title.get(0));
 
-                for (int i = 0; i < description.length; i++) {
-                    if(images[i].equals("")){
-                        m = new DisplayModel();
-                        m.setTitle(title[i]);
-                        m.setDescription(description[i]);
-                        m.setHasImage(false);
-                    }else {
-                        m = new DisplayModel();
-                        m.setTitle(title[i]);
-                        m.setDescription(description[i]);
-                        m.setImg(getResources().getIdentifier(images[i], "drawable", getPackageName()));
-                        m.setHasImage(true);
-                    }
+                for (int i = 0; i < Title.size(); i++) {
+                    m = new DisplayModel();
+                    m.setTitle(Title.get(i));
+                    m.setDescription(Description.get(i).replace("@keyword", tmp_red));
+                    m.setHasImage(false);
                     models.add(m);
                 }
                 break;
         }
-
         return models;
     }
 

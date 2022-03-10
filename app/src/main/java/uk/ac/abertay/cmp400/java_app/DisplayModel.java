@@ -3,7 +3,7 @@ package uk.ac.abertay.cmp400.java_app;
 public class DisplayModel {
 
     private String title;
-    private CharSequence description;
+    private String description;
     private Boolean hasImage;
     private int img;
 
@@ -18,11 +18,11 @@ public class DisplayModel {
     public DisplayModel() {
     }
 
-    public CharSequence getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescription(CharSequence description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -52,14 +53,14 @@ public class DisplayAdapter extends RecyclerView.Adapter {
         if(displayModels.get(position).getHasImage()){
             ViewHolderImage viewHolderImage = (ViewHolderImage)holder;
             viewHolderImage.title.setText(displayModels.get(position).getTitle());
-            viewHolderImage.desc.setText(displayModels.get(position).getDescription());
+            viewHolderImage.desc.loadData(displayModels.get(position).getDescription(), "text/html; charset=utf-8", "UTF-8");
             viewHolderImage.imageView.setImageResource(displayModels.get(position).getImg());
             viewHolderImage.imageView.setContentDescription(displayModels.get(position).getTitle());
 
         }else{
             ViewHolderRow viewHolderRow = (ViewHolderRow)holder;
             viewHolderRow.title.setText(displayModels.get(position).getTitle());
-            viewHolderRow.desc.setText(displayModels.get(position).getDescription());
+            viewHolderRow.desc.loadData(displayModels.get(position).getDescription(), "text/html; charset=utf-8", "UTF-8");
         }
     }
 
@@ -71,20 +72,21 @@ public class DisplayAdapter extends RecyclerView.Adapter {
     static class ViewHolderRow extends RecyclerView.ViewHolder{
         //class for each view that can be inflated along with the assignments.
         final TextView title;
-        final TextView desc;
+        final WebView desc;
 
         public ViewHolderRow(@NonNull View itemView) {
             super(itemView);
 
             title = itemView.findViewById(R.id.RowTitle);
             desc = itemView.findViewById(R.id.RowDescription);
+            desc.getSettings().setJavaScriptEnabled(true);
         }
     }
 
     static class ViewHolderImage extends RecyclerView.ViewHolder{
         //class for each view that can be inflated along with the assignments.
         final TextView title;
-        final TextView desc;
+        final WebView desc;
         final ImageView imageView;
 
         public ViewHolderImage(@NonNull View itemView) {
@@ -93,6 +95,7 @@ public class DisplayAdapter extends RecyclerView.Adapter {
             imageView = itemView.findViewById(R.id.ImageImageView);
             title = itemView.findViewById(R.id.ImageTitle);
             desc = itemView.findViewById(R.id.ImageDescription);
+            desc.getSettings().setJavaScriptEnabled(true);
         }
     }
 }
