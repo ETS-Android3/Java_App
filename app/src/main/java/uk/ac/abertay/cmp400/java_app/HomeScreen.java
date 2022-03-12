@@ -1,12 +1,18 @@
 package uk.ac.abertay.cmp400.java_app;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.content.Context;
 import android.content.Intent;
 
+import android.net.ConnectivityManager;
+import android.net.NetworkCapabilities;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -15,8 +21,12 @@ import android.view.MenuItem;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.MetadataChanges;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,9 +46,6 @@ public class HomeScreen extends AppCompatActivity {
     BottomNavigationItemView profile;
     BottomNavigationItemView settings;
     ActionBar actionBar;
-
-    ListenerRegistration registration;
-    DocumentReference documentReference;
 
     //values
     String CurrentUserName;
@@ -60,9 +67,7 @@ public class HomeScreen extends AppCompatActivity {
         //Firebase auth and store instances
         fStore = FirebaseFirestore.getInstance();
         fAuth = FirebaseAuth.getInstance();
-        userID = fAuth.getCurrentUser().getUid();
         //set document reference for users
-        documentReference = fStore.collection("users").document(userID);
 
 
         //recycler view setup
@@ -79,20 +84,25 @@ public class HomeScreen extends AppCompatActivity {
     @Override
     protected void onStart() {
         //set listeners
-        registration = documentReference.addSnapshotListener(this, (value, error) -> {
-            try {
-                String txt;
-                CurrentUserName = value.getString("Username");
-                if(currentTime < 12) {
-                    txt = "Good morning " + CurrentUserName;
-                }else{
-                    txt = "Good afternoon " + CurrentUserName;
+        userID = fAuth.getCurrentUser().getUid();
+        fStore.collection("users").document(userID).addSnapshotListener(MetadataChanges.INCLUDE,new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                try {
+                    String txt;
+                    CurrentUserName = value.getString("Username");
+                    if (currentTime < 12) {
+                        txt = "Good morning " + CurrentUserName;
+                    } else {
+                        txt = "Good afternoon " + CurrentUserName;
+                    }
+                    actionBar.setTitle(txt);
+                } catch (Exception e) {
+                    Log.e("InfoPage", "OnEvent: " + e.getMessage());
                 }
-                actionBar.setTitle(txt);
-            }catch(Exception e){
-                Log.e("InfoPage", "OnEvent: " + e.getMessage());
             }
         });
+
         profile.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), ProfilePage.class);
             intent.putExtra("username", CurrentUserName);
@@ -106,12 +116,6 @@ public class HomeScreen extends AppCompatActivity {
         super.onStart();
     }
 
-    @Override
-    protected void onStop() {
-        //unregister and remove all listeners
-        registration.remove();
-        super.onStop();
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

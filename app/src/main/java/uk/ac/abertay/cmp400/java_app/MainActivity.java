@@ -6,6 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkCapabilities;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Html;
@@ -74,36 +77,40 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        DocumentReference documentReferenceVersions = fStore.collection("topics").document("versions");
-        documentReferenceVersions.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()){
-                    DocumentSnapshot document = task.getResult();
-                    if(document.getDouble("basics_of_java").intValue() != sharedPref.getInt("basics_of_java_version", 0)){
-                        LoadData("basics_of_java");
-                        updateVersion("basics_of_java", "basics_of_java_version");
+        if(isConected(this)) {
+            DocumentReference documentReferenceVersions = fStore.collection("topics").document("versions");
+            documentReferenceVersions.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.getDouble("basics_of_java").intValue() != sharedPref.getInt("basics_of_java_version", 0)) {
+                            LoadData("basics_of_java");
+                            updateVersion("basics_of_java", "basics_of_java_version");
+                        }
+                        if (document.getDouble("variables").intValue() != sharedPref.getInt("variables_version", 0)) {
+                            LoadData("variables");
+                            updateVersion("variables", "variables_version");
+                        }
+                        if (document.getDouble("data_types").intValue() != sharedPref.getInt("data_type_version", 0)) {
+                            LoadData("data_types");
+                            updateVersion("data_types", "data_type_version");
+                        }
+                        if (document.getDouble("operators").intValue() != sharedPref.getInt("operators_version", 0)) {
+                            LoadData("operators");
+                            updateVersion("operators", "operators_version");
+                        }
+                        if (document.getDouble("conditional").intValue() != sharedPref.getInt("conditional_version", 0)) {
+                            LoadData("conditional");
+                            updateVersion("conditional", "conditional_version");
+                        }
+                        run();
                     }
-                    if(document.getDouble("variables").intValue() != sharedPref.getInt("variables_version", 0)){
-                        LoadData("variables");
-                        updateVersion("variables","variables_version");
-                    }
-                    if(document.getDouble("data_types").intValue() != sharedPref.getInt("data_type_version", 0)){
-                        LoadData("data_types");
-                        updateVersion("data_types","data_type_version");
-                    }
-                    if(document.getDouble("operators").intValue() != sharedPref.getInt("operators_version", 0)){
-                        LoadData("operators");
-                        updateVersion("operators","operators_version");
-                    }
-                    if(document.getDouble("conditional").intValue() != sharedPref.getInt("conditional_version", 0)){
-                        LoadData("conditional");
-                        updateVersion("conditional","conditional_version");
-                    }
-                    run();
                 }
-            }
-        });
+            });
+        }else{
+            run();
+        }
     }
 
     public void LoadData(String DocumentName){
@@ -155,5 +162,18 @@ public class MainActivity extends AppCompatActivity {
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
         finish();
+    }
+
+    private boolean isConected(Context c){
+        boolean connected = false;
+        try {
+            ConnectivityManager cm = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo nInfo = cm.getActiveNetworkInfo();
+            connected = nInfo != null && nInfo.isAvailable() && nInfo.isConnected();
+            return connected;
+        } catch (Exception e) {
+            Log.e("Connectivity Exception", e.getMessage());
+        }
+        return connected;
     }
 }

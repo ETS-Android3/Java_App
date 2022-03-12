@@ -1,10 +1,15 @@
 package uk.ac.abertay.cmp400.java_app;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkCapabilities;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
@@ -18,7 +23,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
 
 public class InfoPage extends AppCompatActivity {
@@ -29,8 +36,6 @@ public class InfoPage extends AppCompatActivity {
     String userID;
 
     //views/references
-    ListenerRegistration registration;
-    DocumentReference documentReference;
     TextView welcomeTextView;
     CheckBox checkBox;
     ActionBar actionBar;
@@ -50,9 +55,6 @@ public class InfoPage extends AppCompatActivity {
         //Firebase auth and store instances
         fStore = FirebaseFirestore.getInstance();
         fAuth = FirebaseAuth.getInstance();
-        userID = fAuth.getCurrentUser().getUid();
-
-        documentReference = fStore.collection("global").document("variables");
 
         welcomeTextView = findViewById(R.id.InfoPageWelcomeTextBox);
         checkBox = findViewById(R.id.ShowMeCheckBox);
@@ -63,26 +65,30 @@ public class InfoPage extends AppCompatActivity {
     protected void onStart() {
         //set listeners
         super.onStart();
-        registration = documentReference.addSnapshotListener(this, (value, error) -> {
-            try {
-                String title = value.getString("InfoPageTitle");
-                String maintext = value.getString("InfoPageMainText");
-                Spanned output = Html.fromHtml( maintext, Html.FROM_HTML_MODE_LEGACY);
 
-                if(!title.equals("") && !output.equals("")){
-                    welcomeTextView.setText(title);
-                    mainTextView.setText(output);
+        userID = fAuth.getCurrentUser().getUid();
+        fStore.collection("global").document("variables").addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                try {
+                    String title = value.getString("InfoPageTitle");
+                    String maintext = value.getString("InfoPageMainText");
+                    Spanned output = Html.fromHtml(maintext, Html.FROM_HTML_MODE_LEGACY);
+
+                    if (!title.equals("") && !output.equals("")) {
+                        welcomeTextView.setText(title);
+                        mainTextView.setText(output);
+                    }
+                } catch (Exception e) {
+                    Log.e("InfoPage", "OnEvent: " + e.getMessage());
                 }
-            } catch (Exception e) {
-                Log.e("InfoPage", "OnEvent: " + e.getMessage());
             }
         });
 
-        DocumentReference documentReferenceVersions = fStore.collection("users").document(userID);
-        documentReferenceVersions.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        fStore.collection("users").document(userID).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()){
+                if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     Boolean ShowInfoPage = document.getBoolean("ShowInfoPage");
                     checkBox.setChecked(!ShowInfoPage);
@@ -91,16 +97,10 @@ public class InfoPage extends AppCompatActivity {
         });
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        registration.remove();
-    }
-
     public void MoveToHome(View view){
         boolean checked;
         checked = !checkBox.isChecked();
-        documentReference.update("ShowInfoPage",checked);
+        fStore.collection("users").document(userID).update("ShowInfoPage", checked);
         Intent intent = new Intent(getApplicationContext(), HomeScreen.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);

@@ -4,7 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkCapabilities;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -33,7 +37,6 @@ public class Settings extends AppCompatActivity {
 
     //views
     Switch audioBoolSwitch;
-    DocumentReference documentReference;
     ActionBar actionBar;
     Spinner speedSpinner;
 
@@ -50,91 +53,95 @@ public class Settings extends AppCompatActivity {
         //Firebase and current user ID Setup.
         fStore = FirebaseFirestore.getInstance();
         fAuth = FirebaseAuth.getInstance();
-        userID = fAuth.getCurrentUser().getUid();
 
         //Find View By ID Setup
         audioBoolSwitch = findViewById(R.id.ToggleAudioSwitch);
         speedSpinner = findViewById(R.id.SpeedSpinner);
-
-        documentReference = fStore.collection("users").document(userID);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        documentReference.get().addOnCompleteListener(task -> {
-            if(task.isSuccessful()){
-                DocumentSnapshot document = task.getResult();
-                if (document.exists()) {
-                    ShowAudioPlayer = document.getBoolean("ShowAudioPlayer");
-                    PlaybackSpeed = document.getDouble("PlaybackSpeed");
+
+            userID = fAuth.getCurrentUser().getUid();
+            fStore.collection("users").document(userID).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        ShowAudioPlayer = document.getBoolean("ShowAudioPlayer");
+                        PlaybackSpeed = document.getDouble("PlaybackSpeed");
+                    } else {
+                        Log.d("Settings: GetData", "No such document");
+                    }
+
                 } else {
-                    Log.d("Settings: GetData", "No such document");
+                    Log.d("Settings: GetData", "get failed with ", task.getException());
                 }
 
-            } else {
-                Log.d("Settings: GetData", "get failed with ", task.getException());
-            }
-
-            //Set current spinner selection depening on what is returned from firebase for the logged in user
-            if(PlaybackSpeed == 1.2){
-                speedSpinner.setSelection(0);
-            }else if(PlaybackSpeed == 1.1){
-                speedSpinner.setSelection(1);
-            }else if(PlaybackSpeed == 0.9){
-                speedSpinner.setSelection(3);
-            }else if(PlaybackSpeed == 0.8){
-                speedSpinner.setSelection(4);
-            }else{
-                speedSpinner.setSelection(2);
-            }
-
-            //set Switch to value from Firebase
-            audioBoolSwitch.setChecked(ShowAudioPlayer);
-        });
-
-        audioBoolSwitch.setOnCheckedChangeListener((compoundButton, ShowAudioBool) -> {
-            //Update ShowAudioPlayer Boolean state in Firebase. Log results.
-            documentReference.update("ShowAudioPlayer", ShowAudioBool).addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    Log.d("Settings: Update", "DocumentSnapshot successfully updated!");
+                //Set current spinner selection depening on what is returned from firebase for the logged in user
+                if (PlaybackSpeed == 1.2) {
+                    speedSpinner.setSelection(0);
+                } else if (PlaybackSpeed == 1.1) {
+                    speedSpinner.setSelection(1);
+                } else if (PlaybackSpeed == 0.9) {
+                    speedSpinner.setSelection(3);
+                } else if (PlaybackSpeed == 0.8) {
+                    speedSpinner.setSelection(4);
+                } else {
+                    speedSpinner.setSelection(2);
                 }
-            }).addOnFailureListener(new OnFailureListener() {
+
+                //set Switch to value from Firebase
+                audioBoolSwitch.setChecked(ShowAudioPlayer);
+            });
+
+
+            audioBoolSwitch.setOnCheckedChangeListener((compoundButton, ShowAudioBool) -> {
+                //Update ShowAudioPlayer Boolean state in Firebase. Log results.
+                fStore.collection("users").document(userID).update("ShowAudioPlayer", ShowAudioBool).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Log.d("Settings: Update", "DocumentSnapshot successfully updated!");
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e("Settings: Update", "Error updating document: ", e);
+                    }
+                });
+            });
+
+            speedSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.e("Settings: Update", "Error updating document: ", e);
+                public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                    //update on item selected
+                    float playBackSpeed;
+                    switch (position) {
+                        case 0:
+                            playBackSpeed = 1.2f;
+                            break;
+                        case 1:
+                            playBackSpeed = 1.1f;
+                            break;
+                        case 2:
+                            playBackSpeed = 1f;
+                            break;
+                        case 3:
+                            playBackSpeed = 0.9f;
+                            break;
+                        case 4:
+                            playBackSpeed = 0.8f;
+                            break;
+                        default:
+                            playBackSpeed = 1f;
+                    }
+                    fStore.collection("users").document(userID).update("PlaybackSpeed", playBackSpeed);
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
                 }
             });
-        });
-
-        speedSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                //update on item selected
-                //Toast.makeText(Settings.this, adapterView.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
-                switch (position){
-                    case 0:
-                        documentReference.update("PlaybackSpeed",1.2);
-                        break;
-                    case 1:
-                        documentReference.update("PlaybackSpeed",1.1);
-                        break;
-                    case 2:
-                        documentReference.update("PlaybackSpeed",1);
-                        break;
-                    case 3:
-                        documentReference.update("PlaybackSpeed",0.9);
-                        break;
-                    case 4:
-                        documentReference.update("PlaybackSpeed",0.8);
-                        break;
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {}
-        });
     }
 
     @Override

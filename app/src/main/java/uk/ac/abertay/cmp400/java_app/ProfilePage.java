@@ -1,19 +1,30 @@
 package uk.ac.abertay.cmp400.java_app;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkCapabilities;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.MetadataChanges;
 
 public class ProfilePage extends AppCompatActivity {
 
@@ -26,6 +37,7 @@ public class ProfilePage extends AppCompatActivity {
     EditText usernameEditText;
     ActionBar actionBar;
     TextView textViewLogo;
+    Button setUsername;
 
     //values
     String userName;
@@ -47,33 +59,30 @@ public class ProfilePage extends AppCompatActivity {
         //firebase auth and store instances.
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
-        userID = fAuth.getCurrentUser().getUid();
 
         //find view
         usernameEditText = findViewById(R.id.usernameEditText);
         textViewLogo = findViewById(R.id.textViewCustomLogo);
-
-        documentReference = fStore.collection("users").document(userID);
+        setUsername = findViewById(R.id.updateUsernameButton);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        registration = documentReference.addSnapshotListener(this, (value, error) -> {
-            try {
-                userName = value.getString("Username");
-                textViewLogo.setText(userName);
-                usernameEditText.setText(userName);
-            }catch(Exception e){
-                Log.e("Profile page", e.getMessage());
+
+        userID = fAuth.getCurrentUser().getUid();
+        fStore.collection("users").document(userID).addSnapshotListener(MetadataChanges.INCLUDE,new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                try {
+                    userName = value.getString("Username");
+                    textViewLogo.setText(userName);
+                    usernameEditText.setText(userName);
+                } catch (Exception e) {
+                    Log.e("Profile page", e.getMessage());
+                }
             }
         });
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        registration.remove();
     }
 
     public void logout(View view){
@@ -85,13 +94,26 @@ public class ProfilePage extends AppCompatActivity {
 
     public void UpdateValues(View view){
         //check if new username is over 4 characters then updates fireStore.
-        if (usernameEditText.length() < 4){
+        if (usernameEditText.length() < 4) {
             usernameEditText.setError("Username must be more that 3 characters.");
-        }else{
+        } else {
             String tmp = usernameEditText.getText().toString().trim();
-            documentReference.update("Username", tmp);
+            fStore.collection("users").document(userID).update("Username", tmp);
             textViewLogo.setText(userName);
             //Toast.makeText(this, "Username Updated", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private boolean isConected(Context c){
+        boolean connected = false;
+        try {
+            ConnectivityManager cm = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo nInfo = cm.getActiveNetworkInfo();
+            connected = nInfo != null && nInfo.isAvailable() && nInfo.isConnected();
+            return connected;
+        } catch (Exception e) {
+            Log.e("Connectivity Exception", e.getMessage());
+        }
+        return connected;
     }
 }

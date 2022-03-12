@@ -1,5 +1,6 @@
 package uk.ac.abertay.cmp400.java_app;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -8,6 +9,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
+import android.net.ConnectivityManager;
+import android.net.NetworkCapabilities;
+import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -15,16 +20,21 @@ import android.view.View;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.MetadataChanges;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 public class DisplayScreen extends AppCompatActivity {
 
@@ -32,6 +42,9 @@ public class DisplayScreen extends AppCompatActivity {
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
     String userID;
+    FirebaseStorage firebaseStorage;
+    StorageReference audioStorageReference;
+
 
     //views
     RecyclerView recyclerView;
@@ -43,25 +56,28 @@ public class DisplayScreen extends AppCompatActivity {
     double playbackSpeed;
     boolean ShowAudioPlayer;
     boolean isPlaying;
-    int audioID;
+    Uri uri;
     int index;
+    Context c;
 
     //references
     MediaPlayer mediaPlayer;
     Handler handler;
-    DocumentReference documentReferenceUsers;
     DisplayAdapter displayAdapter;
-    ListenerRegistration registration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_screen);
 
+        c = getApplicationContext();
+
         //firebase auth and store instances.
         fStore = FirebaseFirestore.getInstance();
         fAuth = FirebaseAuth.getInstance();
         userID = fAuth.getCurrentUser().getUid();
+        firebaseStorage = FirebaseStorage.getInstance();
+
 
         //get and set action bar with back button.
         actionBar = getSupportActionBar();
@@ -82,8 +98,6 @@ public class DisplayScreen extends AppCompatActivity {
         isPlaying = false;
         index = getIntent().getIntExtra("index", 0);
 
-        //Firebase Listeners
-        documentReferenceUsers = fStore.collection("users").document(userID);
         //references
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         displayAdapter = new DisplayAdapter(this, getMyList(index));
@@ -96,18 +110,22 @@ public class DisplayScreen extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        registration = documentReferenceUsers.addSnapshotListener(this, (value, error) -> {
-            try {
-                playbackSpeed = value.getDouble("PlaybackSpeed");
-                ShowAudioPlayer = value.getBoolean("ShowAudioPlayer");
+        userID = fAuth.getCurrentUser().getUid();
+        fStore.collection("users").document(userID).addSnapshotListener(MetadataChanges.INCLUDE,new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                try {
+                    playbackSpeed = value.getDouble("PlaybackSpeed");
+                    ShowAudioPlayer = value.getBoolean("ShowAudioPlayer");
 
-                if(ShowAudioPlayer){
-                    FAB.setVisibility(View.VISIBLE);
-                }else{
-                    FAB.setVisibility(View.INVISIBLE);
+                    if (ShowAudioPlayer) {
+                        FAB.setVisibility(View.VISIBLE);
+                    } else {
+                        FAB.setVisibility(View.INVISIBLE);
+                    }
+                } catch (Exception e) {
+                    Log.e("DisplayScreen", e.getMessage());
                 }
-            }catch(Exception e){
-                Log.e("DisplayScreen", e.getMessage());
             }
         });
     }
@@ -116,7 +134,6 @@ public class DisplayScreen extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         stopPlayer();
-        registration.remove();
     }
 
     private ArrayList<DisplayModel> getMyList(int Index) {
@@ -130,7 +147,6 @@ public class DisplayScreen extends AppCompatActivity {
 
         String LineSpace = "1.6";
         String TextSize = "18px";
-
 
         ArrayList<String> Title;
         ArrayList<String> Description;
@@ -146,7 +162,7 @@ public class DisplayScreen extends AppCompatActivity {
                 break;
             case 1:
                 //Audio
-                audioID = getResources().getIdentifier("the_basics_syntax_of_java_1", "raw", getPackageName());
+                audioStorageReference = firebaseStorage.getReferenceFromUrl("gs://java-app-f00a2.appspot.com/audio/the_basics_syntax_of_java_1.mp3");
 
                 //Basics Of Java
                 title_json = sharedPref.getString("basics_of_java_title", null);
@@ -174,7 +190,7 @@ public class DisplayScreen extends AppCompatActivity {
                 break;
             case 2:
                 //Audio
-                audioID = getResources().getIdentifier("variables", "raw", getPackageName());
+                audioStorageReference = firebaseStorage.getReferenceFromUrl("gs://java-app-f00a2.appspot.com/audio/variables.mp3");
 
                 //Variables
                 title_json = sharedPref.getString("variables_title", null);
@@ -203,7 +219,7 @@ public class DisplayScreen extends AppCompatActivity {
 
             case 3:
                 //Audio
-                audioID = getResources().getIdentifier("data_types", "raw", getPackageName());
+                audioStorageReference = firebaseStorage.getReferenceFromUrl("gs://java-app-f00a2.appspot.com/audio/data_types.mp3");
 
                 //Data Types
                 title_json = sharedPref.getString("data_types_title", null);
@@ -231,7 +247,7 @@ public class DisplayScreen extends AppCompatActivity {
                 break;
             case 4:
                 //Audio
-                audioID = getResources().getIdentifier("operators", "raw", getPackageName());
+                audioStorageReference = firebaseStorage.getReferenceFromUrl("gs://java-app-f00a2.appspot.com/audio/operators.mp3");
 
                 //Operators
                 title_json = sharedPref.getString("operators_title", null);
@@ -259,7 +275,7 @@ public class DisplayScreen extends AppCompatActivity {
                 break;
             case 5:
                 //Audio
-                audioID = getResources().getIdentifier("conditional_statements", "raw", getPackageName());
+                audioStorageReference = firebaseStorage.getReferenceFromUrl("gs://java-app-f00a2.appspot.com/audio/conditional_statements.mp3");
 
                 //Conditional Statements
                 title_json = sharedPref.getString("conditional_title", null);
@@ -286,19 +302,37 @@ public class DisplayScreen extends AppCompatActivity {
                 }
                 break;
         }
+        audioStorageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri firebaseUri) {
+                uri = firebaseUri;
+            }
+        });
         return models;
     }
 
     //FAB Audio functionality
     public void play(View view){
-        if(audioID != 0) {
+        if(uri != null) {
             if (mediaPlayer == null) {
-                mediaPlayer = MediaPlayer.create(this, audioID);
-                mediaPlayer.setOnCompletionListener(mediaPlayer -> {
-                    stopPlayer();
-                    FAB.setImageResource(R.drawable.ic_play_arrow);
-                    isPlaying = false;
-                });
+                mediaPlayer = new MediaPlayer();
+                try {
+                    mediaPlayer.setDataSource(c,uri);
+                    mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                        @Override
+                        public void onPrepared(MediaPlayer mp) {
+                            mediaPlayer.start();
+                        }
+                    });
+                    mediaPlayer.prepare();
+                    mediaPlayer.setOnCompletionListener(mediaPlayer -> {
+                        stopPlayer();
+                        FAB.setImageResource(R.drawable.ic_play_arrow);
+                        isPlaying = false;
+                    });
+                }catch (Exception e){
+                    Toast.makeText(this,e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
             }
             //Media Player Settings: Playback Speed
             mediaPlayer.setPlaybackParams(mediaPlayer.getPlaybackParams().setSpeed(((float) playbackSpeed)));
@@ -328,7 +362,12 @@ public class DisplayScreen extends AppCompatActivity {
             });
             mediaPlayer.start();
             handler.post(new UpdateSeekBar());
+        }else{
+            Toast.makeText(c, "No Internet Connection", Toast.LENGTH_SHORT).show();
+            FAB.setImageResource(R.drawable.ic_play_arrow);
+            isPlaying = false;
         }
+
     }
 
     public void pause(View view){
