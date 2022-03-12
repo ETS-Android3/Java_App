@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ListenerRegistration;
 
 public class ProfilePage extends AppCompatActivity {
 
@@ -30,6 +31,7 @@ public class ProfilePage extends AppCompatActivity {
     String userName;
     private static final String TAG = "LOGOUT";
     DocumentReference documentReference;
+    ListenerRegistration registration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +59,7 @@ public class ProfilePage extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        documentReference.addSnapshotListener(this, (value, error) -> {
+        registration = documentReference.addSnapshotListener(this, (value, error) -> {
             try {
                 userName = value.getString("Username");
                 textViewLogo.setText(userName);
@@ -71,6 +73,7 @@ public class ProfilePage extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        registration.remove();
     }
 
     public void logout(View view){

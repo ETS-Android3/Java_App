@@ -1,5 +1,6 @@
 package uk.ac.abertay.cmp400.java_app;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,8 +13,11 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 
@@ -48,7 +52,7 @@ public class InfoPage extends AppCompatActivity {
         fAuth = FirebaseAuth.getInstance();
         userID = fAuth.getCurrentUser().getUid();
 
-        documentReference = fStore.collection("users").document(userID);
+        documentReference = fStore.collection("global").document("variables");
 
         welcomeTextView = findViewById(R.id.InfoPageWelcomeTextBox);
         checkBox = findViewById(R.id.ShowMeCheckBox);
@@ -63,17 +67,26 @@ public class InfoPage extends AppCompatActivity {
             try {
                 String title = value.getString("InfoPageTitle");
                 String maintext = value.getString("InfoPageMainText");
-                Spanned output = Html.fromHtml(title + maintext, Html.FROM_HTML_MODE_LEGACY);
+                Spanned output = Html.fromHtml( maintext, Html.FROM_HTML_MODE_LEGACY);
 
                 if(!title.equals("") && !output.equals("")){
                     welcomeTextView.setText(title);
                     mainTextView.setText(output);
                 }
-
-                Boolean ShowInfoPage = value.getBoolean("ShowInfoPage");
-                checkBox.setChecked(!ShowInfoPage);
             } catch (Exception e) {
                 Log.e("InfoPage", "OnEvent: " + e.getMessage());
+            }
+        });
+
+        DocumentReference documentReferenceVersions = fStore.collection("users").document(userID);
+        documentReferenceVersions.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot document = task.getResult();
+                    Boolean ShowInfoPage = document.getBoolean("ShowInfoPage");
+                    checkBox.setChecked(!ShowInfoPage);
+                }
             }
         });
     }

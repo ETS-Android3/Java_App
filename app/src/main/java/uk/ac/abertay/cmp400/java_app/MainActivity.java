@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
     private final Handler handler = new Handler();
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
-    String userID;
 
     SharedPreferences sharedPref;
 
@@ -54,32 +53,26 @@ public class MainActivity extends AppCompatActivity {
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
         fAuth = FirebaseAuth.getInstance();
-        userID = fAuth.getCurrentUser().getUid();
+
+        if(fAuth.getCurrentUser() == null){
+            startActivity(new Intent(getApplicationContext(), Login.class));
+            finish();
+        }
 
         sharedPref = getSharedPreferences(getResources().getString(R.string.preference_file_key), MODE_PRIVATE);
+
+        if(!sharedPref.contains("basics_of_java_version")){
+            sharedPref.edit().putInt("basics_of_java_version",0).
+                    putInt("variables_version",0).
+                    putInt("data_type_version",0).
+                    putInt("operators_version",0).
+                    putInt("conditional_version",0).apply();
+        }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-
-        if(!sharedPref.contains("basics_of_java_version")){
-            DocumentReference documentReferenceVersions = fStore.collection("topics").document("versions");
-            documentReferenceVersions.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if(task.isSuccessful()){
-                        DocumentSnapshot document = task.getResult();
-                        //Log.i("tag", ""+document.getDate("basics_of_java");
-                        sharedPref.edit().putInt("basics_of_java_version",document.getDouble("basics_of_java").intValue()).
-                        putInt("variables_version",document.getDouble("variables").intValue()).
-                        putInt("data_type_version",document.getDouble("data_types").intValue()).
-                        putInt("operators_version",document.getDouble("operators").intValue()).
-                        putInt("conditional_version",document.getDouble("conditional").intValue()).apply();
-                    }
-                }
-            });
-        }
 
         DocumentReference documentReferenceVersions = fStore.collection("topics").document("versions");
         documentReferenceVersions.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -89,19 +82,23 @@ public class MainActivity extends AppCompatActivity {
                     DocumentSnapshot document = task.getResult();
                     if(document.getDouble("basics_of_java").intValue() != sharedPref.getInt("basics_of_java_version", 0)){
                         LoadData("basics_of_java");
-                        updateVersion("basics_of_java");
+                        updateVersion("basics_of_java", "basics_of_java_version");
                     }
                     if(document.getDouble("variables").intValue() != sharedPref.getInt("variables_version", 0)){
                         LoadData("variables");
+                        updateVersion("variables","variables_version");
                     }
                     if(document.getDouble("data_types").intValue() != sharedPref.getInt("data_type_version", 0)){
                         LoadData("data_types");
+                        updateVersion("data_types","data_type_version");
                     }
                     if(document.getDouble("operators").intValue() != sharedPref.getInt("operators_version", 0)){
                         LoadData("operators");
+                        updateVersion("operators","operators_version");
                     }
                     if(document.getDouble("conditional").intValue() != sharedPref.getInt("conditional_version", 0)){
                         LoadData("conditional");
+                        updateVersion("conditional","conditional_version");
                     }
                     run();
                 }
@@ -132,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void updateVersion(String versionName){
+    public void updateVersion(String version, String versionName){
         DocumentReference documentReferenceVersions = fStore.collection("topics").document("versions");
         documentReferenceVersions.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -140,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
                 if(task.isSuccessful()){
                     DocumentSnapshot document = task.getResult();
                     //Log.i("tag", ""+document.getDate("basics_of_java");
-                    sharedPref.edit().putInt("basics_of_java_version",document.getDouble("basics_of_java").intValue());
+                    sharedPref.edit().putInt(versionName,document.getDouble(version).intValue()).apply();
                 }
             }
         });

@@ -1,6 +1,9 @@
 package uk.ac.abertay.cmp400.java_app;
 
 import android.content.Context;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +13,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.webkit.WebSettingsCompat;
+import androidx.webkit.WebViewFeature;
 
 import java.util.ArrayList;
 
@@ -37,6 +42,7 @@ public class DisplayAdapter extends RecyclerView.Adapter {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view;
 
@@ -79,7 +85,29 @@ public class DisplayAdapter extends RecyclerView.Adapter {
 
             title = itemView.findViewById(R.id.RowTitle);
             desc = itemView.findViewById(R.id.RowDescription);
+
+            int nightModeFlags =
+                   title.getContext().getResources().getConfiguration().uiMode &
+                            Configuration.UI_MODE_NIGHT_MASK;
+            switch (nightModeFlags) {
+                case Configuration.UI_MODE_NIGHT_YES:
+                    if(WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
+                        WebSettingsCompat.setForceDark(desc.getSettings(), WebSettingsCompat.FORCE_DARK_ON);
+                    }
+                    break;
+
+                case Configuration.UI_MODE_NIGHT_NO:
+                    if(WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
+                        WebSettingsCompat.setForceDark(desc.getSettings(), WebSettingsCompat.FORCE_DARK_OFF);
+                        desc.setBackgroundColor(itemView.getResources().getColor(R.color.cardBackgroundLight));
+                    }
+                    break;
+
+                case Configuration.UI_MODE_NIGHT_UNDEFINED:
+                    break;
+            }
             desc.getSettings().setJavaScriptEnabled(true);
+            desc.setVerticalScrollBarEnabled(false);
         }
     }
 
@@ -96,6 +124,28 @@ public class DisplayAdapter extends RecyclerView.Adapter {
             title = itemView.findViewById(R.id.ImageTitle);
             desc = itemView.findViewById(R.id.ImageDescription);
             desc.getSettings().setJavaScriptEnabled(true);
+            int nightModeFlags =
+                    title.getContext().getResources().getConfiguration().uiMode &
+                            Configuration.UI_MODE_NIGHT_MASK;
+            switch (nightModeFlags) {
+                case Configuration.UI_MODE_NIGHT_YES:
+                    if(WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
+                        WebSettingsCompat.setForceDark(desc.getSettings(), WebSettingsCompat.FORCE_DARK_ON);
+                    }
+                    break;
+
+                case Configuration.UI_MODE_NIGHT_NO:
+                    if(WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
+                        WebSettingsCompat.setForceDark(desc.getSettings(), WebSettingsCompat.FORCE_DARK_OFF);
+                        desc.setBackgroundColor(itemView.getResources().getColor(R.color.cardBackgroundLight));
+                    }
+                    break;
+
+                case Configuration.UI_MODE_NIGHT_UNDEFINED:
+                    break;
+            }
+            desc.getSettings().setJavaScriptEnabled(true);
+            desc.setVerticalScrollBarEnabled(false);
         }
     }
 }

@@ -3,6 +3,7 @@ package uk.ac.abertay.cmp400.java_app;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -28,6 +29,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     EditText mEmail, mPassword;
     Button mloginBtn;
 
+    SharedPreferences sharedPref;
+
     DocumentReference documentReference;
 
     @Override
@@ -43,8 +46,12 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
         //check if user is already logged in.
         if(fAuth.getCurrentUser() != null){
-            startActivity(new Intent(getApplicationContext(), DisplayScreen.class));
+            Intent intent = new Intent(this, DisplayScreen.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(intent);
         }
+
+        sharedPref = getSharedPreferences(getResources().getString(R.string.preference_file_key), MODE_PRIVATE);
 
         mEmail = findViewById(R.id.LoginEmailTextView);
         mPassword = findViewById(R.id.LoginPasswordTextView);
@@ -75,12 +82,18 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
              fAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
                 if(task.isSuccessful()){
-                    userID = fAuth.getCurrentUser().getUid();
-                    documentReference = fStore.collection("users").document(userID);
-                    documentReference.get().addOnSuccessListener(documentSnapshot -> {
-                        showInfoPage = documentSnapshot.getBoolean("ShowInfoPage");
-                        ShowInfoPageCheck(showInfoPage);
-                    });
+                    if (sharedPref.getString("basics_of_java_title", null) != null) {
+                        userID = fAuth.getCurrentUser().getUid();
+                        documentReference = fStore.collection("users").document(userID);
+                        documentReference.get().addOnSuccessListener(documentSnapshot -> {
+                            showInfoPage = documentSnapshot.getBoolean("ShowInfoPage");
+                            ShowInfoPageCheck(showInfoPage);
+                        });
+                    }else{
+                        Intent intent = new Intent(this, MainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                        startActivity(intent);
+                    }
                 }else{
                     Toast.makeText(Login.this, "Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                 }

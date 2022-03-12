@@ -48,9 +48,12 @@
     <string name="audio_playback_speed_selector">Audio playback Speed selector</string>
     <string name="Welcome">Welcome 🎉</string>
 
+
     //HTML colors
     <item name="html_red" type="string">red</item>
-
+    <item name="classesColor" type="string">red</item>
+    <item name="conditionalColor" type="string">blue</item>
+    <item name="textColor" type="string">green</item>
 
     <string name="preference_file_key">uk.ac.abertay.cmp400.java_app.SHARED_PREF_KEY</string>
 

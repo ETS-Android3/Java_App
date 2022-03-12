@@ -19,6 +19,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -50,6 +51,7 @@ public class DisplayScreen extends AppCompatActivity {
     Handler handler;
     DocumentReference documentReferenceUsers;
     DisplayAdapter displayAdapter;
+    ListenerRegistration registration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +96,7 @@ public class DisplayScreen extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        documentReferenceUsers.addSnapshotListener(this, (value, error) -> {
+        registration = documentReferenceUsers.addSnapshotListener(this, (value, error) -> {
             try {
                 playbackSpeed = value.getDouble("PlaybackSpeed");
                 ShowAudioPlayer = value.getBoolean("ShowAudioPlayer");
@@ -114,6 +116,7 @@ public class DisplayScreen extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         stopPlayer();
+        registration.remove();
     }
 
     private ArrayList<DisplayModel> getMyList(int Index) {
@@ -125,10 +128,17 @@ public class DisplayScreen extends AppCompatActivity {
         String title_json;
         String Description_json;
 
+        String LineSpace = "1.6";
+        String TextSize = "18px";
+
+
         ArrayList<String> Title;
         ArrayList<String> Description;
         Gson gson = new Gson();
-        String tmp_red = getResources().getString(R.string.html_red);
+        String keywordColor = getResources().getString(R.string.html_red);
+        String classesColor = getResources().getString(R.string.classesColor);
+        String conditionalColor = getResources().getString(R.string.conditionalColor);
+        String textColor = getResources().getString(R.string.textColor);
 
         switch (Index) {
             case 0:
@@ -151,7 +161,13 @@ public class DisplayScreen extends AppCompatActivity {
                 for (int i = 0; i < Title.size(); i++) {
                     m = new DisplayModel();
                     m.setTitle(Title.get(i));
-                    m.setDescription(Description.get(i).replace("@keyword", tmp_red));
+                    m.setDescription(Description.get(i)
+                            .replace("@keyword", keywordColor)
+                            .replace("@lineHight", LineSpace)
+                            .replace("@fontSize", TextSize)
+                            .replace("@classes", classesColor)
+                            .replace("@conditional", conditionalColor)
+                            .replace("@textColor", textColor));
                     m.setHasImage(false);
                     models.add(m);
                 }
@@ -173,7 +189,13 @@ public class DisplayScreen extends AppCompatActivity {
                 for (int i = 0; i < Title.size(); i++) {
                     m = new DisplayModel();
                     m.setTitle(Title.get(i));
-                    m.setDescription(Description.get(i).replace("@keyword", tmp_red));
+                    m.setDescription(Description.get(i)
+                            .replace("@keyword", keywordColor)
+                            .replace("@lineHight", LineSpace)
+                            .replace("@fontSize", TextSize)
+                            .replace("@classes", classesColor)
+                            .replace("@conditional", conditionalColor)
+                            .replace("@textColor", textColor));
                     m.setHasImage(false);
                     models.add(m);
                 }
@@ -196,7 +218,13 @@ public class DisplayScreen extends AppCompatActivity {
                 for (int i = 0; i < Title.size(); i++) {
                     m = new DisplayModel();
                     m.setTitle(Title.get(i));
-                    m.setDescription(Description.get(i).replace("@keyword", tmp_red));
+                    m.setDescription(Description.get(i)
+                            .replace("@keyword", keywordColor)
+                            .replace("@lineHight", LineSpace)
+                            .replace("@fontSize", TextSize)
+                            .replace("@classes", classesColor)
+                            .replace("@conditional", conditionalColor)
+                            .replace("@textColor", textColor));
                     m.setHasImage(false);
                     models.add(m);
                 }
@@ -218,7 +246,13 @@ public class DisplayScreen extends AppCompatActivity {
                 for (int i = 0; i < Title.size(); i++) {
                     m = new DisplayModel();
                     m.setTitle(Title.get(i));
-                    m.setDescription(Description.get(i).replace("@keyword", tmp_red));
+                    m.setDescription(Description.get(i)
+                            .replace("@keyword", keywordColor)
+                            .replace("@lineHight", LineSpace)
+                            .replace("@fontSize", TextSize)
+                            .replace("@classes", classesColor)
+                            .replace("@conditional", conditionalColor)
+                            .replace("@textColor", textColor));
                     m.setHasImage(false);
                     models.add(m);
                 }
@@ -240,7 +274,13 @@ public class DisplayScreen extends AppCompatActivity {
                 for (int i = 0; i < Title.size(); i++) {
                     m = new DisplayModel();
                     m.setTitle(Title.get(i));
-                    m.setDescription(Description.get(i).replace("@keyword", tmp_red));
+                    m.setDescription(Description.get(i)
+                            .replace("@keyword", keywordColor)
+                            .replace("@lineHight", LineSpace)
+                            .replace("@fontSize", TextSize)
+                            .replace("@classes", classesColor)
+                            .replace("@conditional", conditionalColor)
+                            .replace("@textColor", textColor));
                     m.setHasImage(false);
                     models.add(m);
                 }
