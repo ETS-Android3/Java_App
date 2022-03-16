@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
+import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -134,6 +135,14 @@ public class DisplayScreen extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         stopPlayer();
+    }
+
+    private boolean connectedToMobileNetwork(){
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        Network nw = connectivityManager.getActiveNetwork();
+        if (nw == null)return false;
+        NetworkCapabilities networkCapabilities = connectivityManager.getNetworkCapabilities(nw);
+        return networkCapabilities != null && !networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) && networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR);
     }
 
     private ArrayList<DisplayModel> getMyList(int Index) {
@@ -316,8 +325,11 @@ public class DisplayScreen extends AppCompatActivity {
         if(uri != null) {
             if (mediaPlayer == null) {
                 mediaPlayer = new MediaPlayer();
+                if(connectedToMobileNetwork()) {
+                    Toast.makeText(c, "Using Mobile Data", Toast.LENGTH_SHORT).show();
+                }
                 try {
-                    mediaPlayer.setDataSource(c,uri);
+                    mediaPlayer.setDataSource(c, uri);
                     mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                         @Override
                         public void onPrepared(MediaPlayer mp) {
@@ -330,9 +342,10 @@ public class DisplayScreen extends AppCompatActivity {
                         FAB.setImageResource(R.drawable.ic_play_arrow);
                         isPlaying = false;
                     });
-                }catch (Exception e){
-                    Toast.makeText(this,e.getMessage(), Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
+
             }
             //Media Player Settings: Playback Speed
             mediaPlayer.setPlaybackParams(mediaPlayer.getPlaybackParams().setSpeed(((float) playbackSpeed)));
