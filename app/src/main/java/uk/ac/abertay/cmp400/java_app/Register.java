@@ -72,25 +72,29 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
             String confirmPassword = mCnfPassword.getText().toString().trim();
             String username = mUsername.getText().toString();
 
+            if(TextUtils.isEmpty(username)){
+                mUsername.setError("Username is required.");
+                return;
+            }
             if(TextUtils.isEmpty(email)){
-                mEmail.setError("Email is Required");
+                mEmail.setError("Email is required.");
                 return;
             }
             if (TextUtils.isEmpty(password)){
-                mPassword.setError("Password is required");
+                mPassword.setError("Password is required.");
                 return;
             }
 
             if(password.length() < 6){
-                mPassword.setError("Password must be grater than 5 characters.");
+                mPassword.setError("Password must be greater than 5 characters.");
                 return;
             }
             if (!password.equals(confirmPassword)){
-                mCnfPassword.setError("Password dose not match.");
+                mCnfPassword.setError("Password does not match.");
                 return;
             }
             if (mUsername.length() < 4){
-                mUsername.setError("Username must be more that 3 characters.");
+                mUsername.setError("Username must be greater than 3 characters.");
             }
 
             fAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -103,9 +107,9 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
                         documentReference = fStore.collection("users").document(userID);
                         Map<String, Object> user = new HashMap<>();
                         user.put("Username", username);
-                        user.put("Email", email);
                         user.put("PlaybackSpeed", 1);
                         user.put("ShowAudioPlayer", true);
+                        user.put("ShowInfoPage", true);
                         documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {

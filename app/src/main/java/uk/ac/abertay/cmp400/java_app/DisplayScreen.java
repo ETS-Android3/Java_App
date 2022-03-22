@@ -322,7 +322,7 @@ public class DisplayScreen extends AppCompatActivity {
 
     //FAB Audio functionality
     public void play(View view){
-        if(uri != null) {
+        if(uri != null || isConected(c)) {
             if (mediaPlayer == null) {
                 mediaPlayer = new MediaPlayer();
                 if(connectedToMobileNetwork()) {
@@ -439,5 +439,18 @@ public class DisplayScreen extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         if(mediaPlayer != null)mediaPlayer.release();
+    }
+
+    private boolean isConected(Context c){
+        boolean connected = false;
+        try {
+            ConnectivityManager cm = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo nInfo = cm.getActiveNetworkInfo();
+            connected = nInfo != null && nInfo.isAvailable() && nInfo.isConnected();
+            return connected;
+        } catch (Exception e) {
+            Log.e("Connectivity Exception", e.getMessage());
+        }
+        return connected;
     }
 }
