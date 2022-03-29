@@ -16,12 +16,11 @@
         android:hint="@string/enter_a_username"
         android:importantForAutofill="no"
         android:inputType="textPersonName"
+        android:maxLength="16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
-        android:maxLength="16"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <EditText
         android:id="@+id/EmailTextBox"
@@ -49,9 +48,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/EmailTextBox"
 
-        />
+        app:layout_constraintTop_toBottomOf="@+id/EmailTextBox" />
 
     <EditText
         android:id="@+id/ConfirmPasswordTextBox"
@@ -86,15 +84,14 @@
         android:layout_marginTop="12dp"
         android:clickable="true"
         android:gravity="center"
+        android:lines="2"
         android:onClick="onClick"
         android:text="@string/sign_in"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/RegisterButton"
-        android:lines="2"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/RegisterButton" />
 
     <Button
         android:id="@+id/RegisterButton"

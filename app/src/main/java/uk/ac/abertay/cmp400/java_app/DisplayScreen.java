@@ -24,12 +24,10 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.MetadataChanges;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -157,8 +155,8 @@ public class DisplayScreen extends AppCompatActivity {
         String LineSpace = "1.6";
         String TextSize = "18px";
 
-        ArrayList<String> Title;
-        ArrayList<String> Description;
+        ArrayList<String> Title = null;
+        ArrayList<String> Description = null;
         Gson gson = new Gson();
         String keywordColor = getResources().getString(R.string.html_red);
         String classesColor = getResources().getString(R.string.classesColor);
@@ -177,25 +175,9 @@ public class DisplayScreen extends AppCompatActivity {
                 title_json = sharedPref.getString("basics_of_java_title", null);
                 Description_json = sharedPref.getString("basics_of_java_description", null);
 
-                 Title = gson.fromJson(title_json, ArrayList.class);
-                 Description = gson.fromJson(Description_json, ArrayList.class);
+                Title = gson.fromJson(title_json, ArrayList.class);
+                Description = gson.fromJson(Description_json, ArrayList.class);
 
-                //Action Bar Title
-                actionBar.setTitle(Title.get(0));
-
-                for (int i = 0; i < Title.size(); i++) {
-                    m = new DisplayModel();
-                    m.setTitle(Title.get(i));
-                    m.setDescription(Description.get(i)
-                            .replace("@keyword", keywordColor)
-                            .replace("@lineHight", LineSpace)
-                            .replace("@fontSize", TextSize)
-                            .replace("@classes", classesColor)
-                            .replace("@conditional", conditionalColor)
-                            .replace("@textColor", textColor));
-                    m.setHasImage(false);
-                    models.add(m);
-                }
                 break;
             case 2:
                 //Audio
@@ -208,22 +190,6 @@ public class DisplayScreen extends AppCompatActivity {
                 Title = gson.fromJson(title_json, ArrayList.class);
                 Description = gson.fromJson(Description_json, ArrayList.class);
 
-                //Action Bar Title
-                actionBar.setTitle(Title.get(0));
-
-                for (int i = 0; i < Title.size(); i++) {
-                    m = new DisplayModel();
-                    m.setTitle(Title.get(i));
-                    m.setDescription(Description.get(i)
-                            .replace("@keyword", keywordColor)
-                            .replace("@lineHight", LineSpace)
-                            .replace("@fontSize", TextSize)
-                            .replace("@classes", classesColor)
-                            .replace("@conditional", conditionalColor)
-                            .replace("@textColor", textColor));
-                    m.setHasImage(false);
-                    models.add(m);
-                }
                 break;
 
             case 3:
@@ -237,22 +203,6 @@ public class DisplayScreen extends AppCompatActivity {
                 Title = gson.fromJson(title_json, ArrayList.class);
                 Description = gson.fromJson(Description_json, ArrayList.class);
 
-                //Action Bar Title
-                actionBar.setTitle(Title.get(0));
-
-                for (int i = 0; i < Title.size(); i++) {
-                    m = new DisplayModel();
-                    m.setTitle(Title.get(i));
-                    m.setDescription(Description.get(i)
-                            .replace("@keyword", keywordColor)
-                            .replace("@lineHight", LineSpace)
-                            .replace("@fontSize", TextSize)
-                            .replace("@classes", classesColor)
-                            .replace("@conditional", conditionalColor)
-                            .replace("@textColor", textColor));
-                    m.setHasImage(false);
-                    models.add(m);
-                }
                 break;
             case 4:
                 //Audio
@@ -265,22 +215,6 @@ public class DisplayScreen extends AppCompatActivity {
                 Title = gson.fromJson(title_json, ArrayList.class);
                 Description = gson.fromJson(Description_json, ArrayList.class);
 
-                //Action Bar Title
-                actionBar.setTitle(Title.get(0));
-
-                for (int i = 0; i < Title.size(); i++) {
-                    m = new DisplayModel();
-                    m.setTitle(Title.get(i));
-                    m.setDescription(Description.get(i)
-                            .replace("@keyword", keywordColor)
-                            .replace("@lineHight", LineSpace)
-                            .replace("@fontSize", TextSize)
-                            .replace("@classes", classesColor)
-                            .replace("@conditional", conditionalColor)
-                            .replace("@textColor", textColor));
-                    m.setHasImage(false);
-                    models.add(m);
-                }
                 break;
             case 5:
                 //Audio
@@ -293,24 +227,32 @@ public class DisplayScreen extends AppCompatActivity {
                 Title = gson.fromJson(title_json, ArrayList.class);
                 Description = gson.fromJson(Description_json, ArrayList.class);
 
-                //Action Bar Title
-                actionBar.setTitle(Title.get(0));
-
-                for (int i = 0; i < Title.size(); i++) {
-                    m = new DisplayModel();
-                    m.setTitle(Title.get(i));
-                    m.setDescription(Description.get(i)
-                            .replace("@keyword", keywordColor)
-                            .replace("@lineHight", LineSpace)
-                            .replace("@fontSize", TextSize)
-                            .replace("@classes", classesColor)
-                            .replace("@conditional", conditionalColor)
-                            .replace("@textColor", textColor));
-                    m.setHasImage(false);
-                    models.add(m);
-                }
                 break;
         }
+        //Action Bar Title
+        actionBar.setTitle(Title.get(0).replace("@",""));
+
+        if(Description != null) {
+            for (int i = 0; i < Title.size(); i++) {
+                m = new DisplayModel();
+                if (Title.get(i).contains("@")) {
+                    m.setIsTitle(true);
+                    m.setTitle(Title.get(i).replace("@", ""));
+                } else {
+                    m.setIsTitle(false);
+                    m.setTitle(Title.get(i));
+                }
+                m.setDescription(Description.get(i)
+                        .replace("@keyword", keywordColor)
+                        .replace("@lineHight", LineSpace)
+                        .replace("@fontSize", TextSize)
+                        .replace("@classes", classesColor)
+                        .replace("@conditional", conditionalColor)
+                        .replace("@textColor", textColor));
+                models.add(m);
+            }
+        }
+
         audioStorageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri firebaseUri) {

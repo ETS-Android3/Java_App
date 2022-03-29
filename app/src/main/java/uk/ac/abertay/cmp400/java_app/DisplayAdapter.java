@@ -2,13 +2,10 @@ package uk.ac.abertay.cmp400.java_app;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.content.res.Resources;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -32,7 +29,7 @@ public class DisplayAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemViewType(int position) {
         //determin what view to inflate
-        if(displayModels.get(position).getHasImage()){
+        if(displayModels.get(position).getIsTitle()){
             return 1;
         }else{
             return 0;
@@ -47,7 +44,7 @@ public class DisplayAdapter extends RecyclerView.Adapter {
         View view;
 
         if(viewType == 1){
-            view = layoutInflater.inflate(R.layout.display_image, parent, false);
+            view = layoutInflater.inflate(R.layout.display_title, parent, false);
             return new ViewHolderImage(view);
         }
         view = layoutInflater.inflate(R.layout.display_row, parent, false);
@@ -56,13 +53,10 @@ public class DisplayAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if(displayModels.get(position).getHasImage()){
-            ViewHolderImage viewHolderImage = (ViewHolderImage)holder;
-            viewHolderImage.title.setText(displayModels.get(position).getTitle());
-            viewHolderImage.desc.loadData(displayModels.get(position).getDescription(), "text/html; charset=utf-8", "UTF-8");
-            viewHolderImage.imageView.setImageResource(displayModels.get(position).getImg());
-            viewHolderImage.imageView.setContentDescription(displayModels.get(position).getTitle());
-
+        if(displayModels.get(position).getIsTitle()){
+            ViewHolderImage viewHolderTitle = (ViewHolderImage)holder;
+            viewHolderTitle.title.setText(displayModels.get(position).getTitle());
+            viewHolderTitle.desc.loadData(displayModels.get(position).getDescription(), "text/html; charset=utf-8", "UTF-8");
         }else{
             ViewHolderRow viewHolderRow = (ViewHolderRow)holder;
             viewHolderRow.title.setText(displayModels.get(position).getTitle());
@@ -106,7 +100,6 @@ public class DisplayAdapter extends RecyclerView.Adapter {
                 case Configuration.UI_MODE_NIGHT_UNDEFINED:
                     break;
             }
-            desc.getSettings().setJavaScriptEnabled(true);
             desc.setVerticalScrollBarEnabled(false);
         }
     }
@@ -115,15 +108,12 @@ public class DisplayAdapter extends RecyclerView.Adapter {
         //class for each view that can be inflated along with the assignments.
         final TextView title;
         final WebView desc;
-        final ImageView imageView;
 
         public ViewHolderImage(@NonNull View itemView) {
             super(itemView);
 
-            imageView = itemView.findViewById(R.id.ImageImageView);
             title = itemView.findViewById(R.id.ImageTitle);
             desc = itemView.findViewById(R.id.ImageDescription);
-            desc.getSettings().setJavaScriptEnabled(true);
             int nightModeFlags =
                     title.getContext().getResources().getConfiguration().uiMode &
                             Configuration.UI_MODE_NIGHT_MASK;
@@ -144,7 +134,6 @@ public class DisplayAdapter extends RecyclerView.Adapter {
                 case Configuration.UI_MODE_NIGHT_UNDEFINED:
                     break;
             }
-            desc.getSettings().setJavaScriptEnabled(true);
             desc.setVerticalScrollBarEnabled(false);
         }
     }

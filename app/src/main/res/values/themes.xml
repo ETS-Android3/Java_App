@@ -17,6 +17,7 @@
         <item name="android:textColorSecondary">@color/black</item>
         <item name="android:indeterminateTint">@color/blackText</item>
         <item name="android:seekBarStyle">@color/blackText</item>
+        <item name="android:textColorHint">@color/blackText</item>
     </style>
 
     <style name="Theme.Java_App.Inverted" parent="Theme.MaterialComponents.DayNight.DarkActionBar">

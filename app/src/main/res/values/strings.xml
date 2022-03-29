@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name">Java_App</string>
+    <string name="app_name">Java Academy</string>
     <string name="Email">Email</string>
     <string name="Password">Password</string>
     <string name="cnfPassword">Confirm Password</string>
@@ -34,7 +34,7 @@
     <string name="description">Description</string>
     <string name="title">Title</string>
     <string name="leaning_java_logo">Leaning Java Logo</string>
-    <string name="FAB_Description">Floating action button that handles audio playback.</string>
+    <string name="FAB_Description">handles text to speech functionality</string>
     <string name="image_Desc">Images relating to the topic</string>
     <string name="assorted_icons">Recycler View Item</string>
     <string name="java_logo">Java Logo</string>
@@ -56,6 +56,7 @@
     <item name="textColor" type="string">green</item>
 
     <string name="preference_file_key">uk.ac.abertay.cmp400.java_app.SHARED_PREF_KEY</string>
+    <string name="main_title">Main Title</string>
 
 
     <string-array name="HomeScreenTitle">

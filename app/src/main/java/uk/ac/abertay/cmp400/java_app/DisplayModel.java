@@ -4,7 +4,7 @@ public class DisplayModel {
 
     private String title;
     private String description;
-    private Boolean hasImage;
+    private Boolean isTitle;
     private int img;
 
     public int getImg() {
@@ -34,11 +34,11 @@ public class DisplayModel {
         this.title = title;
     }
 
-    public Boolean getHasImage() {
-        return hasImage;
+    public Boolean getIsTitle() {
+        return isTitle;
     }
 
-    public void setHasImage(Boolean hasImage) {
-        this.hasImage = hasImage;
+    public void setIsTitle(Boolean isTitle) {
+        this.isTitle = isTitle;
     }
 }

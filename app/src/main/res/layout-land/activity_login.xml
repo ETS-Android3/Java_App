@@ -35,7 +35,7 @@
     <TextView
         android:id="@+id/SignUpTextView"
         android:layout_width="160dp"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:layout_marginTop="16dp"
         android:clickable="false"
         android:gravity="center"
@@ -104,6 +104,6 @@
         app:layout_constraintHorizontal_bias="0.156"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/ic_launcher" />
+        app:srcCompat="@drawable/java_app_icon_nobackground" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

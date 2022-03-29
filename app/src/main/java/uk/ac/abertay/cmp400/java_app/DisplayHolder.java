@@ -12,13 +12,11 @@ public class DisplayHolder extends RecyclerView.ViewHolder{
 
     final TextView mTitle;
     final WebView mDesc;
-    final ImageView img;
 
     public DisplayHolder(@NonNull View itemView) {
         super(itemView);
 
         this.mDesc = itemView.findViewById(R.id.RowDescription);
         this.mTitle = itemView.findViewById(R.id.RowTitle);
-        this.img = itemView.findViewById(R.id.ImageImageView);
     }
 }
