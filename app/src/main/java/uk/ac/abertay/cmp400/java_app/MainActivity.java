@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
         sharedPref = getSharedPreferences(getResources().getString(R.string.preference_file_key), MODE_PRIVATE);
 
+        //check if basics_of_java_version has a value. if it dose not, then set all the versions to zero. This initializes the shared preferences on start.
         if(!sharedPref.contains("basics_of_java_version")){
             sharedPref.edit().putInt("basics_of_java_version",0).
                     putInt("variables_version",0).
@@ -77,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+        //if connected, check if stored data is up to date. else skip this step and default to the local version.
         if(isConected(this)) {
             DocumentReference documentReferenceVersions = fStore.collection("topics").document("versions");
             documentReferenceVersions.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -143,16 +145,14 @@ public class MainActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.isSuccessful()){
                     DocumentSnapshot document = task.getResult();
-                    //Log.i("tag", ""+document.getDate("basics_of_java");
                     sharedPref.edit().putInt(versionName,document.getDouble(version).intValue()).apply();
                 }
             }
         });
-
     }
 
     public void run() {
-        //check if user is logeed in or not. eiter send the to the loign screen or the Home screen
+        //check if user is logged in or not. either send the to the login screen or the Home screen.
         Intent intent;
         if(fAuth.getCurrentUser() != null){
             intent = new Intent(getApplicationContext(), HomeScreen.class);
@@ -165,6 +165,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean isConected(Context c){
+        //check if user is connected to the internet.
         boolean connected = false;
         try {
             ConnectivityManager cm = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);

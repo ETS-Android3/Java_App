@@ -53,7 +53,7 @@ public class DisplayScreen extends AppCompatActivity {
 
     //values
     double playbackSpeed;
-    boolean ShowAudioPlayer;
+    boolean showAudioPlayer;
     boolean isPlaying;
     Uri uri;
     int index;
@@ -93,7 +93,7 @@ public class DisplayScreen extends AppCompatActivity {
 
         //values
         playbackSpeed = 1.00;
-        ShowAudioPlayer = false;
+        showAudioPlayer = false;
         isPlaying = false;
         index = getIntent().getIntExtra("index", 0);
 
@@ -115,9 +115,9 @@ public class DisplayScreen extends AppCompatActivity {
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                 try {
                     playbackSpeed = value.getDouble("PlaybackSpeed");
-                    ShowAudioPlayer = value.getBoolean("ShowAudioPlayer");
+                    showAudioPlayer = value.getBoolean("ShowAudioPlayer");
 
-                    if (ShowAudioPlayer) {
+                    if (showAudioPlayer) {
                         FAB.setVisibility(View.VISIBLE);
                     } else {
                         FAB.setVisibility(View.INVISIBLE);
@@ -132,10 +132,12 @@ public class DisplayScreen extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        //release the player on stop.
         stopPlayer();
     }
 
     private boolean connectedToMobileNetwork(){
+        //checks if the application is using mobile data, returns bool.
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         Network nw = connectivityManager.getActiveNetwork();
         if (nw == null)return false;
@@ -230,7 +232,10 @@ public class DisplayScreen extends AppCompatActivity {
                 break;
         }
         //Action Bar Title
-        actionBar.setTitle(Title.get(0).replace("@",""));
+        if (Title != null) {
+            //set the action bar title to the section title and replace the @ with nothing.
+            actionBar.setTitle(Title.get(0).replace("@",""));
+        }
 
         if(Description != null) {
             for (int i = 0; i < Title.size(); i++) {
@@ -292,7 +297,7 @@ public class DisplayScreen extends AppCompatActivity {
             //Media Player Settings: Playback Speed
             mediaPlayer.setPlaybackParams(mediaPlayer.getPlaybackParams().setSpeed(((float) playbackSpeed)));
 
-            //show SeekBar
+            //Show SeekBar
             audioSeekBar.setVisibility(View.VISIBLE);
 
             audioSeekBar.setMax(mediaPlayer.getDuration());
@@ -306,14 +311,10 @@ public class DisplayScreen extends AppCompatActivity {
                 }
 
                 @Override
-                public void onStartTrackingTouch(SeekBar seekBar) {
-
-                }
+                public void onStartTrackingTouch(SeekBar seekBar) {}
 
                 @Override
-                public void onStopTrackingTouch(SeekBar seekBar) {
-
-                }
+                public void onStopTrackingTouch(SeekBar seekBar) {}
             });
             mediaPlayer.start();
             handler.post(new UpdateSeekBar());
@@ -338,7 +339,7 @@ public class DisplayScreen extends AppCompatActivity {
     }
 
     private void stopPlayer(){
-        //Custom stop. Releases media player and preforms reset.
+        //Custom player stop. Releases media player and preforms reset.
         if(mediaPlayer != null){
             mediaPlayer.release();
             mediaPlayer = null;
@@ -384,6 +385,7 @@ public class DisplayScreen extends AppCompatActivity {
     }
 
     private boolean isConected(Context c){
+        //checks if connected to the internet.
         boolean connected = false;
         try {
             ConnectivityManager cm = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);

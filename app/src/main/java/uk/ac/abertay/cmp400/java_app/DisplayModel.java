@@ -5,15 +5,6 @@ public class DisplayModel {
     private String title;
     private String description;
     private Boolean isTitle;
-    private int img;
-
-    public int getImg() {
-        return img;
-    }
-
-    public void setImg(int img) {
-        this.img = img;
-    }
 
     public DisplayModel() {
     }

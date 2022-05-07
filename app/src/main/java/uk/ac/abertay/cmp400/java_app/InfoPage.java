@@ -49,8 +49,10 @@ public class InfoPage extends AppCompatActivity {
 
         //actionBar
         actionBar = getSupportActionBar();
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.hide();
+        if (actionBar != null) {
+            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.hide();
+        }
 
         //Firebase auth and store instances
         fStore = FirebaseFirestore.getInstance();

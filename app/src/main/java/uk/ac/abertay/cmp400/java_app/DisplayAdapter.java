@@ -28,7 +28,7 @@ public class DisplayAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemViewType(int position) {
-        //determin what view to inflate
+        //determine what view to inflate (Title Card OR Regular Card)
         if(displayModels.get(position).getIsTitle()){
             return 1;
         }else{
@@ -39,9 +39,9 @@ public class DisplayAdapter extends RecyclerView.Adapter {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view;
+        //Either inflates the display title layout or the display row layout depending on the viewType.
 
         if(viewType == 1){
             view = layoutInflater.inflate(R.layout.display_title, parent, false);
@@ -80,6 +80,7 @@ public class DisplayAdapter extends RecyclerView.Adapter {
             title = itemView.findViewById(R.id.RowTitle);
             desc = itemView.findViewById(R.id.RowDescription);
 
+            //Set the Web view to work in dark mode if needed. also disables the vertical scroll bar.
             int nightModeFlags =
                    title.getContext().getResources().getConfiguration().uiMode &
                             Configuration.UI_MODE_NIGHT_MASK;
@@ -117,6 +118,7 @@ public class DisplayAdapter extends RecyclerView.Adapter {
             int nightModeFlags =
                     title.getContext().getResources().getConfiguration().uiMode &
                             Configuration.UI_MODE_NIGHT_MASK;
+            //This switch is used to allow the web view to toggle between dark mode and light mode. the default method did not toggle to dark mode so this solution was required.
             switch (nightModeFlags) {
                 case Configuration.UI_MODE_NIGHT_YES:
                     if(WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {

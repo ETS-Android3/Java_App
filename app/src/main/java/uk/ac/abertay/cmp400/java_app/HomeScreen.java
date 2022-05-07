@@ -7,12 +7,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.content.Intent;
 
-import android.net.ConnectivityManager;
-import android.net.NetworkCapabilities;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -20,12 +16,10 @@ import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.MetadataChanges;
 
 import java.text.SimpleDateFormat;
@@ -48,7 +42,7 @@ public class HomeScreen extends AppCompatActivity {
     ActionBar actionBar;
 
     //values
-    String CurrentUserName;
+    String currentUserName;
     int currentTime;
 
 
@@ -90,11 +84,11 @@ public class HomeScreen extends AppCompatActivity {
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                 try {
                     String txt;
-                    CurrentUserName = value.getString("Username");
+                    currentUserName = value.getString("Username");
                     if (currentTime < 12) {
-                        txt = "Good morning " + CurrentUserName;
+                        txt = "Good morning " + currentUserName;
                     } else {
-                        txt = "Good afternoon " + CurrentUserName;
+                        txt = "Good afternoon " + currentUserName;
                     }
                     actionBar.setTitle(txt);
                 } catch (Exception e) {
@@ -105,7 +99,7 @@ public class HomeScreen extends AppCompatActivity {
 
         profile.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), ProfilePage.class);
-            intent.putExtra("username", CurrentUserName);
+            intent.putExtra("username", currentUserName);
             startActivity(intent);
         });
 
@@ -139,6 +133,7 @@ public class HomeScreen extends AppCompatActivity {
 
         HomeScreenModel m;
 
+        //titles for homescreen sourced from Strings.xml
         String[] title = getResources().getStringArray(R.array.HomeScreenTitle);
         String[] description = getResources().getStringArray(R.array.HomeScreenDescriptions);
         String[] images = getResources().getStringArray(R.array.HomeScreenImages);

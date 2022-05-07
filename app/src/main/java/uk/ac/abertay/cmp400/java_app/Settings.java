@@ -4,11 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkCapabilities;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,7 +16,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -32,8 +27,8 @@ public class Settings extends AppCompatActivity {
     String userID;
 
     //values
-    boolean ShowAudioPlayer;
-    double PlaybackSpeed;
+    boolean showAudioPlayer;
+    double playbackSpeed;
 
     //views
     Switch audioBoolSwitch;
@@ -68,8 +63,8 @@ public class Settings extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        ShowAudioPlayer = document.getBoolean("ShowAudioPlayer");
-                        PlaybackSpeed = document.getDouble("PlaybackSpeed");
+                        showAudioPlayer = document.getBoolean("ShowAudioPlayer");
+                        playbackSpeed = document.getDouble("PlaybackSpeed");
                     } else {
                         Log.d("Settings: GetData", "No such document");
                     }
@@ -79,20 +74,20 @@ public class Settings extends AppCompatActivity {
                 }
 
                 //Set current spinner selection depening on what is returned from firebase for the logged in user
-                if (PlaybackSpeed == 1.2) {
+                if (playbackSpeed == 1.2) {
                     speedSpinner.setSelection(0);
-                } else if (PlaybackSpeed == 1.1) {
+                } else if (playbackSpeed == 1.1) {
                     speedSpinner.setSelection(1);
-                } else if (PlaybackSpeed == 0.9) {
+                } else if (playbackSpeed == 0.9) {
                     speedSpinner.setSelection(3);
-                } else if (PlaybackSpeed == 0.8) {
+                } else if (playbackSpeed == 0.8) {
                     speedSpinner.setSelection(4);
                 } else {
                     speedSpinner.setSelection(2);
                 }
 
                 //set Switch to value from Firebase
-                audioBoolSwitch.setChecked(ShowAudioPlayer);
+                audioBoolSwitch.setChecked(showAudioPlayer);
             });
 
 
@@ -139,14 +134,8 @@ public class Settings extends AppCompatActivity {
                 }
 
                 @Override
-                public void onNothingSelected(AdapterView<?> adapterView) {
-                }
+                public void onNothingSelected(AdapterView<?> adapterView) {}
             });
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
     }
 
     public void goToSettings(View view){

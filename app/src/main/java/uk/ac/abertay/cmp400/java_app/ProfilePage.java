@@ -42,8 +42,6 @@ public class ProfilePage extends AppCompatActivity {
     //values
     String userName;
     private static final String TAG = "LOGOUT";
-    DocumentReference documentReference;
-    ListenerRegistration registration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,16 +102,4 @@ public class ProfilePage extends AppCompatActivity {
         }
     }
 
-    private boolean isConected(Context c){
-        boolean connected = false;
-        try {
-            ConnectivityManager cm = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo nInfo = cm.getActiveNetworkInfo();
-            connected = nInfo != null && nInfo.isAvailable() && nInfo.isConnected();
-            return connected;
-        } catch (Exception e) {
-            Log.e("Connectivity Exception", e.getMessage());
-        }
-        return connected;
-    }
 }
