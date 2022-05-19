@@ -110,25 +110,25 @@ public class Settings extends AppCompatActivity {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
                     //update on item selected
-                    float playBackSpeed;
+                    double playBackSpeed;
                     switch (position) {
                         case 0:
-                            playBackSpeed = 1.2f;
+                            playBackSpeed = 1.2;
                             break;
                         case 1:
-                            playBackSpeed = 1.1f;
+                            playBackSpeed = 1.1;
                             break;
                         case 2:
-                            playBackSpeed = 1f;
+                            playBackSpeed = 1.0;
                             break;
                         case 3:
-                            playBackSpeed = 0.9f;
+                            playBackSpeed = 0.9;
                             break;
                         case 4:
-                            playBackSpeed = 0.8f;
+                            playBackSpeed = 0.8;
                             break;
                         default:
-                            playBackSpeed = 1f;
+                            playBackSpeed = 1.0;
                     }
                     fStore.collection("users").document(userID).update("PlaybackSpeed", playBackSpeed);
                 }

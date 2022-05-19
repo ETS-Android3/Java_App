@@ -39,7 +39,8 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        app:srcCompat="@drawable/display_bottom_fade" />
+        app:srcCompat="@drawable/display_bottom_fade"
+        tools:ignore="ContentDescription" />
 
     <FrameLayout
         android:layout_width="wrap_content"
